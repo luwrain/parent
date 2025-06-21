@@ -1,0 +1,110 @@
+#!/bin/bash -e
+# Copyright 2024 Michael Pozhidaev <msp@luwrain.org>
+# The LUWRAIN Project, GPL v.3
+
+if [ "$1" != --no-old ]; then
+    rm -f *.wav
+    wget -q https://download.luwrain.org/compilation/sounds.tar.xz
+    tar xf sounds.tar.xz
+    mv sounds/schemes/pragmatic/*.wav .
+    rm -rf sounds sounds.tar.xz
+fi
+
+./startup.sh
+mv startup.wav _startup.wav
+sox -D _startup.wav startup.wav gain -10
+
+# Areas (Des major)
+
+./area-layout.sh
+mv area-layout.wav .area-layout.wav
+sox -D .area-layout.wav area-layout.wav gain -15
+
+./area-layout-double.sh
+mv area-layout-double.wav .area-layout-double.wav
+sox -D .area-layout-double.wav area-layout-double.wav gain -15
+
+./area-layout-triple.sh
+mv area-layout-triple.wav .area-layout-triple.wav
+sox -D .area-layout-triple.wav area-layout-triple.wav gain -15
+
+
+
+
+./popup.sh
+mv popup.wav .popup.wav
+sox -D .popup.wav popup.wav gain -22
+
+./main-menu.sh
+mv main-menu.wav _main-menu.wav
+sox -D _main-menu.wav main-menu.wav gain -17.5
+
+./main-menu-item.sh
+mv main-menu-item.wav .main-menu-item.wav
+sox -D .main-menu-item.wav main-menu-item.wav gain -30
+
+
+
+./message.sh
+mv message.wav _message.wav
+sox -D _message.wav message.wav gain -22
+
+
+./done.sh
+mv done.wav _done.wav
+sox -D _done.wav done.wav gain -22
+
+./inaccessible.sh
+mv inaccessible.wav _inaccessible.wav
+sox -D _inaccessible.wav inaccessible.wav gain -25
+
+./copied.sh
+mv copied.wav .copied.wav
+sox -D .copied.wav copied.wav gain  -20
+
+./cut.sh
+mv cut.wav _cut.wav
+sox -D _cut.wav cut.wav gain  -20
+
+./paste.sh
+mv paste.wav _paste.wav
+sox -D _paste.wav paste.wav gain  -20
+
+# List and text navigation, As major
+
+./list-item.sh
+mv list-item.wav _list-item.wav
+sox -D _list-item.wav list-item.wav gain  -12
+
+./empty-line.sh
+mv empty-line.wav .empty-line.wav
+sox -D .empty-line.wav empty-line.wav gain  -22.5
+
+./marked-list-item.sh
+mv marked-list-item.wav .marked-list-item.wav
+sox -D .marked-list-item.wav marked-list-item.wav gain  -25
+
+./desktop-item.sh
+mv desktop-item.wav .desktop-item.wav
+sox -D .desktop-item.wav desktop-item.wav gain  -20
+
+
+./bounds.sh
+mv bounds.wav _bounds.wav
+sox -D _bounds.wav bounds.wav gain -10
+
+# misc
+
+./commander-location.sh
+mv commander-location.wav .commander-location.wav
+sox -D .commander-location.wav commander-location.wav gain -22.5
+
+rm -f _*.wav .*.wav
+
+
+# For compatibility
+#cp bounds.wav text-bounds.wav
+for i in items-above items-below lines-above lines-below; do
+    cp bounds.wav no-$i.wav
+done
+chmod 644 *.wav
