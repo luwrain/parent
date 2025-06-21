@@ -12,6 +12,9 @@ ext.libraries = [
     "org.jsoup:jsoup:1.13.1",
     "org.codehaus.groovy:groovy:2.5.23"
     ],
+        apacheBase: [
+    "org.apache.commons:commons-vfs2:2.9.0",
+    ],
     graalvm: [
     "org.graalvm.js:js:23.0.0"
     ],
@@ -20,10 +23,44 @@ ext.libraries = [
 "org.junit.jupiter:junit-jupiter-engine:5.10.2"
 ]]
 
-
+allprojects {
 repositories {
 mavenCentral()
 }
+}
 
 dependencies {
+}
+
+task downloadAndExtractData {
+    def destDir = layout.buildDirectory.dir("luwrain-install/data").get().asFile
+
+    doLast {
+        if (!destDir.exists()) {
+            destDir.mkdirs()
+        }
+
+        ['rhvoice-data.tar.xz', 'hunspell.tar.xz'].each { name ->
+            def url = "https://download.luwrain.org/compilation/${name}"
+            def file = new File(destDir, name)
+
+            println "Downloading $url..."
+            new URL(url).withInputStream { i ->
+                file.withOutputStream { it << i }
+            }
+
+            println "Extracting ${name}..."
+            exec {
+                workingDir destDir
+                commandLine 'tar', 'xf', name
+            }
+
+            file.delete()
+        }
+
+        def schemesDir = new File(destDir, "sounds/schemes")
+        if (schemesDir.exists()) {
+            schemesDir.deleteDir()
+        }
+    }
 }

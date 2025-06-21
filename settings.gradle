@@ -5,3 +5,10 @@ include ('luwrain-base')
 project(":luwrain-base").projectDir = file("base")
 
 include ('luwrain')
+project (':luwrain').projectDir = file('luwrain')
+
+include ('luwrain-io')
+project(":luwrain-io").projectDir = file("io/io")
+
+include ('luwrain-app-osm')
+project (':luwrain-app-osm').projectDir = file('io/app-osm')
