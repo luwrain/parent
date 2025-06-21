@@ -10,5 +10,17 @@ project (':luwrain').projectDir = file('luwrain')
 include ('luwrain-io')
 project(":luwrain-io").projectDir = file("io/io")
 
+include ('luwrain-pim')
+project(":luwrain-pim").projectDir = file("pim/pim")
+
+include ('luwrain-reader')
+project(":luwrain-reader").projectDir = file("reader/reader")
+
+
+include ('luwrain-app-news')
+project (':luwrain-app-news').projectDir = file('pim/app-news')
+
+
+
 include ('luwrain-app-osm')
 project (':luwrain-app-osm').projectDir = file('io/app-osm')
