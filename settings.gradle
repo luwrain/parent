@@ -2,7 +2,7 @@
 rootProject.name = 'luwrain-parent'
 
 include ('luwrain-base')
-project(":luwrain-base").projectDir = file("base")
+project(":luwrain-base").projectDir = file("base/base")
 
 include ('luwrain')
 project (':luwrain').projectDir = file('luwrain')
@@ -16,11 +16,28 @@ project(":luwrain-pim").projectDir = file("pim/pim")
 include ('luwrain-reader')
 project(":luwrain-reader").projectDir = file("reader/reader")
 
+include ('luwrain-player')
+project(":luwrain-player").projectDir = file("base/player")
+
+
+include ('luwrain-app-commander')
+project (':luwrain-app-commander').projectDir = file('base/app-commander')
+
+include ('luwrain-app-contacts')
+project (':luwrain-app-commander').projectDir = file('pim/app-contacts')
 
 include ('luwrain-app-news')
 project (':luwrain-app-news').projectDir = file('pim/app-news')
 
-
+include ('luwrain-app-notepad')
+project (':luwrain-app-notepad').projectDir = file('base/app-notepad')
 
 include ('luwrain-app-osm')
 project (':luwrain-app-osm').projectDir = file('io/app-osm')
+
+include ('luwrain-app-wiki')
+project (':luwrain-app-wiki').projectDir = file('io/app-wiki')
+
+
+include ('luwrain-app-vk')
+project (':luwrain-app-vk').projectDir = file('io/app-vk')

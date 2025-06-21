@@ -13,6 +13,7 @@ ext.libraries = [
     "org.codehaus.groovy:groovy:2.5.23"
     ],
         apacheBase: [
+"org.apache.commons:commons-compress:1.23.0",
     "org.apache.commons:commons-vfs2:2.9.0",
     ],
     graalvm: [
