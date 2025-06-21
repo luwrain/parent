@@ -27,6 +27,7 @@ ext.libraries = [
 allprojects {
 repositories {
 mavenCentral()
+    maven { url 'https://jitpack.io' }
 }
 }
 

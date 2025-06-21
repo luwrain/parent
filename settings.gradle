@@ -7,11 +7,19 @@ project(":luwrain-base").projectDir = file("base/base")
 include ('luwrain')
 project (':luwrain').projectDir = file('luwrain')
 
+include ('luwrain-interaction-javafx')
+project(":luwrain-interaction-javafx").projectDir = file("base/javafx")
+
+
 include ('luwrain-io')
 project(":luwrain-io").projectDir = file("io/io")
 
 include ('luwrain-pim')
 project(":luwrain-pim").projectDir = file("pim/pim")
+
+include ('luwrain-browser')
+project(":luwrain-browser").projectDir = file("browser")
+
 
 include ('luwrain-reader')
 project(":luwrain-reader").projectDir = file("reader/reader")
@@ -41,3 +49,5 @@ project (':luwrain-app-wiki').projectDir = file('io/app-wiki')
 
 include ('luwrain-app-vk')
 project (':luwrain-app-vk').projectDir = file('io/app-vk')
+
+
