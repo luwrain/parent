@@ -94,3 +94,9 @@
 [submodule "app-opds"]
 	path = app-opds
 	url = https://github.com/luwrain/app-opds/
+[submodule "platform"]
+	path = platform
+	url = https://github.com/luwrain/platform
+[submodule "core"]
+	path = core
+	url = https://github.com/luwrain/core
