@@ -10,6 +10,14 @@ project (':luwrain').projectDir = file('luwrain')
 include ('luwrain-interaction-javafx')
 project(":luwrain-interaction-javafx").projectDir = file("base/javafx")
 
+include ('luwrain-linux')
+project(":luwrain-linux").projectDir = file("linux/linux")
+
+include ('luwrain-windows')
+project(":luwrain-windows").projectDir = file("linux/windows")
+
+
+
 
 include ('luwrain-io')
 project(":luwrain-io").projectDir = file("io/io")
