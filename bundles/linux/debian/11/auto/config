@@ -1,0 +1,15 @@
+#!/bin/sh
+
+set -e
+
+cp -R config configa
+
+lb config noauto \
+	--clean \
+	--debian-installer live \
+	--archive-areas "main contrib non-free" \
+	--linux-packages "linux-image linux-headers" \
+	--bootappend-live="boot=live components locales=ru_RU.UTF-8 noautologin keyboard-layouts=us,ru keyboard-options=grp:lalt_lshift_toggle" \
+	--apt-options='--yes -oAcquire::https::download.luwrain.org::Verify-Peer=false' \
+	--source "false" \
+"${@}"

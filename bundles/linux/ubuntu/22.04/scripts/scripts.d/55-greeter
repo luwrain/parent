@@ -1,0 +1,5 @@
+
+mkdir -p $LWRISO_ROOT/opt/greeter
+pushd $LWRISO_ROOT/opt/greeter
+wget https://download.luwrain.org/media/greeting/dist/ru/greeting.ogg
+popd

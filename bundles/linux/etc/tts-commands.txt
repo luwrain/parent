@@ -1,0 +1,8 @@
+RHVoice 0.3:
+RHVoice -r 1.6 | aplay
+
+RHVoice 0.5:
+RHVoice-client -s aleksandr -v 1 -p 0 -r 0.3 | paplay
+
+ru_tts:
+tr -d \(\)\"* | iconv -c -f utf-8 -t koi8-r | ru_tts -s /usr/local/share/freespeech/rulex.db -r 0.5 -p 0.0 | sox -G -D -v 1.0 -t raw -r 10000 -e signed-integer -c 1 -b 8 - -t raw -e unsigned-integer - | paplay --latency-msec=50 --raw --format=u8 --rate=10000 --channels=1

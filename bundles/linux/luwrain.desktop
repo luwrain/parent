@@ -1,0 +1,8 @@
+
+[Desktop Entry]
+Comment=A platform for the creation of apps for the blind and partially-sighted
+Terminal=false
+Name=LUWRAIN
+Exec=luwrain
+Type=Application
+Icon=/usr/lib/luwrain/luwrain.ico

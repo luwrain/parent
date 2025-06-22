@@ -1,0 +1,74 @@
+#!/usr/bin/env python3
+# https://docs.python.org/3/howto/curses.html
+
+import curses
+import os
+import signal
+
+key_help = "KEY_F(1)"
+key_term = "KEY_F(4)"
+
+player_pid = 0
+
+def stop_player():
+    global player_pid
+    print("stopping pid " + str(player_pid))
+    if player_pid > 0:
+        os.kill(player_pid, signal.SIGKILL)
+        os.wait()
+
+def play(file):
+    global player_pid
+    n = os.fork()
+    if n == 0:
+        os.execve("/bin/bash", [ "/bin/bash", "-c", "exec ogg123 -d alsa " + file + " > /dev/null 2>&1"], os.environ)
+        return
+    player_pid = n
+
+def play_intro():
+    play("/opt/greeter/greeting.ogg")
+
+def play_part(n):
+    if n < 10:
+        play("/opt/greeter/0" + str(n) + ".ogg")
+    else:
+        play("/opt/greeter/" + str(n) + ".ogg")
+
+def help(stdscr):
+    part = 1
+    stdscr.clear()
+    stdscr.refresh()
+    stdscr.addstr(5, 5, "Добро пожаловать!")
+    stdscr.refresh()
+    play_part(part)
+    key = stdscr.getkey()
+    return
+
+def main(stdscr):
+    stdscr.clear()
+    stdscr.refresh()
+    stdscr.addstr(5, 5, "Добро пожаловать!")
+    stdscr.refresh()
+    while True:
+        key = stdscr.getkey()
+        if key == key_help:
+            stop_player()
+            help()
+            return
+        return
+
+stdscr = curses.initscr()
+curses.noecho()
+curses.cbreak()
+stdscr.keypad(True)
+#print(curses.LINES, curses.COLS)
+
+play_intro()
+main(stdscr)
+stop_player()
+
+curses.nocbreak()
+stdscr.keypad(False)
+curses.echo()
+curses.endwin()
+print("exiting")

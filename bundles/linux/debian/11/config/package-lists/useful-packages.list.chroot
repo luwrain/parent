@@ -1,0 +1,18 @@
+acpi ntfs-3g smartmontools udisks2 cpufrequtils
+unrar zip p7zip-full
+curl wget net-tools openssh-server fetchmail procmail bluetooth bluez-tools
+openjdk-17-jre openjfx
+gcc gdb make git
+yasr xterm
+lame sox mpg123 mplayer xbindkeys vorbis-tools geeqie
+texlive-latex-recommended texlive-latex-extra texlive-metapost texlive-lang-cyrillic texlive-fonts-recommended
+cm-super poppler-utils tesseract-ocr-rus
+lilypond timidity
+xorg xserver-xorg-video-all xserver-xorg-input-all
+pulseaudio pulseaudio-module-bluetooth
+network-manager
+alsa-utils libasound2
+espeakup
+kbd
+sudo
+pandoc

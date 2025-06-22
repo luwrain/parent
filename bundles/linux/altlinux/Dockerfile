@@ -1,0 +1,2 @@
+
+FROM alt:p10

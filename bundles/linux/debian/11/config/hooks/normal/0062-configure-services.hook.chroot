@@ -1,0 +1,14 @@
+#!/bin/bash
+
+set -e
+
+
+
+systemctl disable espeakup
+
+
+
+systemctl disable ssh
+
+
+systemctl enable autologin-setup

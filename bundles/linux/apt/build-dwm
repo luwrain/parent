@@ -1,0 +1,18 @@
+#!/bin/bash -e
+# Copyright 2024 Michael Pozhidaev <msp@luwrain.org>
+# The LUWRAIN Project, GPL v.3
+
+THIS="${0##*/}"
+
+[ -z "$1" ] && echo "ERROR: THIS: No destination distro" >&2 && exit 1
+DISTRO="$1"
+
+mkdir -p out
+docker run --rm -i -v "$(pwd)/out:/out" "$DISTRO" bash -c 'apt-get update && \
+apt-get install -y --no-install-recommends git g++ build-essential debhelper ca-certificates  libx11-dev libxft-dev libxinerama-dev && \
+git clone https://github.com/marigostra/dwm && \
+cd dwm && \
+git branch debian origin/debian && \
+git checkout debian && \
+dpkg-buildpackage --build=binary -us -uc && \
+mv /*.deb /out/'

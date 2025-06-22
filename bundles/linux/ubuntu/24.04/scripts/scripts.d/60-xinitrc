@@ -1,0 +1,44 @@
+
+install-pkg dwm-luwrain
+
+mkdir -p $LWRISO_ROOT/home/$LWRISO_USER/.local/bin
+cat <<EOF > $LWRISO_ROOT/home/$LWRISO_USER/.local/bin/dwm-autolaunch
+#!/bin/bash -e
+
+exec lwr --speech=voiceman
+EOF
+chmod 755 $LWRISO_ROOT/home/$LWRISO_USER/.local/bin/dwm-autolaunch
+
+if [ "$LWRISO_LANG" == en ]; then
+cat <<EOF > $LWRISO_ROOT/home/$LWRISO_ROOT/.xinitrc
+# Copyright $(date +%Y) Michael Pozhidaev <msp@luwrain.org>
+
+export PATH=~/.local/bin:\$PATH
+export LANG=en_US.UTF-8
+export VOICEMAN_EMACSPEAK_RATE_FRACTION=2
+export PULSE_SERVER=/run/pulse/native
+
+exec dwm-luwrain
+EOF
+fi
+
+if [ "$LWRISO_LANG" == ru ]; then
+cat <<EOF > $LWRISO_ROOT/home/$LWRISO_USER/.xinitrc
+# Copyright $(date +%Y) Michael Pozhidaev <msp@luwrain.org>
+
+export PATH=~/.local/bin:\$PATH
+export LANG=ru_RU.UTF-8
+
+setxkbmap -layout "us,ru"
+setxkbmap -option "grp:caps_toggle,grp_led:scroll"
+xbindkeys
+
+
+pulseaudio -D ||:
+export VOICEMAN_EMACSPEAK_RATE_FRACTION=2
+export VOICEMAN_LIBAO_DRIVER=alsa
+if ! [ -e /tmp/voiceman.socket ]; then /usr/bin/voicemand -d; fi
+
+exec dwm-luwrain
+EOF
+fi

@@ -1,0 +1,17 @@
+
+remove-pkg zsys
+remove-pkg libreoffice-core libreoffice-common thunderbird firefox
+#remove-pkg-prefix firefox-locale
+#sil|nanum|lohit|khmeros
+#remove-pkg 'fonts-(arphic)*'
+#tlwg|tibetan|takao|sil|nanum|lohit|lao|khmeros|guru|
+remove-pkg 'mythes*'
+remove-pkg 'language-pack*'
+remove-pkg 'espeak*' 'speech*'
+remove-pkg 'printer-driver*'
+
+chroot-run apt-get -y autoremove --purge snapd
+chroot-run apt-get -y autoremove
+
+#Breaks enter and escape
+#remove-pkg libatspi2.0-0:amd64

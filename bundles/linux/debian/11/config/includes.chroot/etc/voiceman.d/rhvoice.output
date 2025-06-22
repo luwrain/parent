@@ -1,0 +1,15 @@
+
+[output]
+name = RHVoice
+type = command
+lang = rus
+synth command = "rhvoice-legacy -r %r -p %p | voiceman-trim --words"
+alsa player command = "exec aplay -"
+pitch num digits after dot = 2
+pitch min = "0.1"
+pitch aver = 1
+pitch max = "1.9"
+rate num digits after dot = 2
+rate max = "0.5"
+rate aver = 1.6
+rate min = 2

@@ -1,0 +1,5 @@
+
+chown -R 1000:1000 $LWRISO_ROOT/home/$LWRISO_USER/
+chmod 700 $LWRISO_ROOT/home/$LWRISO_USER/
+rm -f $LWRISO_ROOT/home/$LWRISO_USER/.Xauthority
+chown -R root:root $LWRISO_ROOT/opt/

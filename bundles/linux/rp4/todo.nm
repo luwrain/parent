@@ -1,0 +1,3 @@
+sudo apt-get install network-manager
+apt-get remove openresolv dhcpcd5
+

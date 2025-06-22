@@ -1,0 +1,33 @@
+#!/bin/bash -e
+# Copyright 2022 Michael Pozhidaev <msp@luwrain.org>
+# Changes the default user in the installed system
+
+THIS="${0##*/}"
+
+[ -z "$1" ] && echo "ERROR: THIS: No partition" >&2 && exit 1
+[ -z "$2" ] && echo "ERROR: THIS: No new user name" >&2 && exit 1
+
+PART="$1"
+NEW_USER="$2"
+
+exit_handler()
+{
+    local rc=$?
+    trap - EXIT
+    cd /
+    umount $PART &> /dev/null ||:
+    exit $rc
+}
+trap exit_handler EXIT HUP INT QUIT PIPE TERM
+
+mount $PART /mnt
+chroot /mnt usermod -l "$NEW_USER" luwrain
+chroot /mnt groupmod -n "$NEW_USER" luwrain
+chroot /mnt usermod -d "/home/$NEW_USER" "$NEW_USER"
+mv /mnt/home/luwrain "/mnt/home/$NEW_USER"
+echo "$NEW_USER" > /mnt/etc/luwrain/default-user
+cd /mnt/etc/sudoers.d
+sed -i -e s/luwrain/"$NEW_USER"/ luwrain
+mv luwrain "$NEW_USER"
+cd /
+echo "Default system user has been successfully changed to $NEW_USER"

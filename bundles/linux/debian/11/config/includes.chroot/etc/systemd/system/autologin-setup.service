@@ -1,0 +1,14 @@
+[Unit]
+Before=getty@tty1.service
+After=live-config.service
+ConditionPathExists=!/etc/luwrain/default-user
+
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/autologin-setup
+
+
+
+[Install]
+WantedBy=multi-user.target

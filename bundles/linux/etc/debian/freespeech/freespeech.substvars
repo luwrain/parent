@@ -1,0 +1,2 @@
+shlibs:Depends=libc6 (>= 2.7), libgdbm3 (>= 1.8.3)
+misc:Depends=

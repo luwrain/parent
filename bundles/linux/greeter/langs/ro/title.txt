@@ -1,0 +1,9 @@
+LUWRAIN welcomes you!
+
+
+
+Press enter or space to continue loading.
+
+Press F1 to go through a short system guide.
+
+Press F2 to launch speech-enabled console with administrative privileges.

@@ -1,0 +1,22 @@
+#!/bin/bash
+set -e
+echo "running autologin setup script" 1>&2
+# determine number of users in system
+
+usercount=$(find /home -maxdepth 1 -mindepth 1 -type d | wc -l)
+
+if [[ $usercount == 1 ]]; then
+duser=$(basename "$(find /home -maxdepth 1 -mindepth 1 -type d)")
+echo "user $duser will be used as a default for automatic login" 1>&2
+else
+echo "can't automaticly determine the user" 1>&2
+fi
+
+
+echo "$duser" > /etc/luwrain/default-user
+
+
+echo "$duser ALL=NOPASSWD:ALL" > "/etc/sudoers.d/luwrain-user"
+
+
+echo "autologin setup successfully" 1>&2

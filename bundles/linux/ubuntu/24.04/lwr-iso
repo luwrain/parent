@@ -1,0 +1,34 @@
+#!/bin/bash -e
+
+THIS="${0##*/}"
+
+[ -z "$1" ] && echo "$THIS:no Ubuntu image given" >&2 && exit 1
+
+WORK="./tmp/image"
+CHROOT="$WORK/wrk/chroot"
+DISK="$1"
+SQUASHFSSRC="$1/casper/minimal.standard.squashfs"
+
+echo Unpacking
+unsquashfs -d "$WORK" "$SQUASHFSSRC" > /dev/null
+mkdir -p "$WORK/wrk/disk"
+cp -r "$DISK/." "$WORK/wrk/disk"
+unsquashfs -d "$CHROOT" "$SQUASHFSSRC" > /dev/null
+exit 0
+echo Preparing the image
+(
+    #cp -r dist install "$WORK/iso"
+    cp -r dist scripts/. "$WORK/iso"
+    mount --bind /proc "$CHROOT/proc"
+    chroot "$WORK" /iso/image-prepare
+    umount "$CHROOT/proc"
+    ) &> /tmp/luwrain-iso.log
+
+echo Packing the image
+(
+    rm -f "$WORK/iso/disk/casper/filesystem.squashfs"
+    chroot "$WORK" /iso/image-pack
+    cp "$WORK/iso/luwrain.iso" luwrain.iso
+    ) &>> /tmp/luwrain-iso.log
+
+echo 'OK!'

@@ -1,0 +1,20 @@
+
+remove-pkg 'ubiquity*' 'ubuntu-wallpaper*'
+remove-pkg 'cups*' 'openprinting*'
+remove-pkg aspell dictionaries-common transmission-common shotwell                                   seahorse                                   rhythmbox remmina reiserfsprogs                            language-selector-common ibus  pipewire
+remove-pkg gvfs-common gedit-common yelp
+remove-pkg '*gnome*'
+remove-pkg libreoffice-style-breeze                   libreoffice-style-colibre
+remove-pkg gparted-common orca yaru-theme-gnome-shell usb-creator-gtk  mousetweaks file-roller  gcr baobab aisleriot
+remove-pkg yaru-theme-icon yaru-theme-sound libsane1
+remove-pkg 'ruby*'
+
+
+# Light, can be easily saved
+remove-pkg 'fonts-guru*' 'fonts-lao'  'fonts-tlwg*' 'fonts-tibetan*' 'fonts-smc*' 'fonts-sil*' 'fonts-lohit*'
+
+# very heavy
+remove-pkg fonts-noto-cjk
+
+chroot-run apt-get -y autoremove
+chroot-run  apt-get clean

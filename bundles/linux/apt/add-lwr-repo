@@ -1,0 +1,15 @@
+#!/bin/bash -e
+
+THIS="${0##*/}"
+ARCH=$(uname -m)
+DIST=$(grep VERSION_CODENAME /etc/os-release | sed -e s/^.*=//)
+
+if [ $ARCH == amd64 ] || [ $ARCH == x86_64 ]; then
+    echo "deb [arch=amd64 signed-by=/usr/share/keyrings/luwrain-dpkg.gpg] https://download.luwrain.org/apt/ $DIST luwrain" > /etc/apt/sources.list.d/luwrain.list
+    curl -s -o /usr/share/keyrings/luwrain-dpkg.gpg 'https://download.luwrain.org/gpg/dpkg.apt.gpg' 
+    echo 'LUWRAIN repo enabled!'
+    echo 'Please run '\''sudo apt-get update'\'' to fetch the package metadata'
+    exit 0
+fi
+
+echo "ERROR: $THIS: Unsupported machine type: $ARCH" >&2 && exit 1

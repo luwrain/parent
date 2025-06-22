@@ -1,0 +1,8 @@
+
+chroot-run useradd -G cdrom,audio,video,users,tty,pulse-access -s /bin/bash $LWRISO_USER
+chroot-run cp -r /etc/skel/. /home/$LWRISO_USER
+[ -d ./dist/profile ] && cp -r ./dist/profile/. $LWRISO_ROOT/home/$LWRISO_USER/ ||:
+chroot-run chown -R $LWRISO_USER:$LWRISO_USER /home/$LWRISO_USER
+echo "$LWRISO_USER ALL=NOPASSWD:ALL" > "$LWRISO_ROOT/etc/sudoers.d/$LWRISO_USER"
+chmod 400 "$LWRISO_ROOT/etc/sudoers.d/$LWRISO_USER"
+rm -f "$LWRISO_ROOT/home/$LWRISO_USER/examples.desktop"

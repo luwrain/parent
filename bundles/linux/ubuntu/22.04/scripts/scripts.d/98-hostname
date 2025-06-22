@@ -1,0 +1,3 @@
+
+echo luwrain > $LWRISO_ROOT/etc/hostname
+echo '127.0.0.1 localhost.localdomain localhost luwrain' > $LWRISO_ROOT/etc/hosts

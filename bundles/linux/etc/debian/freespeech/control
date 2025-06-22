@@ -1,0 +1,15 @@
+Source: freespeech
+Section: unknown
+Priority: optional
+Maintainer: Michael Pozhidaev <michael.pozhidaev@gmail.com>
+Build-Depends: debhelper (>= 8.0.0), libgdbm-dev
+Standards-Version: 3.9.4
+Homepage: http://tcts.fpms.ac.be/synthesis/mbrola.html
+
+Package: freespeech
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: freespeech is a phonetic convertor for text strings
+ freespeech generates phonetic data used as input for speech synthesizers.
+ Usually it is used as a preprocessor for Mbrola.
+ So, you should install it if you are going to use Mbrola.

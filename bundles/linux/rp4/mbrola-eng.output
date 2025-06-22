@@ -1,0 +1,20 @@
+
+[output]
+name = mbrola
+type = command
+lang = eng
+synth command = "freephone -h /usr/lib/mbrola-suite/lexicon -m | mbrola -f %p -v %v -t %r /usr/lib/mbrola-suite/en1 - - | /usr/bin/voiceman-trim --words "
+alsa player command = "exec aplay -t raw -f s16 -c 1 -r 16000"
+replacements = "/usr/share/voiceman/replacements.mbrola"
+pitch num digits after dot = 2
+pitch min = 0.3
+pitch aver = 1
+pitch max = 2.5
+rate num digits after dot = 2
+rate min = 0.5
+rate aver = 1
+rate max = 3
+volume num digits after dot = 2
+volume min = 0
+volume aver = 2.5
+volume max = 10

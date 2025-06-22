@@ -1,0 +1,43 @@
+                 Path file = ...;                                                                                                       
+                 try {                                                                                                                  
+                     DosFileAttributes attr = Attributes.readDosFileAttributes(file);                                                   
+                     System.out.println("isReadOnly is " + attr.isReadOnly());                                                          
+                     System.out.println("isHidden is " + attr.isHidden());                                                              
+                     System.out.println("isArchive is " + attr.isArchive());                                                            
+up vote 20 down      System.out.println("isSystem is " + attr.isSystem());                                                              
+vote             } catch (IOException x) {                                                                                              
+                     System.err.println("DOS file attributes not supported:" + x);                                                      
+                 }                                                                                                                      
+
+
+http://openjdk.java.net/projects/nio/javadoc/java/nio/file/attribute/DosFileAttributeView.html
+
+
+                                                                                                                                         
+               Path path = ...;                                                                                                          
+               Boolean hidden = path.getAttribute("dos:hidden", LinkOption.NOFOLLOW_LINKS);                                              
+               if (hidden != null && !hidden) {                                                                                          
+                   path.setAttribute("dos:hidden", Boolean.TRUE, LinkOption.NOFOLLOW_LINKS);                                             
+               }                                                                                                                         
+
+
+                       //locate the full path to the file e.g. c:\a\b\Log.txt                                                           
+                       Path p = Paths.get("c:\\a\\b\\Log.txt");                                                                         
+                                                                                                                                        
+                       //link file to DosFileAttributes                                                                                 
+                       DosFileAttributes dos = Files.readAttributes(p, DosFileAttributes.class);                                        
+up vote 1 down                                                                                                                          
+vote                   //hide the Log file                                                                                              
+                       Files.setAttribute(p, "dos:hidden", true);                                                                       
+                                                                                                                                        
+                       System.out.println(dos.isHidden());                                                                              
+                                                                                                                                        
+                    }                                                                                                                   
+                 }                                                                                                                      
+                                                                                                                                        
+                To check the file is hidden. Right-click on the file in question and you will see after the execution of the court that 
+                the file in question is truly hidden.                                                                                   
+                                                                                                                                        
+                enter im                                                                                                                
+                                                                                                                                        
+

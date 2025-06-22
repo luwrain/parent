@@ -1,0 +1,24 @@
+
+#killall brltty
+#/sbin/brltty -t ru
+
+mkdir $LWRISO_ROOT/etc/luwrain
+cat <<EOF > $LWRISO_ROOT/etc/luwrain/system-start
+#!/bin/bash
+# Copyright $(date +%Y) Michael Pozhidaev <msp@luwrain.org>
+
+bt-agent -d --capability=NoInputNoOutput
+
+if [ -r /etc/luwrain/default-user ]; then
+    USER="\$(cat /etc/luwrain/default-user)"
+fi
+
+if [ -z "\$USER" ]; then
+USER=$LWRISO_USER
+fi
+
+/bin/su - "\$USER" -c /usr/bin/startx
+EOF
+
+chmod 755 $LWRISO_ROOT/etc/luwrain/system-start
+echo luwrain > $LWRISO_ROOT/etc/luwrain/default-user

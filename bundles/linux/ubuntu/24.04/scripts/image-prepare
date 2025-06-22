@@ -1,0 +1,15 @@
+#!/bin/bash -evx
+
+. base.sh
+
+export DEBIAN_FRONTEND=noninteractive
+export HOME=/home/$LWRISO_USER
+
+echo "nameserver $LWRISO_NAMESERVER" > "/etc/resolv.conf"
+apt-get update
+apt-get --yes install wget curl
+
+find scripts.d -type f -executable | sort | while read l ; do
+    echo Running "$l"
+    source "$l"
+done

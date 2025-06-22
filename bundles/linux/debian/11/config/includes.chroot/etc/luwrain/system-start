@@ -1,0 +1,11 @@
+#!/bin/bash
+# Copyright 2022 Michael Pozhidaev <msp@luwrain.org>
+
+bt-agent-d --capability=NoInputNoOutput
+
+if [ -r /etc/luwrain/default-user ]; then
+    USER=$(cat /etc/luwrain/default-user)
+fi
+
+
+/bin/su - $USER -c /usr/bin/startx

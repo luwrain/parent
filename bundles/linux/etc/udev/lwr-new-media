@@ -1,0 +1,23 @@
+#!/bin/bash -e
+# Catches udev event on newly attached/inserted media
+
+FIFO=/tmp/.lwr-fifo
+
+[ -e "$FIFO" ] || exit 0
+[ "$DEVTYPE" == disk ] || exit 0
+
+
+if [ "$ID_CDROM" == 1 ]; then
+    [ "$DISK_EJECT_REQUEST" == 1 ] && exit 0
+    [ "$DISK_MEDIA_CHANGE" == 1 ] || exit 0
+    [ "$ID_FS_TYPE" == iso9660 ] || exit 0
+    echo "cdromchanged $DEVPATH" > "$FIFO"
+    exit 0
+fi
+
+if [ "$ID_BUS" == usb ]; then
+    [ "$ACTION" == add ] || exit 0
+    #[ "$ID_USB_DRIVER" == usb-storage ] || exit 0
+    echo "usbdiskattached $DEVPATH" > "$FIFO"
+    exit 0
+fi
