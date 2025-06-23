@@ -68,7 +68,7 @@ task downloadAndExtractData {
 }
 
 
-tasks.register('copyBundles', Copy) {
+tasks.register('collectJars', Copy) {
   dependsOn build
   duplicatesStrategy = DuplicatesStrategy.EXCLUDE
   from(subprojects.findAll { it.tasks.findByName('jar') != null }.collect {
