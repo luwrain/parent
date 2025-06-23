@@ -41,16 +41,13 @@ dependencies {
 
 task downloadAndExtractData {
     def destDir = layout.buildDirectory.dir("luwrain-install/data").get().asFile
-
     doLast {
         if (!destDir.exists()) {
             destDir.mkdirs()
         }
-
         ['rhvoice-data.tar.xz', 'hunspell.tar.xz'].each { name ->
             def url = "https://download.luwrain.org/compilation/${name}"
             def file = new File(destDir, name)
-
             println "Downloading $url..."
             new URL(url).withInputStream { i ->
                 file.withOutputStream { it << i }
@@ -61,13 +58,24 @@ task downloadAndExtractData {
                 workingDir destDir
                 commandLine 'tar', 'xf', name
             }
-
             file.delete()
         }
-
         def schemesDir = new File(destDir, "sounds/schemes")
         if (schemesDir.exists()) {
             schemesDir.deleteDir()
         }
     }
+}
+
+
+tasks.register('copyBundles', Copy) {
+//task copyBundles(type: Copy) {
+    dependsOn build
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+println("proba")
+from(subprojects.findAll { it.tasks.findByName('jar') != null }.collect {
+it.tasks.named('jar').get().archiveFile.get().asFile
+    })
+    into "$buildDir/release/jar"
 }

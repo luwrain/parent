@@ -5,19 +5,16 @@ include ('luwrain-base')
 project(":luwrain-base").projectDir = file("base/base")
 
 include ('luwrain')
-project (':luwrain').projectDir = file('luwrain')
+project (':luwrain').projectDir = file('core')
 
 include ('luwrain-interaction-javafx')
 project(":luwrain-interaction-javafx").projectDir = file("base/javafx")
 
 include ('luwrain-linux')
-project(":luwrain-linux").projectDir = file("linux/linux")
+project(":luwrain-linux").projectDir = file("platform/linux")
 
 include ('luwrain-windows')
-project(":luwrain-windows").projectDir = file("linux/windows")
-
-
-
+project(":luwrain-windows").projectDir = file("platform/windows")
 
 include ('luwrain-io')
 project(":luwrain-io").projectDir = file("io/io")
@@ -28,12 +25,17 @@ project(":luwrain-pim").projectDir = file("pim/pim")
 include ('luwrain-browser')
 project(":luwrain-browser").projectDir = file("browser")
 
-
 include ('luwrain-reader')
 project(":luwrain-reader").projectDir = file("reader/reader")
 
 include ('luwrain-player')
 project(":luwrain-player").projectDir = file("base/player")
+
+include ('luwrain-grammar')
+project(":luwrain-grammar").projectDir = file("grammar")
+
+include ('luwrain-studio')
+project(":luwrain-studio").projectDir = file("studio")
 
 
 include ('luwrain-app-commander')
