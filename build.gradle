@@ -80,16 +80,27 @@ tasks.register('copyBundles', Copy) {
 tasks.register('copyDeps', Copy) {
   dependsOn build
   duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-
-//             configurations.runtimeClasspath.each { file ->
   println("proba")
-//println(configurations.get("runtimeClasspath"))
+configurations {
 
-from subprojects .collect{ proj ->
-if (proj.configurations.findByName("runtimeClasspath") != null)
-proj.configurations.findByName("runtimeClasspath").each { file ->
-file
+commonConf {
+  subprojects .findAll(proj -> proj.configurations.findByName("runtimeClasspath") != null).collect{ proj -> extendsFrom proj.configurations.findByName("runtimeClasspath")
+//  println(getAllDependencies())
+//each { file -> println(file) }
+  }
+
 }
+
+
+}
+
+
+//  subprojects .findAll(proj -> proj.configurations.findByName("runtimeClasspath") != null).collect{ proj -> configurations.commonConf.extendFrom proj.configurations.findByName("runtimeClasspath")}
+//println(configurations.commonConf.runtimeClasspath)
+
+from subprojects .findAll(proj -> proj.configurations.findByName("runtimeClasspath") != null).collect{ proj ->
+//println(proj.configurations)
+proj.configurations.findByName("runtimeClasspath").each {file-> file}
 }
   into "$buildDir/release/jar"
 }
