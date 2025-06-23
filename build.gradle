@@ -69,13 +69,28 @@ task downloadAndExtractData {
 
 
 tasks.register('copyBundles', Copy) {
-//task copyBundles(type: Copy) {
-    dependsOn build
-
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-println("proba")
-from(subprojects.findAll { it.tasks.findByName('jar') != null }.collect {
-it.tasks.named('jar').get().archiveFile.get().asFile
-    })
-    into "$buildDir/release/jar"
+  dependsOn build
+  duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+  from(subprojects.findAll { it.tasks.findByName('jar') != null }.collect {
+    it.tasks.named('jar').get().archiveFile.get().asFile
+  })
+  into "$buildDir/release/jar"
 }
+
+tasks.register('copyDeps', Copy) {
+  dependsOn build
+  duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+//             configurations.runtimeClasspath.each { file ->
+  println("proba")
+//println(configurations.get("runtimeClasspath"))
+
+from subprojects .collect{ proj ->
+if (proj.configurations.findByName("runtimeClasspath") != null)
+proj.configurations.findByName("runtimeClasspath").each { file ->
+file
+}
+}
+  into "$buildDir/release/jar"
+}
+
