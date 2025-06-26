@@ -23,16 +23,24 @@ ext.libraries = [
     "org.jsoup:jsoup:1.13.1",
     "org.codehaus.groovy:groovy:2.5.23"
     ],
+    
         apacheBase: [
 "org.apache.commons:commons-compress:1.23.0",
     "org.apache.commons:commons-vfs2:2.9.0",
     ],
+    
     graalvm: [
     "org.graalvm.js:js:23.0.0"
     ],
+    
     junit: [
       "org.junit.jupiter:junit-jupiter-api:5.10.2",
 "org.junit.jupiter:junit-jupiter-engine:5.10.2"
+],
+
+
+autoService: [
+"com.google.auto.service:auto-service:1.1.1"
 ]]
 
 
@@ -80,28 +88,37 @@ tasks.register('collectJars', Copy) {
 tasks.register('copyDeps', Copy) {
   dependsOn build
   duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-  println("proba")
+println("proba")
+/*
 configurations {
+c {
+subprojects .findAll(proj -> proj.configurations.findByName("runtimeClasspath") != null).collect{ proj -> extendsFrom(proj.configurations.runtimeClasspath)}
+}
+}
+*/
 
-commonConf {
-  subprojects .findAll(proj -> proj.configurations.findByName("runtimeClasspath") != null).collect{ proj -> extendsFrom proj.configurations.findByName("runtimeClasspath")
-//  println(getAllDependencies())
-//each { file -> println(file) }
-  }
-
+subprojects .findAll(proj -> proj.configurations.findByName("runtimeClasspath") != null).collect{ proj ->
+//proj.configurations.findByName("runtimeClasspath").each {file-> file}
+//proj.configurations.runtimeClasspath.files
+//proj.configurations.runtimeClasspath.getIncoming().getArtifacts().each( {p -> println(p)} )
+proj.configurations.runtimeClasspath.incoming.artifactView {
+componentFilter {
+//println("Testing " + it.getDisplayName())
+//true
+it.getDisplayName().indexOf("google") > 0
+}
+}.getFiles().each { a ->
+//println("Choosing " + a)
+from a
+}
 }
 
-
-}
-
-
-//  subprojects .findAll(proj -> proj.configurations.findByName("runtimeClasspath") != null).collect{ proj -> configurations.commonConf.extendFrom proj.configurations.findByName("runtimeClasspath")}
-//println(configurations.commonConf.runtimeClasspath)
-
+  /*
 from subprojects .findAll(proj -> proj.configurations.findByName("runtimeClasspath") != null).collect{ proj ->
-//println(proj.configurations)
 proj.configurations.findByName("runtimeClasspath").each {file-> file}
 }
+*/
   into "$buildDir/release/jar"
+
 }
 

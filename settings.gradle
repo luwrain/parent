@@ -7,8 +7,8 @@ project(":luwrain-base").projectDir = file("base/base")
 include ('luwrain')
 project (':luwrain').projectDir = file('core')
 
-include ('luwrain-interaction-javafx')
-project(":luwrain-interaction-javafx").projectDir = file("base/javafx")
+include ('luwrain-javafx')
+project(":luwrain-javafx").projectDir = file("base/javafx")
 
 include ('luwrain-linux')
 project(":luwrain-linux").projectDir = file("platform/linux")
