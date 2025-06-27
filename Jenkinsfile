@@ -17,7 +17,7 @@ pipeline {
 	sh 'gradle clean'
         dir('sounds') {
           sh 'rm -f *.wav'
-//          sh 'rm -f ../../luwrain/src/main/resources/org/luwrain/core/sound/* && cp *.wav ../../luwrain/src/main/resources/org/luwrain/core/sound/'
+          sh 'rm -f core/src/main/resources/org/luwrain/core/sound/*.wav'
         }
       }
     }
@@ -26,6 +26,7 @@ pipeline {
       steps {
         dir ('sounds') {
           sh './make'
+	  sh 'cp *.wav ../core/src/main/resources/org/luwrain/core/sound'
         }
         sh 'gradle build'
       }

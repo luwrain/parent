@@ -1,4 +1,4 @@
-#!/bin/bash -evx
+#!/bin/bash -e
 # Copyright 2024 Michael Pozhidaev <msp@luwrain.org>
 # The LUWRAIN Project, GPL v.3
 
