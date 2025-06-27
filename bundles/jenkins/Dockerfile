@@ -6,7 +6,7 @@ ARG USER_HOME_DIR="/root"
 #ARG BASE_URL=https://apache.osuosl.org/maven/maven-3/${MAVEN_VERSION}/binaries
 
 RUN apt-get update --fix-missing \
-    && apt-get install -y --no-install-recommends openjdk-17-jdk wget unzip curl git && \
+    && apt-get install -y --no-install-recommends openjdk-17-jdk wget unzip xz-utils curl git && \
     rm -rf /var/lib/apt/lists/*
 
 ENV JAVA_HOME /usr/lib/jvm/java-17-openjdk-amd64
@@ -28,7 +28,7 @@ RUN mkdir /out
 WORKDIR /app
 
 RUN apt-get update --fix-missing \
-    && apt-get install -y --no-install-recommends timidity fluid-soundfont-gm midicsv sox ant wget xz-utils \
+    && apt-get install -y --no-install-recommends timidity fluid-soundfont-gm midicsv sox \
     && rm -rf /var/lib/apt/lists/*
 
 ENV PATH $PATH:/gradle/bin
