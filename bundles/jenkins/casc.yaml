@@ -18,13 +18,13 @@ jenkins:
         - "Overall/Read:authenticated"
         - "Run/Replay:dev"
         - "Run/Update:dev"
-  
+
 unclassified:
 jobs:
   - script: >
-      folder('testjobs')
+      folder('luwrain')
   - script: >
-      pipelineJob('testjobs/default-agent') {
+      pipelineJob('luwrain/main') {
         definition {
           cpsScm {
             scm {

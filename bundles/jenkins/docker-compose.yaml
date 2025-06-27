@@ -1,17 +1,9 @@
 services:
   jenkins:
     build: .
+    container_name: jenkins
     ports:
       - "8080:8080"
-    volumes:    
-      - type: bind
-        source: ./luwrain-src
-        target: /var/jenkins_home/workspace/testjobs/
-      - type: bind
-        source: ./out
-        target: /out/
-
-
-volumes: 
-  src:
-
+    volumes:
+      - /jenkins/src:/var/jenkins_home/workspace/luwrain/
+      - /jenkins/out:/out/
