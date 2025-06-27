@@ -1,58 +1,41 @@
 pipeline {
-    agent any
-    triggers { pollSCM('* * * * *') }
+  agent any
+  triggers { pollSCM('* * * * *') }
 
-/*
-    environment {
-        JAVA_HOME = "/usr/lib/jvm/java-17-openjdk-amd64"
+  stages {
+    stage('Checkout') {
+      steps {
+        sh 'git submodule update --checkout -f --recursive'
+      }
     }
-    */
 
-    stages {
-
-        stage('Checkout') {
-            steps {
-                sh 'git submodule update --checkout -f --recursive'
-            }
+    stage('prepare') {
+      steps {
+        dir ('/out') {
+          sh 'rm -rf snapshot && mkdir -p snapshot'
         }
-
-        stage('prepare') {
-            steps {
-                dir ('/out') {
-                    sh 'rm -rf snapshot && mkdir -p snapshot'
-                }
-		/*
-                dir('base/sounds') {
-                    sh './make'
-		    sh 'rm -f ../../luwrain/src/main/resources/org/luwrain/core/sound/* && cp *.wav ../../luwrain/src/main/resources/org/luwrain/core/sound/'
-            }
-	    */
+	sh 'gradle clean'
+        dir('sounds') {
+          sh 'rm -f *.wav'
+//          sh 'rm -f ../../luwrain/src/main/resources/org/luwrain/core/sound/* && cp *.wav ../../luwrain/src/main/resources/org/luwrain/core/sound/'
         }
-}
-
-        stage('Build') {
-            steps {
-                sh 'gradle build'
-		/*
-                dir('base/scripts') {
-                    sh './lwr-ant-gen-all'
-                    sh './lwr-build'
-                }
-		*/
-            }
-        }
-
-/*
-    stage ('snapshot') {
-        steps {
-            dir ('base/scripts') {
-                sh './lwr-snapshot /out/snapshot'
-            }
-            dir ('out') {
-                sh 'date > /out/snapshot/timestamp.txt'
-            }
-        }
+      }
     }
-    */
+
+    stage('Build') {
+      steps {
+        dir ('sounds') {
+          sh './make'
+        }
+        sh 'gradle build'
+      }
     }
+
+    stage('dist') {
+      steps {
+        sh 'gradle copyJars'
+        sh 'gradle copyDeps'
+      }
+    }
+  }
 }
