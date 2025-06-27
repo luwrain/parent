@@ -1,3 +1,3 @@
 #!/bin/bash -e
 
-./cli console testjobs/default-agent  "$@"
+./cli console luwrain/main  "$@"
