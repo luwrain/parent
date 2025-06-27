@@ -1,0 +1,14 @@
+#!/bin/bash -e
+# Copyright 2012-2024 Michael Pozhidaev <msp@luwrain.org>
+# The LUWRAIN Project, GPL v.3
+
+. init.sh
+
+[ -z "$1" ] && echo "ERROR: $THIS: No destination directory" >&2 && exit 1
+cd "$1"
+
+[ -r gradlew ] && exit 0
+
+wget -q https://download.luwrain.org/compilation/gradle-wrapper.tar
+tar xf gradle-wrapper.tar
+rm -f gradle-wrapper.tar

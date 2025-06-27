@@ -1,0 +1,17 @@
+LUWRAIN welcomed you!
+
+If you hear these words, your audio hardware is working perfectly.
+Press F1, if you'd like to go through a short system guide, or press
+the space bar to skip it and continue loading. 
+
+If the LUWRAIN environment is not appear in a couple of minutes, there
+are likely some compatibility issues.  If this is the case, we would
+greatly appreciate your feedback providing a technical report with all
+necessary details, as it's described on our website luwrain.org. This
+information will help us to fix these problems in future releases.
+
+Thank you so much and looking forward serving you!
+
+
+
+

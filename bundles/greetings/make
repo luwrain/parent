@@ -1,0 +1,8 @@
+#!/bin/bash -e
+
+rm -f *.wav* *.out
+lwr-books yandex --voice=Filipp "$1"
+
+sox $1.wav  01.wav  gain -5
+sox 01.wav  -c 2 02.wav 
+sox 02.wav  03.wav  reverb 5
