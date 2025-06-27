@@ -76,7 +76,7 @@ task downloadAndExtractData {
 }
 
 
-tasks.register('collectJars', Copy) {
+tasks.register('copyJars', Copy) {
   dependsOn build
   duplicatesStrategy = DuplicatesStrategy.EXCLUDE
   from(subprojects.findAll { it.tasks.findByName('jar') != null }.collect {
@@ -86,39 +86,34 @@ tasks.register('collectJars', Copy) {
 }
 
 tasks.register('copyDeps', Copy) {
-  dependsOn build
+  dependsOn copyJars
   duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-println("proba")
-/*
-configurations {
-c {
-subprojects .findAll(proj -> proj.configurations.findByName("runtimeClasspath") != null).collect{ proj -> extendsFrom(proj.configurations.runtimeClasspath)}
-}
-}
-*/
-
-subprojects .findAll(proj -> proj.configurations.findByName("runtimeClasspath") != null).collect{ proj ->
-//proj.configurations.findByName("runtimeClasspath").each {file-> file}
-//proj.configurations.runtimeClasspath.files
-//proj.configurations.runtimeClasspath.getIncoming().getArtifacts().each( {p -> println(p)} )
+def ver = ["":""]
+subprojects .findAll(proj -> proj.configurations.findByName("runtimeClasspath") != null).each{ proj ->
 proj.configurations.runtimeClasspath.incoming.artifactView {
 componentFilter {
-//println("Testing " + it.getDisplayName())
-//true
-it.getDisplayName().indexOf("google") > 0
+if (it .getDisplayName().indexOf("luwrain") >= 0)
+return false
+def n = it.getDisplayName().substring(0, it.getDisplayName().lastIndexOf(":"))
+def v = it.getDisplayName().substring(it.getDisplayName().lastIndexOf(":") + 1)
+if (!ver.containsKey(n) || ver.get(n).compareTo(v) < 0)
+ver.put(n, v)
+false
 }
-}.getFiles().each { a ->
-//println("Choosing " + a)
-from a
+}.getFiles().each {}
+}
+subprojects .findAll(proj -> proj.configurations.findByName("runtimeClasspath") != null).each{ proj ->
+proj.configurations.runtimeClasspath.incoming.artifactView {
+componentFilter {
+if (it.getDisplayName().indexOf("luwrain") >= 0)
+return false
+def n = it.getDisplayName().substring(0, it.getDisplayName().lastIndexOf(":"))
+def v = it.getDisplayName().substring(it.getDisplayName().lastIndexOf(":") + 1)
+ver.get(n).equals(v)
+}
+}.getFiles().each { a -> from a
 }
 }
-
-  /*
-from subprojects .findAll(proj -> proj.configurations.findByName("runtimeClasspath") != null).collect{ proj ->
-proj.configurations.findByName("runtimeClasspath").each {file-> file}
-}
-*/
   into "$buildDir/release/jar"
-
 }
 
