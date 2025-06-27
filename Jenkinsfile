@@ -12,7 +12,8 @@ pipeline {
     stage('prepare') {
       steps {
         dir ('/out') {
-          sh 'rm -rf snapshot && mkdir -p snapshot'
+          sh 'rm -rf _tmp'
+          sh 'mkdir _tmp'
         }
 	sh 'gradle clean'
         dir('sounds') {
@@ -32,6 +33,16 @@ pipeline {
       }
     }
 
+    stage('maven') {
+      steps {
+        dir ('core') {
+          sh 'gradle publish'
+        }
+        dir ('pim') {
+          sh 'gradle publish'
+        }
+      }
+    }
     stage('dist') {
       steps {
         sh 'gradle copyJars'
