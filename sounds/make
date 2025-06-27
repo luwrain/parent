@@ -1,5 +1,5 @@
-#!/bin/bash -e
-# Copyright 2024 Michael Pozhidaev <msp@luwrain.org>
+#!/bin/bash -evx
+# Copyright 2025 Michael Pozhidaev <msp@luwrain.org>
 # The LUWRAIN Project, GPL v.3
 
 if [ "$1" != --no-old ]; then
