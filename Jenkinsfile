@@ -50,11 +50,21 @@ pipeline {
       steps {
         sh 'gradle distFilesDeb'
 	// Jammy
-        dir ("build/release/dist") { sh "cp -r deb /build/luwrain" }
-        sh "docker run --rm -v /build:/build dpkg-jammy bash -c \"cd /build/luwrain && dpkg-buildpackage --build=binary -us -uc\""
+        sh "mkdir -p /build/dpkg/jammy"
+        dir ("build/release/dist") { sh "cp -r deb /build/dpkg/jammy/luwrain" }
+        sh "docker run --rm -v /build:/build dpkg-jammy bash -c \"cd /build/dpkg/jammy/luwrain && dpkg-buildpackage --build=binary -us -uc\""
         sh "mkdir -p /out/_tmp/apt/jammy/luwrain/binary-amd64"
-        sh "cp /build/*.deb /out/_tmp/apt/jammy/luwrain/binary-amd64"
-      }
+        sh "cp /build/dpkg/jammy/*.deb /out/_tmp/apt/jammy/luwrain/binary-amd64"
+
+	// Noble
+        sh "mkdir -p /build/dpkg/noble"
+        dir ("build/release/dist") { sh "cp -r deb /build/dpkg/noble/luwrain" }
+        sh "docker run --rm -v /build:/build dpkg-noble bash -c \"cd /build/dpkg/noble/luwrain && dpkg-buildpackage --build=binary -us -uc\""
+        sh "mkdir -p /out/_tmp/apt/dists/noble/luwrain/binary-amd64"
+        sh "cp /build/dpkg/noble/*.deb /out/_tmp/apt/dists/noble/luwrain/binary-amd64"
+
+
+}
     }
 
 

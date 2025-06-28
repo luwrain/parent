@@ -8,7 +8,7 @@ VOLUME /build
 ARG USER_HOME_DIR="/root"
 
 RUN apt-get update --fix-missing \
-    && apt-get install -y --no-install-recommends openjdk-17-jdk wget unzip xz-utils curl git iputils-ping docker.io && \
+    && apt-get install -y --no-install-recommends openjdk-17-jdk wget unzip xz-utils curl git iputils-ping docker.io timidity fluid-soundfont-gm midicsv sox gnupg2 && \
     rm -rf /var/lib/apt/lists/*
 
 WORKDIR /gradle
