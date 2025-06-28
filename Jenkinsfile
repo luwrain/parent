@@ -5,6 +5,7 @@ pipeline {
   stages {
     stage('Checkout') {
       steps {
+        sh 'git submodule update --init -f --recursive'
         sh 'git submodule update --checkout -f --recursive'
       }
     }
