@@ -49,7 +49,7 @@ pipeline {
         dir ("build/release/dist") {
           sh "cp -r deb /build/luwrain"
         }
-        sh "docker run --rm -v /build:/build dpkg-jammy -c \'cd /build/luwrain && dpkg-buildpackage --build=binary -us -uc\'"
+        sh "docker run --rm -v /build:/build dpkg-jammy -c \"cd /build/luwrain && dpkg-buildpackage --build=binary -us -uc\""
       }
     }
 
