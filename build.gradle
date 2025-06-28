@@ -1,8 +1,12 @@
 
+
+
 plugins {
 id 'application'
   id 'java'
 }
+
+def lwrVer = '2.0.0';
 
 allprojects {
 repositories {
@@ -82,7 +86,7 @@ tasks.register('copyJars', Copy) {
   from(subprojects.findAll { it.tasks.findByName('jar') != null }.collect {
     it.tasks.named('jar').get().archiveFile.get().asFile
   })
-  into "$buildDir/release/jar"
+  into "$buildDir/release/lib"
 }
 
 tasks.register('copyDeps', Copy) {
@@ -114,6 +118,28 @@ ver.get(n).equals(v)
 }.getFiles().each { a -> from a
 }
 }
-  into "$buildDir/release/jar"
+  into "$buildDir/release/lib"
 }
+
+tasks.register('distFilesCommon', Copy) {
+  dependsOn copyJars
+  dependsOn copyDeps
+  duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+  from ("$buildDir/release/lib") {
+  into "lib"
+  }
+    from ("core/COPYING") {
+    into "COPYING.txt"
+    }
+      into "$buildDir/release/dist/luwrain/luwrain-" + lwrVer + ""
+}
+
+
+tasks.register('distCommon', Zip) {
+    dependsOn distFilesCommon
+    archiveFileName = "luwrain-" + lwrVer + ".zip"
+    destinationDirectory = file("$buildDir/release/dist")
+    from("$buildDir/release/dist/luwrain")
+}
+
 

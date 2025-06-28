@@ -13,7 +13,7 @@ pipeline {
       steps {
         dir ('/out') {
           sh 'rm -rf _tmp'
-          sh 'mkdir _tmp'
+          sh 'mkdir -p _tmp/bundles'
         }
 	sh 'gradle clean'
         dir('sounds') {
@@ -43,10 +43,13 @@ pipeline {
         }
       }
     }
+
     stage('dist') {
       steps {
-        sh 'gradle copyJars'
-        sh 'gradle copyDeps'
+        sh 'gradle distCommon'
+        dir ("build/release/dist") {
+          sh "cp *.zip /out/_tmp/bundles"
+        }
       }
     }
   }
