@@ -1,0 +1,17 @@
+
+FROM ubuntu:jammy
+
+ENV DEBIAN_FRONTEND noninteractive
+
+RUN apt-get update && \
+    apt-get install -q -y --no-install-recommends \
+build-essential debhelper dpkg-dev file curl unzip wget iputils-ping locales locales-all && \
+    rm -rf /var/lib/apt/lists/* && \
+    sed -i '/ru_RU.UTF-8/s/^# //g' /etc/locale.gen && \
+    locale-gen
+
+ENV LC_ALL ru_RU.UTF-8
+ENV LANG ru_RU.UTF-8
+ENV LANGUAGE ru_RU.UTF-8
+
+ENV JAVA_HOME /usr/lib/jvm/java-17-openjdk-amd64

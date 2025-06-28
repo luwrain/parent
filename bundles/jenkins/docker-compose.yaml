@@ -2,8 +2,22 @@ services:
   jenkins:
     build: .
     container_name: jenkins
+    restart: always
     ports:
       - "8080:8080"
     volumes:
       - /jenkins/src:/var/jenkins_home/workspace/luwrain/
       - /jenkins/out:/out/
+      - /jenkins/certs:/certs
+      - /jenkins/build:/build
+
+  dind:
+    image: docker:dind
+    container_name: docker
+    privileged: true
+    restart: always
+    ports:
+      - "2375:2375"
+    volumes:
+      - /jenkins/certs:/certs
+      - /jenkins/build:/build

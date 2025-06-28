@@ -1,12 +1,16 @@
 FROM jenkins/jenkins:latest
 USER root
+VOLUME /out
+VOLUME /build
 
+# docker exec jenkins bash -c 'docker context create dind --description "Docker-in-docker for Jenkins" --docker "host=tcp://docker:2376,ca=/certs/client/ca.pem,cert=/certs/client/cert.pem,key=/certs/client/key.pem"'
+# docker exec jenkins bash -c 'docker context use dind'
 #ARG MAVEN_VERSION=3.8.8
 ARG USER_HOME_DIR="/root"
 #ARG BASE_URL=https://apache.osuosl.org/maven/maven-3/${MAVEN_VERSION}/binaries
 
 RUN apt-get update --fix-missing \
-    && apt-get install -y --no-install-recommends openjdk-17-jdk wget unzip xz-utils curl git && \
+    && apt-get install -y --no-install-recommends openjdk-17-jdk wget unzip xz-utils curl git iputils-ping docker.io && \
     rm -rf /var/lib/apt/lists/*
 
 ENV JAVA_HOME /usr/lib/jvm/java-17-openjdk-amd64
@@ -24,6 +28,10 @@ RUN wget https://services.gradle.org/distributions/gradle-8.8-bin.zip && unzip *
 #ENV MAVEN_CONFIG "$USER_HOME_DIR/.m2"
 
 RUN mkdir /out
+
+# Preparing docker-in-docker
+#RUN docker context create dind --description "Docker-in-docker for Jenkins" --docker "host=tcp://docker:2376,ca=/certs/client/ca.pem,cert=/certs/client/cert.pem,key=/certs/client/key.pem"
+#RUN docker context use dind
 
 WORKDIR /app
 
