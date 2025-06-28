@@ -34,6 +34,28 @@ pipeline {
       }
     }
 
+    stage('dist') {
+      steps {
+        sh 'gradle distCommon'
+        dir ("build/release/dist") {
+          sh "cp *.zip /out/_tmp/bundles"
+        }
+      }
+    }
+
+    stage('deb') {
+      steps {
+        sh 'gradle distFilesDeb'
+        dir ("build/release/dist") {
+          sh "cp -r deb /build/luwrain"
+        }
+        sh "docker run --rm -v /build:/build dpkg-jammy -c \'cd /build/luwrain && dpkg-buildpackage --build=binary -us -uc\'"
+      }
+    }
+
+
+
+
     stage('maven') {
       steps {
         dir ('core') {
@@ -41,16 +63,6 @@ pipeline {
         }
         dir ('pim/pim') {
           sh 'gradle publish'
-        }
-      }
-    }
-
-    stage('dist') {
-      steps {
-        sh 'gradle distCommon'
-        sh 'gradle distFilesDeb'
-        dir ("build/release/dist") {
-          sh "cp *.zip /out/_tmp/bundles"
         }
       }
     }

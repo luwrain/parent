@@ -1,0 +1,4 @@
+#!/bin/bash -e
+
+docker context create dind --description "Docker-in-docker for Jenkins" --docker "host=tcp://docker:2376,ca=/certs/client/ca.pem,cert=/certs/client/cert.pem,key=/certs/client/key.pem"
+docker context use dind

@@ -1,0 +1,7 @@
+#!/bin/bash -e
+
+cd /app
+
+for i in jammy; do
+    docker build -t dpkg-$i -q -f $i.docker .
+done
