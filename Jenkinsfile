@@ -38,7 +38,7 @@ pipeline {
         dir ('core') {
           sh 'gradle publish'
         }
-        dir ('pim') {
+        dir ('pim/pim') {
           sh 'gradle publish'
         }
       }
