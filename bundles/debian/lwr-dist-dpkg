@@ -11,44 +11,45 @@ else
         BIN_DIR="$DIR/debian/luwrain/usr/bin"
 fi
 
-. base/scripts/init.sh
+mkdir -p  "$DEST_DIR"
+cp -r lib "$DEST_DIR"
 
-cd base/scripts
-mkdir -p "$DEST_DIR/bin"
+#. base/scripts/init.sh
 
-cat <<EOF > "$DEST_DIR/bin/luwrain"
-#!/bin/bash -e
-# Runs the LUWRAIN platform
-# Copyright $(date +%Y) Michael Pozhidaev <msp@luwrain.org>
+#cd base/scripts
+#mkdir -p "$DEST_DIR/bin"
 
-cd /usr/share/luwrain
-exec java --module-path /usr/share/openjfx/lib \
-     --add-modules javafx.controls,javafx.web,javafx.swing \
-     --add-exports javafx.web/com.sun.webkit.dom=ALL-UNNAMED \
-     --add-exports javafx.web/com.sun.javafx.webkit=ALL-UNNAMED  \
-     -jar jar/luwrain-base.jar "$@"
-EOF
+#cat <<EOF > "$DEST_DIR/bin/luwrain"
+##!/bin/bash -e
+## Runs the LUWRAIN platform
+## Copyright $(date +%Y) Michael Pozhidaev <msp@luwrain.org>
 
-cat <<EOF > "$DEST_DIR/bin/lwr"
-#!/bin/bash -e
-# Runs the LUWRAIN platform blocking any output
-# Copyright $(date +%Y) Michael Pozhidaev <msp@luwrain.org>
+#cd /usr/share/luwrain
+#exec java --module-path /usr/share/openjfx/lib \
+#     --add-modules javafx.controls,javafx.web,javafx.swing \
+#     --add-exports javafx.web/com.sun.webkit.dom=ALL-UNNAMED \
+#     --add-exports javafx.web/com.sun.javafx.webkit=ALL-UNNAMED  \
+#     -jar jar/luwrain-base.jar "$@"
+#EOF
 
-exec luwrain "\$@" > /dev/null 2>&1
-EOF
-chmod 755 "$DEST_DIR/bin/luwrain" "$DEST_DIR/bin/lwr"
+#cat <<EOF > "$DEST_DIR/bin/lwr"
+##!/bin/bash -e
+## Runs the LUWRAIN platform blocking any output
+## Copyright $(date +%Y) Michael Pozhidaev <msp@luwrain.org>
+#
+#exec luwrain "\$@" > /dev/null 2>&1
+#EOF
+#chmod 755 "$DEST_DIR/bin/luwrain" "$DEST_DIR/bin/lwr"
 
-./lwr-basedirs-linux "$DEST_DIR"
+#cd $DEST_DIR
+#wget -q https://download.luwrain.org/compilation/rhvoice-data.tar.xz
+#tar xf rhvoice-data.tar.xz
+#rm -f rhvoice-data.tar.xz
 
-cd $DEST_DIR
-wget -q https://download.luwrain.org/compilation/rhvoice-data.tar.xz
-tar xf rhvoice-data.tar.xz
-rm -f rhvoice-data.tar.xz
+#cd jar
+#rm -f javafx-*.jar
+#ln -s luwrain-base-*.jar luwrain-base.jar
 
-cd jar
-rm -f javafx-*.jar
-ln -s luwrain-base-*.jar luwrain-base.jar
-
-mkdir -p "$BIN_DIR"
-ln -s /usr/share/luwrain/bin/luwrain "$BIN_DIR/luwrain"
-ln -s /usr/share/luwrain/bin/lwr "$BIN_DIR/lwr"
+#mkdir -p "$BIN_DIR"
+#ln -s /usr/share/luwrain/bin/luwrain "$BIN_DIR/luwrain"
+#ln -s /usr/share/luwrain/bin/lwr "$BIN_DIR/lwr"

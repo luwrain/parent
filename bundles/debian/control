@@ -6,7 +6,7 @@ Build-Depends: debhelper (>= 8.0.0),
 Standards-Version: 3.9.4
 Homepage: https://luwrain.org/?lang=en
 
-Package: luwrain
+Package: luwrain-snapshot
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, default-jre, openjfx
 Description: A platform for the creation of apps for the blind and partially-sighted

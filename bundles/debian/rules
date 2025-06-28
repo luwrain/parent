@@ -15,7 +15,7 @@ build:
 
 override_dh_install:
 	dh_install
-#	./debian/lwr-dist-dpkg
+	./debian/lwr-dist-dpkg
 
 binary: lib/luwrain.jar
 	dh binary
