@@ -17,7 +17,7 @@ pipeline {
         }
 	sh 'gradle clean'
         dir('sounds') {
-          sh 'rm -f *.wav'
+          sh 'rm -f *.wav *.xz'
           sh 'rm -f core/src/main/resources/org/luwrain/core/sound/*.wav'
         }
       }
@@ -47,6 +47,7 @@ pipeline {
     stage('dist') {
       steps {
         sh 'gradle distCommon'
+        sh 'gradle distFilesDeb'
         dir ("build/release/dist") {
           sh "cp *.zip /out/_tmp/bundles"
         }

@@ -131,15 +131,29 @@ tasks.register('distFilesCommon', Copy) {
     from ("core/COPYING") {
     into "COPYING.txt"
     }
-      into "$buildDir/release/dist/luwrain/luwrain-" + lwrVer + ""
+      into "$buildDir/release/dist/common/luwrain-" + lwrVer + ""
 }
+
+tasks.register('distFilesDeb', Copy) {
+  dependsOn copyJars
+  dependsOn copyDeps
+  duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+  from ("$buildDir/release/lib") {
+  into "lib"
+  }
+    from ("bundles/debian") {
+  into "debian"
+  }
+      into "$buildDir/release/dist/deb"
+}
+
 
 
 tasks.register('distCommon', Zip) {
     dependsOn distFilesCommon
     archiveFileName = "luwrain-" + lwrVer + ".zip"
     destinationDirectory = file("$buildDir/release/dist")
-    from("$buildDir/release/dist/luwrain")
+    from("$buildDir/release/dist/common")
 }
 
 
