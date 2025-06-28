@@ -21,6 +21,8 @@ pipeline {
           sh 'rm -f *.wav *.xz'
           sh 'rm -f core/src/main/resources/org/luwrain/core/sound/*.wav'
         }
+        sh "rm -rf .gradle"
+        sh "docker run --rm -v /build:/build dpkg-jammy bash -c \"rm -rf /build/*\""
       }
     }
 
@@ -49,7 +51,7 @@ pipeline {
         dir ("build/release/dist") {
           sh "cp -r deb /build/luwrain"
         }
-        sh "docker run --rm -v /build:/build dpkg-jammy -c \"cd /build/luwrain && dpkg-buildpackage --build=binary -us -uc\""
+        sh "docker run --rm -v /build:/build dpkg-jammy bash -c \"cd /build/luwrain && dpkg-buildpackage --build=binary -us -uc\""
       }
     }
 
