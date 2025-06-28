@@ -1,4 +1,5 @@
-dpkg-buildpackage --build=binary -us -uc && \
+docker exec jenkins bash -c 'docker run --rm -v /build:/build dpkg-jammy bash -c "cd /build/luwrain && dpkg-buildpackage --build=binary -us -uc"'
+dpkg-buildpackage --build=binary -us -uc
 docker run --rm -v /x/test:/build env-jammy bash -c 'cd /build && dpkg-buildpackage --build=binary -us -uc'
 docker run --rm -v /x/test:/build env-jammy bash -c 'cd /build/lwr-depl-utils && dpkg-buildpackage --build=binary -us -uc'
 

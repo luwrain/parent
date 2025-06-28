@@ -2,7 +2,7 @@ Source: luwrain
 Section: unknown
 Priority: optional
 Maintainer: Michael Pozhidaev <msp@luwrain.org>
-Build-Depends: debhelper (>= 8.0.0), ant, openjfx
+Build-Depends: debhelper (>= 8.0.0),
 Standards-Version: 3.9.4
 Homepage: https://luwrain.org/?lang=en
 
