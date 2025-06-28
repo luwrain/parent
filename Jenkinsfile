@@ -14,13 +14,14 @@ pipeline {
       steps {
         dir ('/out') {
           sh 'rm -rf _tmp'
-          sh 'mkdir -p _tmp/bundles'
+          sh "mkdir -p _tmp/bundles"
+	  sh "mkdir _tmp/apt"
         }
 	sh 'gradle clean'
         dir('sounds') {
           sh 'rm -f *.wav *.xz'
+	          }
           sh 'rm -f core/src/main/resources/org/luwrain/core/sound/*.wav'
-        }
         sh "rm -rf .gradle"
         sh "docker run --rm -v /build:/build dpkg-jammy bash -c \"rm -rf /build/*\""
       }
@@ -48,10 +49,11 @@ pipeline {
     stage('deb') {
       steps {
         sh 'gradle distFilesDeb'
-        dir ("build/release/dist") {
-          sh "cp -r deb /build/luwrain"
-        }
+	// Jammy
+        dir ("build/release/dist") { sh "cp -r deb /build/luwrain" }
         sh "docker run --rm -v /build:/build dpkg-jammy bash -c \"cd /build/luwrain && dpkg-buildpackage --build=binary -us -uc\""
+	dir "/out/_tmp/apt" { sh "mkdir jammy/luwrain/binary-amd64" }
+		dir "/out/_tmp/apt/jammy/luwrain/binary-amd64" { sh "cp /build/*.deb ." }
       }
     }
 
