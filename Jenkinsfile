@@ -52,7 +52,7 @@ pipeline {
 	// Jammy
         dir ("build/release/dist") { sh "cp -r deb /build/luwrain" }
         sh "docker run --rm -v /build:/build dpkg-jammy bash -c \"cd /build/luwrain && dpkg-buildpackage --build=binary -us -uc\""
-        sh "mkdir /out/_tmp/apt/jammy/luwrain/binary-amd64"
+        sh "mkdir -p /out/_tmp/apt/jammy/luwrain/binary-amd64"
         sh "cp /build/*.deb /out/_tmp/apt/jammy/luwrain/binary-amd64"
       }
     }
