@@ -1,0 +1,6 @@
+#!/bin/bash -e
+
+#IMAGE=suchja/wine
+IMAGE=ich777/winehq-baseimage
+
+docker run --rm -v $(pwd)/jdk-24.0.1:/jdk $IMAGE bash -c "cd /jdk/bin && wine jlink.exe --output Z:/jdk/out --add-modules java.base"

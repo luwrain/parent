@@ -10,6 +10,7 @@ services:
       - /jenkins/out:/out/
       - /jenkins/certs:/certs
       - /jenkins/build:/build
+      - /jenkins/cache:/cache
 
   dind:
     image: docker:dind
@@ -19,3 +20,4 @@ services:
     volumes:
       - /jenkins/certs:/certs
       - /jenkins/build:/build
+      - /jenkins/cache:/cache
