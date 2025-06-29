@@ -49,12 +49,17 @@ pipeline {
     stage('deb') {
       steps {
         sh 'gradle distFilesDeb'
+        dir ("build/release/dist/deb/debian") {
+          sh "sed -i -e \"s/SUBST_DATE/$(LANG=C date \"+%a, %d %b %Y %H:%M:%S %z\")/\" changelog"
+          sh "sed -i -e \"s/SUBST_VER/$(LANG=C date \"+%Y%m%d%H%M\")/\" changelog"
+        }
+
 	// Jammy
         sh "mkdir -p /build/dpkg/jammy"
         dir ("build/release/dist") { sh "cp -r deb /build/dpkg/jammy/luwrain" }
         sh "docker run --rm -v /build:/build dpkg-jammy bash -c \"cd /build/dpkg/jammy/luwrain && dpkg-buildpackage --build=binary -us -uc\""
-        sh "mkdir -p /out/_tmp/apt/jammy/luwrain/binary-amd64"
-        sh "cp /build/dpkg/jammy/*.deb /out/_tmp/apt/jammy/luwrain/binary-amd64"
+        sh "mkdir -p /out/_tmp/apt/dists/jammy/luwrain/binary-amd64"
+        sh "cp /build/dpkg/jammy/*.deb /out/_tmp/apt/dists/jammy/luwrain/binary-amd64"
 
 	// Noble
         sh "mkdir -p /build/dpkg/noble"
