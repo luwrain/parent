@@ -2,8 +2,8 @@
 
 THIS="${0##*/}"
 JAR=jenkins-cli.jar
-
 PASSWD=admin
+export JENKINS_URL=http://localhost:8080
 
 if ! [ -r "$JAR" ]; then
     wget http://localhost:8080/jnlpJars/jenkins-cli.jar 

@@ -13,9 +13,10 @@ pipeline {
     stage('prepare') {
       steps {
         dir ('/out') {
+  sh "mkdir -p release"
           sh 'rm -rf _tmp'
           sh "mkdir -p _tmp/bundles"
-	  sh "mkdir _tmp/apt"
+  sh "mkdir _tmp/apt"
         }
 	sh 'gradle clean'
         dir('sounds') {
@@ -85,5 +86,18 @@ pipeline {
         }
       }
     }
+
+    stage("finalizing") {
+      steps {
+        dir ("/out") {
+sh "mv release _release"
+sh "mv _tmp release"
+sh "rm -rf _release"
+	
+	}
+}
+}
+}
+
   }
 }
