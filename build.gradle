@@ -5,7 +5,7 @@ plugins {
 id 'application'
   id 'java'
 }
-
+def commitCount = 'git rev-list --all --count'.execute().text.trim();
 def lwrVer = '2.0.0';
 
 allprojects {
@@ -50,6 +50,10 @@ autoService: [
 
 dependencies {
 }
+
+tasks.register('writeVer') {
+        new File(buildDir, "version.txt").text = "$lwrVer.$commitCount\n"
+	}
 
 task downloadAndExtractData {
     def destDir = layout.buildDirectory.dir("luwrain-install/data").get().asFile
@@ -131,7 +135,7 @@ tasks.register('distFilesCommon', Copy) {
     from ("core/COPYING") {
     into "COPYING.txt"
     }
-      into "$buildDir/release/dist/common/luwrain-" + lwrVer + ""
+      into "$buildDir/release/dist/common/luwrain-$lwrVer-$commitCount"
 }
 
 tasks.register('distFilesDeb', Copy) {
@@ -151,7 +155,7 @@ tasks.register('distFilesDeb', Copy) {
 
 tasks.register('distCommon', Zip) {
     dependsOn distFilesCommon
-    archiveFileName = "luwrain-" + lwrVer + ".zip"
+    archiveFileName = "luwrain-$lwrVer-$commitCount" + '.zip'
     destinationDirectory = file("$buildDir/release/dist")
     from("$buildDir/release/dist/common")
 }
