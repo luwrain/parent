@@ -55,11 +55,9 @@ pipeline {
           sh "if ! [ -d jre ]; then docker run --rm -v /cache:/work ich777/winehq-baseimage bash -c \"cd /work/jdk/bin && wine jlink.exe --output Z:/work/jre --add-modules java.base\"; fi"
         }
 	        dir ("build/release/dist") {
-sh "cp -r windows /build"
-	}
-	dir ("/build/windows") {
-	sh 'docker run --rm -i -v \"$(pwd):/work\" amake/innosetup luwrain.iss'
-	}
+sh "chmod 777 windows && cp -r windows /build"
+        }
+        sh 'docker run --rm -i -v /build/windows:/work amake/innosetup luwrain.iss'
 		dir ("/build/windows/Output") {
 		sh "cp *.exe /out/_tmp/bundles"
 		}
