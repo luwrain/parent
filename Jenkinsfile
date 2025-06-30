@@ -108,6 +108,11 @@ sh "cp -r windows /build"
 
     stage("finalizing") {
       steps {
+      sh 'gradle writeVer'
+      sh 'git rev-parse HEAD > /out/_tmp/commit.txt'
+      sh 'LANG=C date > /out/_tmp/timestamp.txt'
+sh 'cp build/version.txt /out/_tmp/'
+      
       dir ('/build') {
       sh 'rm -rf *'
       }
