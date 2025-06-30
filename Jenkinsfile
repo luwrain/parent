@@ -49,6 +49,7 @@ pipeline {
 
     stage('win') {
       steps {
+      sh "gradle distFilesWin"
         dir ("/cache") {
           sh "if ! [ -d jdk ]; then wget https://download.java.net/java/GA/jdk24.0.1/24a58e0e276943138bf3e963e6291ac2/9/GPL/openjdk-24.0.1_windows-x64_bin.zip; unzip *.zip; rm -f *.zip; mv jdk-* jdk; fi"
           sh "if ! [ -d jre ]; then docker run --rm -v /cache:/work ich777/winehq-baseimage bash -c \"cd /work/jdk/bin && wine jlink.exe --output Z:/work/jre --add-modules java.base\"; fi"
