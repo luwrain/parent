@@ -108,6 +108,9 @@ sh "cp -r windows /build"
 
     stage("finalizing") {
       steps {
+      dir '/build' {
+      sh 'rm -rf *'
+      }
         dir ("/out") {
 sh "mv release _release"
 sh "mv _tmp release"
