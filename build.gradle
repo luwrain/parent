@@ -138,6 +138,27 @@ tasks.register('distFilesCommon', Copy) {
       into "$buildDir/release/dist/common/luwrain-$lwrVer.$commitCount"
 }
 
+tasks.register('distFilesWin', Copy) {
+  dependsOn copyJars
+  dependsOn copyDeps
+  duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+  from ("$buildDir/release/lib") {
+  into "luwrain/lib"
+  }
+    from ("bundles/win-installer") {
+//  into "debian"
+    filter { line ->
+        line.replace('SUBST_VER', lwrVer + '.' + commitCount)
+    }
+  }
+
+    from ("bundles/luwrain.ico") {
+  into "luwrain"
+  }
+      into "$buildDir/release/dist/windows"
+}
+
+
 tasks.register('distFilesDeb', Copy) {
   dependsOn copyJars
   dependsOn copyDeps

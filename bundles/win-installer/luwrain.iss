@@ -2,11 +2,11 @@
 [Setup]
 AppId={{org.luwrain.core}}
 AppName=LUWRAIN
-AppVersion=LUWRAIN_VERSION
-AppVerName=LUWRAIN LUWRAIN_VERSION
+AppVersion=SUBST_VER
+AppVerName=LUWRAIN v.SUBST_VER
 AppPublisher=The LUWRAIN Project
 AppComments=A platform for the creation of apps for the blind and partially-sighted
-AppCopyright=Copyright (C) 2012-2022 The LUWRAIN Project
+AppCopyright=Copyright (C) 2012-2022 Michael Pozhidaev and other LUWRAIN developers
 AppPublisherURL=http://luwrain.org
 ;AppSupportURL=http://java.com/
 ;AppUpdatesURL=http://java.com/
@@ -23,7 +23,7 @@ DefaultGroupName=LUWRAIN
 LicenseFile=
 ;WinXP or above
 MinVersion=0,6.1 
-OutputBaseFilename=luwrain
+OutputBaseFilename=luwrain-SUBST_VER
 Compression=lzma2/normal
 SolidCompression=yes
 PrivilegesRequired=lowest
