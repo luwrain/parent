@@ -13,18 +13,18 @@ pipeline {
     stage('prepare') {
       steps {
         dir ('/out') {
-  sh "mkdir -p release"
+          sh "mkdir -p release"
           sh 'rm -rf _tmp'
           sh "mkdir -p _tmp/bundles"
-  sh "mkdir _tmp/apt"
+          sh "mkdir _tmp/apt"
         }
-	sh 'gradle clean'
+        sh 'gradle clean'
         dir('sounds') {
           sh 'rm -f *.wav *.xz'
-	          }
-          sh 'rm -f core/src/main/resources/org/luwrain/core/sound/*.wav'
+        }
+        sh 'rm -f core/src/main/resources/org/luwrain/core/sound/*.wav'
         sh "rm -rf .gradle"
-        sh "docker run --rm -v /build:/build dpkg-jammy bash -c \"rm -rf /build/*\""
+        sh 'rm -rf /build/*'
       }
     }
 
@@ -108,20 +108,19 @@ sh "cp -r windows /build"
 
     stage("finalizing") {
       steps {
-      sh 'gradle writeVer'
-      sh 'git rev-parse HEAD > /out/_tmp/commit.txt'
-      sh 'LANG=C date > /out/_tmp/timestamp.txt'
-sh 'cp build/version.txt /out/_tmp/'
-      
-      dir ('/build') {
-      sh 'rm -rf *'
-      }
+        sh 'gradle writeVer'
+        sh 'git rev-parse HEAD > /out/_tmp/commit.txt'
+        sh 'LANG=C date > /out/_tmp/timestamp.txt'
+        sh 'cp build/version.txt /out/_tmp/'
+        dir ('/build') {
+          sh 'rm -rf *'
+        }
         dir ("/out") {
-sh "mv release _release"
-sh "mv _tmp release"
-sh "rm -rf _release"
-	}
-}
-}
+          sh "mv release _release"
+          sh "mv _tmp release"
+          sh "rm -rf _release"
+        }
+      }
+    }
   }
 }
