@@ -108,7 +108,7 @@ sh "cp -r windows /build"
 
     stage("finalizing") {
       steps {
-      dir '/build' {
+      dir ('/build') {
       sh 'rm -rf *'
       }
         dir ("/out") {
