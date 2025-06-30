@@ -63,7 +63,6 @@ pipeline {
         sh 'gradle distFilesDeb'
         dir ("build/release/dist/deb/debian") {
           sh "sed -i -e \"s/SUBST_DATE/\$(LANG=C date \"+%a, %d %b %Y %H:%M:%S %z\")/\" changelog"
-          sh "sed -i -e \"s/SUBST_VER/\$(LANG=C date \"+%Y%m%d%H%M\")/\" changelog"
         }
 
 	// Jammy

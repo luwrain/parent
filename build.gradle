@@ -135,7 +135,7 @@ tasks.register('distFilesCommon', Copy) {
     from ("core/COPYING") {
     into "COPYING.txt"
     }
-      into "$buildDir/release/dist/common/luwrain-$lwrVer-$commitCount"
+      into "$buildDir/release/dist/common/luwrain-$lwrVer.$commitCount"
 }
 
 tasks.register('distFilesDeb', Copy) {
@@ -147,15 +147,16 @@ tasks.register('distFilesDeb', Copy) {
   }
     from ("bundles/debian") {
   into "debian"
+    filter { line ->
+        line.replace('SUBST_VER', lwrVer + '.' + commitCount)
+    }
   }
       into "$buildDir/release/dist/deb"
 }
 
-
-
 tasks.register('distCommon', Zip) {
     dependsOn distFilesCommon
-    archiveFileName = "luwrain-$lwrVer-$commitCount" + '.zip'
+    archiveFileName = "luwrain-$lwrVer.$commitCount" + '.zip'
     destinationDirectory = file("$buildDir/release/dist")
     from("$buildDir/release/dist/common")
 }
