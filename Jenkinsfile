@@ -58,7 +58,7 @@ pipeline {
 sh "cp -r windows /build"
 	}
 	dir ("/build/windows") {
-	sh 'docker run --rm -i -v "$(pwd):/work" amake/innosetup luwrain.iss'
+	sh 'docker run --rm -i -v \"$(pwd):/work\" amake/innosetup luwrain.iss'
 	}
 		dir ("/build/windows/Output") {
 		sh "cp *.exe /out/_tmp/bundles"
