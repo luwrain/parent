@@ -115,8 +115,8 @@ sh "cp -r windows /build"
         sh 'cp build/version.txt /out/_tmp/'
 	//Writing hashsums
 	dir ('/out/_tmp/bundles') {
-	sh 'sha256sum luwrain-$(cat version.txt).zip > luwrain-$(cat version.txt).zip.sha256'
-		sh 'sha256sum luwrain-$(cat version.txt).exe > luwrain-$(cat version.txt).exe.sha256'
+	sh 'sha256sum luwrain-$(cat ../version.txt).zip > luwrain-$(cat ../version.txt).zip.sha256'
+		sh 'sha256sum luwrain-$(cat ../version.txt).exe > luwrain-$(cat ../version.txt).exe.sha256'
 	}
         dir ("/out") {
           sh "mv release _release"
