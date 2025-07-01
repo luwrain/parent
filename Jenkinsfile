@@ -108,18 +108,26 @@ sh "cp -r windows /build"
 
     stage("finalizing") {
       steps {
+      //Writing version information
         sh 'gradle writeVer'
         sh 'git rev-parse HEAD > /out/_tmp/commit.txt'
         sh 'LANG=C date > /out/_tmp/timestamp.txt'
         sh 'cp build/version.txt /out/_tmp/'
-        dir ('/build') {
-          sh 'rm -rf *'
-        }
+	//Writing hashsums
+	dir ('/out/_tmp/bundles') {
+	sh 'sha256sum luwrain-$(cat version.txt).zip > luwrain-$(cat version.txt).zip.sha256'
+		sh 'sha256sum luwrain-$(cat version.txt).exe > luwrain-$(cat version.txt).exe.sha256'
+	}
         dir ("/out") {
           sh "mv release _release"
           sh "mv _tmp release"
           sh "rm -rf _release"
         }
+		//Cleaning the build dir
+        dir ('/build') {
+          sh 'rm -rf *'
+        }
+
       }
     }
   }
