@@ -1,6 +1,4 @@
 
-
-
 plugins {
 id 'application'
   id 'java'
@@ -27,21 +25,24 @@ ext.libraries = [
     "org.jsoup:jsoup:1.13.1",
     "org.codehaus.groovy:groovy:2.5.23"
     ],
-    
+
         apacheBase: [
 "org.apache.commons:commons-compress:1.23.0",
     "org.apache.commons:commons-vfs2:2.9.0",
     ],
-    
+
     graalvm: [
     "org.graalvm.js:js:23.0.0"
     ],
-    
+
+    mcp: [
+    "io.modelcontextprotocol.sdk:mcp:0.9.0"
+    ],
+
     junit: [
       "org.junit.jupiter:junit-jupiter-api:5.10.2",
 "org.junit.jupiter:junit-jupiter-engine:5.10.2"
 ],
-
 
 autoService: [
 "com.google.auto.service:auto-service:1.1.1"
@@ -132,6 +133,9 @@ tasks.register('distFilesCommon', Copy) {
   from ("$buildDir/release/lib") {
   into "lib"
   }
+  from ("bundles/bin") {
+  into "bin"
+  }
     from ("core/COPYING") {
     into "COPYING.txt"
     }
@@ -144,6 +148,8 @@ tasks.register('distFilesWin', Copy) {
   duplicatesStrategy = DuplicatesStrategy.EXCLUDE
   from ("$buildDir/release/lib") {
   into "luwrain/lib"
+      exclude '**/*javafx*.jar'
+            exclude '**/*linux*.jar'
   }
     from ("bundles/win-installer") {
 //  into "debian"
@@ -151,7 +157,6 @@ tasks.register('distFilesWin', Copy) {
         line.replace('SUBST_VER', lwrVer + '.' + commitCount)
     }
   }
-
     from ("bundles/luwrain.ico") {
   into "luwrain"
   }
@@ -165,6 +170,8 @@ tasks.register('distFilesDeb', Copy) {
   duplicatesStrategy = DuplicatesStrategy.EXCLUDE
   from ("$buildDir/release/lib") {
   into "lib"
+        exclude '**/*javafx*.jar'
+	        exclude '**/luwrain-windows.jar'
   }
     from ("bundles/debian") {
   into "debian"
