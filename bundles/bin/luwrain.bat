@@ -68,11 +68,11 @@ goto fail
 :execute
 @rem Setup the command line
 
-set CLASSPATH=%APP_HOME%\lib\luwrain-base.jar;%APP_HOME%\lib\gson-2.8.5.jar;%APP_HOME%\lib\auto-service-1.1.1.jar;%APP_HOME%\lib\log4j-core-2.17.0.jar;%APP_HOME%\lib\jsoup-1.13.1.jar;%APP_HOME%\lib\groovy-2.5.23.jar;%APP_HOME%\lib\auto-service-annotations-1.1.1.jar;%APP_HOME%\lib\auto-common-1.2.1.jar;%APP_HOME%\lib\guava-32.0.1-jre.jar;%APP_HOME%\lib\log4j-api-2.17.0.jar;%APP_HOME%\lib\failureaccess-1.0.1.jar;%APP_HOME%\lib\listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar;%APP_HOME%\lib\jsr305-3.0.2.jar;%APP_HOME%\lib\checker-qual-3.33.0.jar;%APP_HOME%\lib\error_prone_annotations-2.18.0.jar;%APP_HOME%\lib\j2objc-annotations-2.8.jar
+set CLASSPATH=%APP_HOME%\lib\luwrain-base.jar
 
 
 @rem Execute luwrain-base
-"%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %LUWRAIN_BASE_OPTS%  -classpath "%CLASSPATH%"  %*
+"%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %LUWRAIN_BASE_OPTS%  -classpath "%CLASSPATH%" org.luwrain.core.Init --app-dir "%APP_HOME%" %*
 
 :end
 @rem End local scope for the variables with windows NT shell
