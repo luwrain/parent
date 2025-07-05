@@ -34,6 +34,10 @@ ext.libraries = [
     "org.graalvm.js:js:23.0.0"
   ],
 
+h2: [
+    "com.h2database:h2-mvstore:2.3.232"
+],
+
   mcp: [
     "io.modelcontextprotocol.sdk:mcp:0.9.0"
   ],
