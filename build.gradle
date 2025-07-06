@@ -22,7 +22,8 @@ ext.libraries = [
     "com.google.auto.service:auto-service:1.1.1",
     "org.apache.logging.log4j:log4j-core:2.17.2",
     "org.jsoup:jsoup:1.13.1",
-    "org.codehaus.groovy:groovy:2.5.23"
+    "org.codehaus.groovy:groovy:2.5.23",
+    "org.luwrain:luwrain-inlandes:0.5.2"
   ],
 
   apacheBase: [
@@ -105,7 +106,7 @@ def ver = ["":""]
 subprojects .findAll(proj -> proj.configurations.findByName("runtimeClasspath") != null).each{ proj ->
 proj.configurations.runtimeClasspath.incoming.artifactView {
 componentFilter {
-if (it .getDisplayName().indexOf("luwrain") >= 0)
+if (it .getDisplayName().indexOf("luwrain") >= 0 && it .getDisplayName().indexOf("luwrain-inlandes") < 0)
 return false
 def n = it.getDisplayName().substring(0, it.getDisplayName().lastIndexOf(":"))
 def v = it.getDisplayName().substring(it.getDisplayName().lastIndexOf(":") + 1)
@@ -118,7 +119,7 @@ false
 subprojects .findAll(proj -> proj.configurations.findByName("runtimeClasspath") != null).each{ proj ->
 proj.configurations.runtimeClasspath.incoming.artifactView {
 componentFilter {
-if (it.getDisplayName().indexOf("luwrain") >= 0)
+if (it.getDisplayName().indexOf("luwrain") >= 0 && it.getDisplayName().indexOf("luwrain-inlandes") < 0)
 return false
 def n = it.getDisplayName().substring(0, it.getDisplayName().lastIndexOf(":"))
 def v = it.getDisplayName().substring(it.getDisplayName().lastIndexOf(":") + 1)
@@ -134,9 +135,8 @@ tasks.register('distFilesCommon', Copy) {
   dependsOn copyJars
   dependsOn copyDeps
   duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-  from ("$buildDir/release/lib") {
-  into "lib"
-  }
+  from ("$buildDir/release/lib") { into "lib" }
+  from ("extensions/js") { into "js" }
   from ("bundles/bin") {
   into "bin"
   }
@@ -155,6 +155,7 @@ tasks.register('distFilesWin', Copy) {
       exclude '**/*javafx*.jar'
             exclude '**/*linux*.jar'
   }
+    from ("extensions/js") { into "luwrain/js" }
     from ("bundles/win-installer") {
 //  into "debian"
     filter { line ->
@@ -177,6 +178,7 @@ tasks.register('distFilesDeb', Copy) {
         exclude '**/*javafx*.jar'
 	        exclude '**/luwrain-windows.jar'
   }
+    from ("extensions/js") { into "js" }
     from ("bundles/debian") {
   into "debian"
     filter { line ->

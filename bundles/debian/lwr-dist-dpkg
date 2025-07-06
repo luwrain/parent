@@ -12,7 +12,7 @@ else
 fi
 
 mkdir -p  "$DEST_DIR"
-cp -r lib "$DEST_DIR"
+cp -r lib js "$DEST_DIR"
 
 #. base/scripts/init.sh
 
