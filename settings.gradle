@@ -44,9 +44,11 @@ project (':luwrain-app-commander').projectDir = file('base/app-commander')
 include ('luwrain-app-contacts')
 project (':luwrain-app-commander').projectDir = file('pim/app-contacts')
 
+include ('luwrain-app-gpt')
+project (':luwrain-app-gpt').projectDir = file('io/app-gpt')
+
 //include ('luwrain-app-download')
 //project (':luwrain-app-download').projectDir = file('io/app-download')
-
 
 include ('luwrain-app-mail')
 project (':luwrain-app-mail').projectDir = file('pim/app-mail')
