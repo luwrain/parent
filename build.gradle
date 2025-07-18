@@ -3,17 +3,19 @@ plugins {
 id 'application'
   id 'java'
 }
+
 def commitCount = 'git rev-list --all --count'.execute().text.trim();
 def lwrVer = '2.0.0';
 
 allprojects {
-repositories {
-mavenCentral()
-    jcenter()
+  repositories {
+    //mavenCentral()
+    //jcenter()
+    maven { url 'https://mvn-mirror.gitverse.ru' }
     maven { url 'https://jitpack.io' }
-//    maven { url "https://jcenter.bintray.com" }
-//    maven { url "https://s01.oss.sonatype.org/content/repositories/snapshots/" }
-}
+    //maven { url "https://jcenter.bintray.com" }
+    //maven { url "https://s01.oss.sonatype.org/content/repositories/snapshots/" }
+  }
 }
 
 ext.libraries = [
