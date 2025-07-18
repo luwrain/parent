@@ -56,8 +56,10 @@ h2: [
 ]
 
 
+/*
 dependencies {
 }
+*/
 
 tasks.register('writeVer') {
         new File(buildDir, "version.txt").text = "$lwrVer.$commitCount\n"
@@ -197,4 +199,14 @@ tasks.register('distCommon', Zip) {
     from("$buildDir/release/dist/common")
 }
 
-
+tasks.register('distJavadoc', Javadoc) {
+  //source = sourceSets.main.allJava
+  source = files(
+    'base/base/src/main/java',
+    'core/src/main/java',
+    'io/io/src/main/java')
+  //classpath = configurations.compileClasspath
+  destinationDir = file("$buildDir/release/javadoc")
+      //options.addStringOption("--ignore-source-errors")
+      options.addStringOption('-ignore-source-errors', '-quiet')
+}

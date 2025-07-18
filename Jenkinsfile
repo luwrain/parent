@@ -87,13 +87,17 @@ sh "cp -r windows /build"
         sh "docker run --rm -v /build:/build dpkg-noble bash -c \"cd /build/dpkg/noble/luwrain && dpkg-buildpackage --build=binary -us -uc\""
         sh "mkdir -p /out/_tmp/apt/dists/noble/luwrain/binary-amd64"
         sh "cp /build/dpkg/noble/*.deb /out/_tmp/apt/dists/noble/luwrain/binary-amd64"
-
-
 }
     }
 
-
-
+    stage('javadoc') {
+      steps {
+          sh 'gradle distJavadoc'
+dir ('build/release') {
+sh 'cp -r javadoc /out/_tmp/'
+}
+	  }
+	  }
 
     stage('maven') {
       steps {
