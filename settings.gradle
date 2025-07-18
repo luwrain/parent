@@ -13,6 +13,9 @@ project(":luwrain-javafx").projectDir = file("base/javafx")
 include ('luwrain-linux')
 project(":luwrain-linux").projectDir = file("platform/linux")
 
+include ('luwrain-app-linux-man')
+project(":luwrain-app-linux-man").projectDir = file("platform/app-linux-man")
+
 include ('luwrain-windows')
 project(":luwrain-windows").projectDir = file("platform/windows")
 
@@ -37,12 +40,11 @@ project(":luwrain-grammar").projectDir = file("grammar")
 include ('luwrain-studio')
 project(":luwrain-studio").projectDir = file("studio")
 
-
 include ('luwrain-app-commander')
 project (':luwrain-app-commander').projectDir = file('base/app-commander')
 
 include ('luwrain-app-contacts')
-project (':luwrain-app-commander').projectDir = file('pim/app-contacts')
+project (':luwrain-app-contacts').projectDir = file('pim/app-contacts')
 
 include ('luwrain-app-gpt')
 project (':luwrain-app-gpt').projectDir = file('io/app-gpt')
@@ -78,10 +80,8 @@ project (':luwrain-app-vk').projectDir = file('io/app-vk')
 include ('luwrain-ext-voiceman')
 project (':luwrain-ext-voiceman').projectDir = file('extensions/voiceman')
 
-
 include ('luwrain-ext-emacspeak')
 project (':luwrain-ext-emacspeak').projectDir = file('extensions/emacspeak')
-
 
 include ('luwrain-lang-ru')
 project (':luwrain-lang-ru').projectDir = file('extensions/lang-ru')

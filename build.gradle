@@ -28,7 +28,7 @@ ext.libraries = [
 
   apacheBase: [
     "org.apache.commons:commons-compress:1.23.0",
-    "org.apache.commons:commons-vfs2:2.9.0",
+    "org.apache.commons:commons-vfs2:2.10.0",
   ],
 
   graalvm: [
