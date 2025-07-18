@@ -23,7 +23,7 @@ pipeline {
           sh 'rm -f *.wav *.xz'
         }
         sh 'rm -f core/src/main/resources/org/luwrain/core/sound/*.wav'
-        sh "rm -rf .gradle"
+        //sh "rm -rf .gradle"
         sh 'rm -rf /build/*'
       }
     }
