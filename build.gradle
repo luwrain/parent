@@ -200,13 +200,14 @@ tasks.register('distCommon', Zip) {
 }
 
 tasks.register('distJavadoc', Javadoc) {
-  //source = sourceSets.main.allJava
+  title = "LUWRAIN API"
   source = files(
     'base/base/src/main/java',
     'core/src/main/java',
-    'io/io/src/main/java')
-  //classpath = configurations.compileClasspath
+    'io/io/src/main/java',
+    'pim/pim/src/main/java',
+    'reader/reader/src/main/java',
+    'studio/src/main/java')
   destinationDir = file("$buildDir/release/javadoc")
-      //options.addStringOption("--ignore-source-errors")
-      options.addStringOption('-ignore-source-errors', '-quiet')
+  options.addStringOption('-ignore-source-errors', '-quiet')
 }
