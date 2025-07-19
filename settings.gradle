@@ -77,8 +77,11 @@ project (':luwrain-app-wiki').projectDir = file('io/app-wiki')
 include ('luwrain-app-vk')
 project (':luwrain-app-vk').projectDir = file('io/app-vk')
 
-include ('luwrain-ext-voiceman')
-project (':luwrain-ext-voiceman').projectDir = file('extensions/voiceman')
+include ('luwrain-speech-voiceman')
+project (':luwrain-speech-voiceman').projectDir = file('extensions/voiceman')
+
+include ('luwrain-speech-rhvoice')
+project (':luwrain-speech-voiceman').projectDir = file('extensions/rhvoice')
 
 include ('luwrain-ext-emacspeak')
 project (':luwrain-ext-emacspeak').projectDir = file('extensions/emacspeak')
