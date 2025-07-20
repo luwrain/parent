@@ -83,7 +83,7 @@ sh "cp -r windows /build"
         }
         //sh "mkdir -p /out/_tmp/apt/dists/jammy/luwrain/binary-amd64"
         //sh "cp /build/dpkg/jammy/*.deb /out/_tmp/apt/dists/jammy/luwrain/binary-amd64"
-        sh "docker run --rm -v /build:/build dpkg-jammy bash -c \"cd /build/dpkg/jammy/ && dpkg-scanpackages dists/jammy/luwrain/binary-amd64 /dev/null > dists/jammy/luwrain/binary-amd64/Packages"
+        sh "docker run --rm -v /build:/build dpkg-jammy bash -c \"cd /build/dpkg/jammy/ && dpkg-scanpackages dists/jammy/luwrain/binary-amd64 /dev/null > dists/jammy/luwrain/binary-amd64/Packages\""
         sh "cp -r /build/dpkg/jammy/dists/jammy /out/_tmp/apt/dists"
 
 	// Noble
