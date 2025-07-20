@@ -65,21 +65,26 @@ sh "cp -r windows /build"
       }
     }
 
-
-
     stage('deb') {
       steps {
         sh 'gradle distFilesDeb'
         dir ("build/release/dist/deb/debian") {
           sh "sed -i -e \"s/SUBST_DATE/\$(LANG=C date \"+%a, %d %b %Y %H:%M:%S %z\")/\" changelog"
         }
+        sh "mkdir -p /out/_tmp/apt/dists"
 
-	// Jammy
+        // Jammy
         sh "mkdir -p /build/dpkg/jammy"
         dir ("build/release/dist") { sh "cp -r deb /build/dpkg/jammy/luwrain" }
         sh "docker run --rm -v /build:/build dpkg-jammy bash -c \"cd /build/dpkg/jammy/luwrain && dpkg-buildpackage --build=binary -us -uc\""
-        sh "mkdir -p /out/_tmp/apt/dists/jammy/luwrain/binary-amd64"
-        sh "cp /build/dpkg/jammy/*.deb /out/_tmp/apt/dists/jammy/luwrain/binary-amd64"
+        dir ("/build/dpkg/jammy") {
+          sh "mkdir -p dists/jammy/luwrain/binary-amd64"
+          sh "cp *.deb dists/jammy/luwrain/binary-amd64"
+        }
+        //sh "mkdir -p /out/_tmp/apt/dists/jammy/luwrain/binary-amd64"
+        //sh "cp /build/dpkg/jammy/*.deb /out/_tmp/apt/dists/jammy/luwrain/binary-amd64"
+        sh "docker run --rm -v /build:/build dpkg-jammy bash -c \"cd /build/dpkg/jammy/ && dpkg-scanpackages dists/jammy/luwrain/binary-amd64 /dev/null > dists/jammy/luwrain/binary-amd64/Packages"
+        sh "cp -r /build/dpkg/jammy/dists/jammy /out/_tmp/apt/dists"
 
 	// Noble
         sh "mkdir -p /build/dpkg/noble"
