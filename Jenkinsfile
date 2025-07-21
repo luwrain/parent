@@ -12,6 +12,7 @@ pipeline {
 
     stage('prepare') {
       steps {
+        sh 'rm -rf /build/*'
         dir ('/out') {
           sh "mkdir -p release"
           sh 'rm -rf _tmp'
@@ -24,7 +25,6 @@ pipeline {
         }
         sh 'rm -f core/src/main/resources/org/luwrain/core/sound/*.wav'
         //sh "rm -rf .gradle"
-        sh 'rm -rf /build/*'
       }
     }
 
@@ -81,8 +81,6 @@ sh "cp -r windows /build"
           sh "mkdir -p dists/jammy/luwrain/binary-amd64"
           sh "cp *.deb dists/jammy/luwrain/binary-amd64"
         }
-        //sh "mkdir -p /out/_tmp/apt/dists/jammy/luwrain/binary-amd64"
-        //sh "cp /build/dpkg/jammy/*.deb /out/_tmp/apt/dists/jammy/luwrain/binary-amd64"
         sh "docker run --rm -v /build:/build dpkg-jammy bash -c \"cd /build/dpkg/jammy/ && dpkg-scanpackages dists/jammy/luwrain/binary-amd64 /dev/null > dists/jammy/luwrain/binary-amd64/Packages\""
         sh "cp -r /build/dpkg/jammy/dists/jammy /out/_tmp/apt/dists"
 
@@ -90,9 +88,13 @@ sh "cp -r windows /build"
         sh "mkdir -p /build/dpkg/noble"
         dir ("build/release/dist") { sh "cp -r deb /build/dpkg/noble/luwrain" }
         sh "docker run --rm -v /build:/build dpkg-noble bash -c \"cd /build/dpkg/noble/luwrain && dpkg-buildpackage --build=binary -us -uc\""
-        sh "mkdir -p /out/_tmp/apt/dists/noble/luwrain/binary-amd64"
-        sh "cp /build/dpkg/noble/*.deb /out/_tmp/apt/dists/noble/luwrain/binary-amd64"
-}
+        dir ("/build/dpkg/noble") {
+          sh "mkdir -p dists/noble/luwrain/binary-amd64"
+          sh "cp *.deb dists/noble/luwrain/binary-amd64"
+        }
+        sh "docker run --rm -v /build:/build dpkg-noble bash -c \"cd /build/dpkg/jammy/ && dpkg-scanpackages dists/jammy/luwrain/binary-amd64 /dev/null > dists/noble/luwrain/binary-amd64/Packages\""
+        sh "cp -r /build/dpkg/noble/dists/noble /out/_tmp/apt/dists"
+      }
     }
 
     stage('javadoc') {
