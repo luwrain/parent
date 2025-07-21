@@ -92,7 +92,7 @@ sh "cp -r windows /build"
           sh "mkdir -p dists/noble/luwrain/binary-amd64"
           sh "cp *.deb dists/noble/luwrain/binary-amd64"
         }
-        sh "docker run --rm -v /build:/build dpkg-noble bash -c \"cd /build/dpkg/jammy/ && dpkg-scanpackages dists/jammy/luwrain/binary-amd64 /dev/null > dists/noble/luwrain/binary-amd64/Packages\""
+        sh "docker run --rm -v /build:/build dpkg-noble bash -c \"cd /build/dpkg/noble/ && dpkg-scanpackages dists/noble/luwrain/binary-amd64 /dev/null > dists/noble/luwrain/binary-amd64/Packages\""
         sh "cp -r /build/dpkg/noble/dists/noble /out/_tmp/apt/dists"
       }
     }
