@@ -84,6 +84,7 @@ sh "cp -r windows /build"
         }
         sh "docker run --rm -v /build:/build dpkg-jammy bash -c \"cd /build/dpkg/jammy/ && dpkg-scanpackages dists/jammy/luwrain/binary-amd64 /dev/null > dists/jammy/luwrain/binary-amd64/Packages\""
         sh "docker run --rm -v /build:/build dpkg-jammy bash -c \"cd /build/dpkg/jammy/dists/jammy && apt-ftparchive release -c ../../apt.config . > Release\""
+        sh 'gpg --default-key info@luwrain.org --clearsign --passphrase-fd 0 -o /build/dpkg/jammy/dists/jammy/InRelease /build/dpkg/jammy/dists/jammy/Release < /cache/dpkg-key-passphrase'
         sh "cp -r /build/dpkg/jammy/dists/jammy /out/_tmp/apt/dists"
 
 	// Noble

@@ -18,6 +18,11 @@ WORKDIR /app
 COPY init-docker init-dpkg-images /app/
 COPY env/* /app/
 
+RUN mkdir -p /root/.gnupg && chmod 700 /root/.gnupg
+COPY gpg.conf gpg-agent.conf dpkg.key /root/.gnupg/
+RUN gpg --batch --no-tty --import /root/.gnupg/dpkg.key
+RUN rm -f /root/.gnupg/dpkg.key
+
 RUN apt-get update --fix-missing \
     && apt-get install -y --no-install-recommends timidity fluid-soundfont-gm midicsv sox \
     && rm -rf /var/lib/apt/lists/*

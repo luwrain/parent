@@ -1,5 +1,19 @@
 #!/bin/bash -e
 
+THIS="${0##*/}"
+
+for i in build cache certs out src; do
+    if ! [ -d "/jenkins/$i" ]; then
+	echo "ERROR: $THIS: Create /jenkins/$i and try again" >&2
+	exit 1
+    fi
+done
+
+if ! [ -r /jenkins/cache/dpkg-key-passphrase ]; then
+    echo "ERROR: $THIS: Please put the dpkg passphrase to /jenkins/cache/dpkg-key-passphrase and try again" >&2
+    exit 1
+fi
+
 docker-compose up -d
 docker exec jenkins bash -c init-docker
 docker exec jenkins bash -c init-dpkg-images
