@@ -75,6 +75,7 @@ sh "cp -r windows /build"
 
         // Jammy
         sh "mkdir -p /build/dpkg/jammy"
+        sh "cp bundles/apt/apt.config.jammy /build/dpkg/jammy/apt.config"
         dir ("build/release/dist") { sh "cp -r deb /build/dpkg/jammy/luwrain" }
         sh "docker run --rm -v /build:/build dpkg-jammy bash -c \"cd /build/dpkg/jammy/luwrain && dpkg-buildpackage --build=binary -us -uc\""
         dir ("/build/dpkg/jammy") {
@@ -82,6 +83,7 @@ sh "cp -r windows /build"
           sh "cp *.deb dists/jammy/luwrain/binary-amd64"
         }
         sh "docker run --rm -v /build:/build dpkg-jammy bash -c \"cd /build/dpkg/jammy/ && dpkg-scanpackages dists/jammy/luwrain/binary-amd64 /dev/null > dists/jammy/luwrain/binary-amd64/Packages\""
+        sh "docker run --rm -v /build:/build dpkg-jammy bash -c \"cd /build/dpkg/jammy/dists/jammy && apt-ftparchive release -c ../../apt.config . > Release\""
         sh "cp -r /build/dpkg/jammy/dists/jammy /out/_tmp/apt/dists"
 
 	// Noble
