@@ -6,11 +6,11 @@ DIR="$(pwd)"
 if [ -d "$DIR/debian/luwrain-snapshot" ]; then
     DEST_DIR="$DIR/debian/luwrain-snapshot/usr/share/luwrain"
     BIN_DIR="$DIR/debian/luwrain-snapshot/usr/bin"
-    APP_DIR="$DIR/debian/luwrain-snapshot/usr/share/applications
+    APP_DIR="$DIR/debian/luwrain-snapshot/usr/share/applications"
 else
     DEST_DIR="$DIR/debian/luwrain/usr/share/luwrain"
     BIN_DIR="$DIR/debian/luwrain/usr/bin"
-    APP_DIR="$DIR/debian/luwrain/usr/share/applications
+    APP_DIR="$DIR/debian/luwrain/usr/share/applications"
 fi
 
 mkdir -p  "$DEST_DIR" "$DEST_DIR/bin" "$BIN_DIR" "$APP_DIR"
