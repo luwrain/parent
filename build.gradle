@@ -63,7 +63,7 @@ dependencies {
 
 tasks.register('writeVer') {
         new File(buildDir, "version.txt").text = "$lwrVer.$commitCount\n"
-	}
+}
 
 task downloadAndExtractData {
     def destDir = layout.buildDirectory.dir("luwrain-install/data").get().asFile
@@ -142,12 +142,11 @@ tasks.register('distFilesCommon', Copy) {
   from ("$buildDir/release/lib") { into "lib" }
   from ("extensions/js") { into "js" }
   from ("bundles/bin") {
-  into "bin"
+    into "bin"
   }
-    from ("core/COPYING") {
-    into "COPYING.txt"
-    }
-      into "$buildDir/release/dist/common/luwrain-$lwrVer.$commitCount"
+  from ("core/COPYING")
+  from ("bundles/luwrain.ico")
+  into "$buildDir/release/dist/common/luwrain-$lwrVer.$commitCount"
 }
 
 tasks.register('distFilesWin', Copy) {
@@ -178,18 +177,20 @@ tasks.register('distFilesDeb', Copy) {
   dependsOn copyDeps
   duplicatesStrategy = DuplicatesStrategy.EXCLUDE
   from ("$buildDir/release/lib") {
-  into "lib"
-        exclude '**/javafx-*.jar'
-	        exclude '**/luwrain-windows.jar'
+    into "lib"
+    exclude '**/javafx-*.jar'
+    exclude '**/luwrain-windows.jar'
   }
-    from ("extensions/js") { into "js" }
-    from ("bundles/debian") {
+  from ("extensions/js") { into "js" }
+  from ("bundles/debian") {
   into "debian"
     filter { line ->
-        line.replace('SUBST_VER', lwrVer + '.' + commitCount)
-    }
+    line.replace('SUBST_VER', lwrVer + '.' + commitCount)
   }
-      into "$buildDir/release/dist/deb"
+  }
+  from "bundles/luwrain.ico"
+  from "bundles/luwrain.desktop"
+  into "$buildDir/release/dist/deb"
 }
 
 tasks.register('distCommon', Zip) {

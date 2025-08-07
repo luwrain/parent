@@ -5,16 +5,17 @@
 DIR="$(pwd)"
 if [ -d "$DIR/debian/luwrain-snapshot" ]; then
     DEST_DIR="$DIR/debian/luwrain-snapshot/usr/share/luwrain"
-        BIN_DIR="$DIR/debian/luwrain-snapshot/usr/bin"
+    BIN_DIR="$DIR/debian/luwrain-snapshot/usr/bin"
+    APP_DIR="$DIR/debian/luwrain-snapshot/usr/share/applications
 else
-        DEST_DIR="$DIR/debian/luwrain/usr/share/luwrain"
-        BIN_DIR="$DIR/debian/luwrain/usr/bin"
+    DEST_DIR="$DIR/debian/luwrain/usr/share/luwrain"
+    BIN_DIR="$DIR/debian/luwrain/usr/bin"
+    APP_DIR="$DIR/debian/luwrain/usr/share/applications
 fi
 
-mkdir -p  "$DEST_DIR"
-cp -r lib js "$DEST_DIR"
+mkdir -p  "$DEST_DIR" "$DEST_DIR/bin" "$BIN_DIR" "$APP_DIR"
 
-mkdir -p "$DEST_DIR/bin"
+cp -r lib js luwrain.ico "$DEST_DIR"
 cat <<EOF > "$DEST_DIR/bin/luwrain"
 #!/bin/bash -e
 # Runs the LUWRAIN platform
@@ -27,7 +28,7 @@ exec java --module-path /usr/share/openjfx/lib \
      --add-exports javafx.web/com.sun.javafx.webkit=ALL-UNNAMED  \
      -cp luwrain-base.jar \
      org.luwrain.core.Init \
-     --app-dir /usr/share/luwrain "$@"
+     --app-dir /usr/share/luwrain "\$@"
 EOF
 
 cat <<EOF > "$DEST_DIR/bin/lwr"
@@ -39,9 +40,10 @@ exec luwrain "\$@" > /dev/null 2>&1
 EOF
 chmod 755 "$DEST_DIR/bin/luwrain" "$DEST_DIR/bin/lwr"
 
-mkdir -p "$BIN_DIR"
 ln -s /usr/share/luwrain/bin/luwrain "$BIN_DIR/luwrain"
 ln -s /usr/share/luwrain/bin/lwr "$BIN_DIR/lwr"
+
+cp luwrain.desktop "$APP_DIR"
 
 
 #cd $DEST_DIR

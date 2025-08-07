@@ -5,4 +5,4 @@ Terminal=false
 Name=LUWRAIN
 Exec=luwrain
 Type=Application
-Icon=/usr/lib/luwrain/luwrain.ico
+Icon=/usr/share/luwrain/luwrain.ico
