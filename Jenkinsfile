@@ -89,6 +89,7 @@ sh "cp -r windows /build"
 
 	// Noble
         sh "mkdir -p /build/dpkg/noble"
+        sh "cp bundles/apt/apt.config.noble /build/dpkg/noble/apt.config"
         dir ("build/release/dist") { sh "cp -r deb /build/dpkg/noble/luwrain" }
         sh "docker run --rm -v /build:/build dpkg-noble bash -c \"cd /build/dpkg/noble/luwrain && dpkg-buildpackage --build=binary -us -uc\""
         dir ("/build/dpkg/noble") {
@@ -96,6 +97,8 @@ sh "cp -r windows /build"
           sh "cp *.deb dists/noble/luwrain/binary-amd64"
         }
         sh "docker run --rm -v /build:/build dpkg-noble bash -c \"cd /build/dpkg/noble/ && dpkg-scanpackages dists/noble/luwrain/binary-amd64 /dev/null > dists/noble/luwrain/binary-amd64/Packages\""
+        sh "docker run --rm -v /build:/build dpkg-noble bash -c \"cd /build/dpkg/noble/dists/noble && apt-ftparchive release -c ../../apt.config . > Release\""
+        sh 'gpg --default-key info@luwrain.org --clearsign --passphrase-fd 0 -o /build/dpkg/noble/dists/noble/InRelease /build/dpkg/noble/dists/noble/Release < /cache/dpkg-key-passphrase'
         sh "cp -r /build/dpkg/noble/dists/noble /out/_tmp/apt/dists"
       }
     }
