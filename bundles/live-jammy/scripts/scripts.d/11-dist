@@ -1,9 +1,9 @@
 
-find ./dist -name .gitignore -delete
+find /iso/dist -name .gitignore -delete
 [ -d ./dist/etc ] && cp -r ./dist/etc/. $LWRISO_ROOT/etc/ ||:
 [ -d ./dist/opt ] && cp -r ./dist/opt/. $LWRISO_ROOT/opt/ ||:
 [ -d ./dist/bin ] && cp -r ./dist/bin/. $LWRISO_ROOT/usr/local/bin/ ||:
 [ -d ./dist/sbin ] && cp -r ./dist/sbin/. $LWRISO_ROOT/sbin/ ||:
 
-install-pkg luwrain
+#install-pkg luwrain
 #ln -s luwrain-base-1.9.3.jar $LWRISO_ROOT/usr/share/luwrain/jar/luwrain-base.jar

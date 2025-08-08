@@ -5,16 +5,16 @@ THIS="${0##*/}"
 [ -z "$1" ] && echo "$THIS:no Ubuntu image given" >&2 && exit 1
 
 WORK="./tmp/image"
-CHROOT="$WORK/wrk/chroot"
+CHROOT="$WORK/iso/chroot"
 DISK="$1"
-SQUASHFSSRC="$1/casper/minimal.standard.squashfs"
+SQUASHFSSRC="$1/casper/filesystem.squashfs"
 
 echo Unpacking
 unsquashfs -d "$WORK" "$SQUASHFSSRC" > /dev/null
-mkdir -p "$WORK/wrk/disk"
-cp -r "$DISK/." "$WORK/wrk/disk"
+mkdir -p "$WORK/iso/disk"
+cp -r "$DISK/." "$WORK/iso/disk"
 unsquashfs -d "$CHROOT" "$SQUASHFSSRC" > /dev/null
-exit 0
+
 echo Preparing the image
 (
     #cp -r dist install "$WORK/iso"
