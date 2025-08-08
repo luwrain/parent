@@ -21,6 +21,14 @@ cat <<EOF > "$DEST_DIR/bin/luwrain"
 # Runs the LUWRAIN platform
 # Copyright $(date +%Y) Michael Pozhidaev <msp@luwrain.org>
 
+if [ -z "\$SPEECHD_HOST" ]; then
+    export SPEECHD_HOST=localhost
+fi
+
+if [ -z "\$SPEECHD_PORT" ]; then
+    export SPEECHD_PORT=6560
+fi
+
 cd /usr/share/luwrain/lib
 exec java --module-path /usr/share/openjfx/lib \
      --add-modules javafx.controls,javafx.web,javafx.swing \
@@ -28,7 +36,9 @@ exec java --module-path /usr/share/openjfx/lib \
      --add-exports javafx.web/com.sun.javafx.webkit=ALL-UNNAMED  \
      -cp luwrain-base.jar \
      org.luwrain.core.Init \
-     --app-dir /usr/share/luwrain "\$@"
+     --app-dir /usr/share/luwrain \
+     -s speechd \
+     "\$@"
 EOF
 
 cat <<EOF > "$DEST_DIR/bin/lwr"
