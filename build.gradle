@@ -107,7 +107,7 @@ tasks.register('copyDeps', Copy) {
   dependsOn copyJars
   duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 def ver = ["":""]
-subprojects .findAll(proj -> proj.configurations.findByName("runtimeClasspath") != null).each{ proj ->
+subprojects .findAll({ proj -> proj.configurations.findByName("runtimeClasspath") != null }).each{ proj ->
 proj.configurations.runtimeClasspath.incoming.artifactView {
 componentFilter {
 if (it .getDisplayName().indexOf("luwrain") >= 0 && it .getDisplayName().indexOf("luwrain-inlandes") < 0)
@@ -120,7 +120,7 @@ false
 }
 }.getFiles().each {}
 }
-subprojects .findAll(proj -> proj.configurations.findByName("runtimeClasspath") != null).each{ proj ->
+subprojects .findAll({ proj -> proj.configurations.findByName("runtimeClasspath") != null }).each{ proj ->
 proj.configurations.runtimeClasspath.incoming.artifactView {
 componentFilter {
 if (it.getDisplayName().indexOf("luwrain") >= 0 && it.getDisplayName().indexOf("luwrain-inlandes") < 0)
