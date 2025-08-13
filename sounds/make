@@ -12,7 +12,7 @@ fi
 
 ./startup.sh
 mv startup.wav _startup.wav
-sox -D _startup.wav startup.wav gain -10
+sox -D _startup.wav startup.wav gain -8
 
 # Areas (Des major)
 
