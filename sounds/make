@@ -22,7 +22,6 @@ sox -D _startup.wav startup.wav gain -8
 mv shutdown.wav _shutdown.wav
 sox -D _shutdown.wav shutdown.wav gain -8
 
-
 # Areas (Des major)
 
 ./area-layout.sh
@@ -37,12 +36,9 @@ sox -D .area-layout-double.wav area-layout-double.wav gain -15
 mv area-layout-triple.wav .area-layout-triple.wav
 sox -D .area-layout-triple.wav area-layout-triple.wav gain -15
 
-
-
-
 ./popup.sh
 mv popup.wav .popup.wav
-sox -D .popup.wav popup.wav gain -18
+sox -D .popup.wav popup.wav gain -20
 
 ./main-menu.sh
 mv main-menu.wav _main-menu.wav
@@ -52,12 +48,15 @@ sox -D _main-menu.wav main-menu.wav gain -17.5
 mv main-menu-item.wav .main-menu-item.wav
 sox -D .main-menu-item.wav main-menu-item.wav gain -30
 
-
+# Messages
 
 ./message.sh
 mv message.wav _message.wav
 sox -D _message.wav message.wav gain -22
 
+./error.sh
+mv error.wav _error.wav
+sox -D _error.wav error.wav gain -18
 
 ./done.sh
 mv done.wav _done.wav
@@ -66,6 +65,8 @@ sox -D _done.wav done.wav gain -22
 ./inaccessible.sh
 mv inaccessible.wav _inaccessible.wav
 sox -D _inaccessible.wav inaccessible.wav gain -25
+
+# Clipboard
 
 ./copied.sh
 mv copied.wav .copied.wav
@@ -79,7 +80,7 @@ sox -D _cut.wav cut.wav gain  -20
 mv paste.wav _paste.wav
 sox -D _paste.wav paste.wav gain  -20
 
-# List and text navigation, As major
+# List and text navigation
 
 ./list-item.sh
 mv list-item.wav _list-item.wav
@@ -117,3 +118,5 @@ for i in items-above items-below lines-above lines-below; do
     cp bounds.wav no-$i.wav
 done
 chmod 644 *.wav
+
+cp *.wav ../core/src/main/resources/org/luwrain/core/sound

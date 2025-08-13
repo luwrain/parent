@@ -32,7 +32,7 @@ pipeline {
       steps {
         dir ('sounds') {
           sh './make'
-	  sh 'cp *.wav ../core/src/main/resources/org/luwrain/core/sound'
+	  //sh 'cp *.wav ../core/src/main/resources/org/luwrain/core/sound'
         }
         sh 'gradle build'
       }
