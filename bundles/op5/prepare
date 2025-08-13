@@ -1,0 +1,42 @@
+#!/bin/bash -e
+# Ilia Paschuk <ilusha.paschuk@gmail.com>
+# Alexander Panshin <alexanderpanshin@gmail.com>
+# Michael Pozhidaev <msp@luwrain.org>
+
+USER=msp
+
+curl -s -o /usr/share/keyrings/luwrain-dpkg.gpg 'https://download.luwrain.org/gpg/dpkg.apt.gpg'
+
+#cat <<EOF > /etc/apt/sources.list.d/luwrain.list
+#deb https://download.luwrain.org/repo/ luwrain bookworm
+#EOF
+
+mkdir /etc/luwrain
+cat <<EOF > /etc/luwrain/system-start
+#!/bin/bash -e
+# Starts The starting script to run LUWRAIN as a regular user
+
+USER=$USER
+
+#bt-agent -d --capability=NoInputNoOutput 
+/bin/su - \$USER -c /usr/bin/startx
+EOF
+chmod 755 /etc/luwrain/system-start
+
+systemctl set-default multi-user.target
+mkdir -p /etc/systemd/system/getty@tty1.service.d
+cat <<EOF > /etc/systemd/system/getty@tty1.service.d/override.conf
+[Service]
+Environment="LANG=en_US.UTF-8"
+ExecStart=
+ExecStart=-/bin/openvt -c 1 -w -s -f /etc/luwrain/system-start
+Type=idle
+EOF
+
+pushd /etc/systemd > /dev/null
+sed -i -e s/'^.*NAutoVTs.*$'/'NAutoVTs=0'/  logind.conf
+popd > /dev/null
+systemctl enable getty@tty1
+
+# anybody  in Xwrapper.config
+

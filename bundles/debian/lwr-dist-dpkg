@@ -37,7 +37,7 @@ exec java --module-path /usr/share/openjfx/lib \
      -cp luwrain-base.jar \
      org.luwrain.core.Init \
      --app-dir /usr/share/luwrain \
-     -s speechd \
+     --def-speech speechd \
      "\$@"
 EOF
 
