@@ -3,7 +3,7 @@
 # The LUWRAIN Project, GPL v.3
 # E major
 
-INS=12
+INS=13
 
 ./melody.sh $INS 120 \
 	    76 50 80 50 71 300 | csvmidi - > melody.midi

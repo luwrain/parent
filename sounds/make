@@ -2,6 +2,10 @@
 # Copyright 2025 Michael Pozhidaev <msp@luwrain.org>
 # The LUWRAIN Project, GPL v.3
 
+# Lists and texts: As major
+# Messages: E major
+# Areas: Des major
+
 if [ "$1" != --no-old ]; then
     rm -f *.wav
     wget -q https://download.luwrain.org/compilation/sounds.tar.xz
@@ -13,6 +17,11 @@ fi
 ./startup.sh
 mv startup.wav _startup.wav
 sox -D _startup.wav startup.wav gain -8
+
+./shutdown.sh
+mv shutdown.wav _shutdown.wav
+sox -D _shutdown.wav shutdown.wav gain -8
+
 
 # Areas (Des major)
 
@@ -33,7 +42,7 @@ sox -D .area-layout-triple.wav area-layout-triple.wav gain -15
 
 ./popup.sh
 mv popup.wav .popup.wav
-sox -D .popup.wav popup.wav gain -22
+sox -D .popup.wav popup.wav gain -18
 
 ./main-menu.sh
 mv main-menu.wav _main-menu.wav
