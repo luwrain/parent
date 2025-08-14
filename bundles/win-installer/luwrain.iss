@@ -6,19 +6,18 @@ AppVersion=SUBST_VER
 AppVerName=LUWRAIN v.SUBST_VER
 AppPublisher=The LUWRAIN Project
 AppComments=A platform for the creation of apps for the blind and partially-sighted
-AppCopyright=Copyright (C) 2012-2022 Michael Pozhidaev and other LUWRAIN developers
-AppPublisherURL=http://luwrain.org
-;AppSupportURL=http://java.com/
-;AppUpdatesURL=http://java.com/
-;{localappdata}\Luwrain
+AppCopyright=Copyright (C) 2012-2025 Michael Pozhidaev and other LUWRAIN developers
+AppPublisherURL=https://luwrain.org
 DefaultDirName={code:GetDefaultDir}
+DefaultGroupName=LUWRAIN
+
 DisableStartupPrompt=Yes
 DisableDirPage=Yes
 DisableProgramGroupPage=Yes
 DisableReadyPage=Yes
 DisableFinishedPage=Yes
 DisableWelcomePage=Yes
-DefaultGroupName=LUWRAIN
+
 ;Optional License
 LicenseFile=
 ;WinXP or above
@@ -27,9 +26,9 @@ OutputBaseFilename=luwrain-SUBST_VER
 Compression=lzma2/normal
 SolidCompression=yes
 PrivilegesRequired=lowest
-SetupIconFile=Luwrain\Luwrain.ico
-UninstallDisplayIcon={app}\Luwrain.ico
-UninstallDisplayName=Luwrain
+SetupIconFile=luwrain\luwrain.ico
+UninstallDisplayIcon={app}\luwrain.ico
+UninstallDisplayName=LUWRAIN
 WizardImageStretch=No
 WizardSmallImageFile=setup-icon.bmp
 ArchitecturesInstallIn64BitMode=
@@ -40,16 +39,17 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Files]
 ;Source: "Luwrain\Luwrain.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "Luwrain\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "luwrain\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
-Name: "{group}\Luwrain"; Filename: "%ComSpec%"; Parameters: "/c start {code:GetDefaultDir}\Luwrain.exe"; WorkingDir: "{code:GetDefaultDir}"; IconFilename: "{app}\Luwrain.ico"; Check: returnTrue()
-Name: "{autodesktop}\Luwrain"; Filename: "%ComSpec%"; Parameters: "/c start {code:GetDefaultDir}\Luwrain.exe"; WorkingDir: "{code:GetDefaultDir}"; IconFilename: "{app}\Luwrain.ico"; Check: returnTrue()
+;Name: "{group}\Luwrain"; Filename: "%ComSpec%"; Parameters: "/c start {code:GetDefaultDir}\Luwrain.exe"; WorkingDir: "{code:GetDefaultDir}"; IconFilename: "{app}\Luwrain.ico"; Check: returnTrue()
+;Name: "{autodesktop}\LUWRAIN"; Filename: "%ComSpec%"; Parameters: "/c start {code:GetDefaultDir}\Luwrain.exe"; WorkingDir: "{code:GetDefaultDir}"; IconFilename: "{app}\Luwrain.ico"; Check: returnTrue()
+Name: "{autodesktop}\LUWRAIN"; Filename: "{app}\jdk\bin\javaw"; Parameters: "-cp lib\luwrain-base.jar org.luwrain-core.Init --app-dir {app}"; WorkingDir: "{app}"; IconFilename: "{app}\luwrain.ico"
 
-[Run]
-Filename: "{code:GetDefaultDir}\Luwrain.exe"; Parameters: "-Xappcds:generatecache"; Check: returnFalse()
-Filename: "{code:GetDefaultDir}\Luwrain.exe"; Description: "{cm:LaunchProgram,Luwrain}"; Flags: nowait postinstall skipifsilent; Check: returnTrue()
-Filename: "{code:GetDefaultDir}\Luwrain.exe"; Parameters: "-install -svcName ""Luwrain"" -svcDesc ""Luwrain"" -mainExe ""Luwrain.exe""  "; Check: returnFalse()
+;[Run]
+;Filename: "{code:GetDefaultDir}\Luwrain.exe"; Parameters: "-Xappcds:generatecache"; Check: returnFalse()
+;Filename: "{code:GetDefaultDir}\Luwrain.exe"; Description: "{cm:LaunchProgram,Luwrain}"; Flags: nowait postinstall skipifsilent; Check: returnTrue()
+;Filename: "{code:GetDefaultDir}\Luwrain.exe"; Parameters: "-install -svcName ""Luwrain"" -svcDesc ""Luwrain"" -mainExe ""Luwrain.exe""  "; Check: returnFalse()
 
 [UninstallRun]
 Filename: "{code:GetDefaultDir}\Luwrain.exe "; Parameters: "-uninstall -svcName Luwrain -stopOnUninstall"; Check: returnFalse()
@@ -88,7 +88,7 @@ end;
 function GetDefaultDir(def: string): string;
 begin
     // {localappdata}\Luwrain
-    Result := GetShortName(GetEnv('localappdata')+'\Luwrain');
+    Result := GetEnv('localappdata')+'\LUWRAIN';
 end;
 
 function InitializeSetup(): Boolean;
