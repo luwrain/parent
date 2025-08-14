@@ -58,10 +58,15 @@ pipeline {
         dir '/cache/javafx-win', {
           sh 'for i in base controls graphics media swing fxml web; do if ! [ -e javafx-$i-17-win.jar ]; then wget -q https://mvn-mirror.gitverse.ru/org/openjfx/javafx-$i/17/javafx-$i-17-win.jar; fi; done'
         }
-	        dir ("build/release/dist") {
+        dir ("build/release/dist") {
 sh "cp -r windows /build"
         }
 	sh 'chmod 777 /build/windows'
+	dir '/build/windows/luwrain', {
+	sh 'cp /cache/javafx-win/* lib '
+	}
+	sh 'tar -c /build/windows/ > /cache/win-debug.tar'
+	
         sh 'docker run --rm -i -v /build/windows:/work amake/innosetup luwrain.iss'
 		dir ("/build/windows/Output") {
 		sh "cp *.exe /out/_tmp/bundles"

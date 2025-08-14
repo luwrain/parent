@@ -155,7 +155,7 @@ tasks.register('distFilesWin', Copy) {
   duplicatesStrategy = DuplicatesStrategy.EXCLUDE
   from ("$buildDir/release/lib") {
   into "luwrain/lib"
-      exclude '**/*javafx*.jar'
+      exclude '**/javafx-*.jar'
             exclude '**/*linux*.jar'
   }
     from ("extensions/js") { into "luwrain/js" }
