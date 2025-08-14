@@ -38,7 +38,7 @@ sox -D .area-layout-triple.wav area-layout-triple.wav gain -15
 
 ./popup.sh
 mv popup.wav .popup.wav
-sox -D .popup.wav popup.wav gain -20
+sox -D .popup.wav popup.wav gain -24
 
 ./main-menu.sh
 mv main-menu.wav _main-menu.wav

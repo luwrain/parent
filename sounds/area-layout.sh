@@ -3,7 +3,7 @@
 # The LUWRAIN Project, GPL v.3
 # Des major
 
-INS=78
+INS=91
 VOLUME=100
 DUR=50
 
