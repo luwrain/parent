@@ -39,7 +39,7 @@ ArchitecturesInstallIn64BitMode=
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Files]
-Source: "Luwrain\Luwrain.exe"; DestDir: "{app}"; Flags: ignoreversion
+;Source: "Luwrain\Luwrain.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "Luwrain\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]

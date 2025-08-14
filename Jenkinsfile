@@ -64,6 +64,7 @@ sh "cp -r windows /build"
 	sh 'chmod 777 /build/windows'
 	dir '/build/windows/luwrain', {
 	sh 'cp /cache/javafx-win/* lib '
+	sh 'cp -r /cache/jre .'
 	}
 	sh 'tar -c /build/windows/ > /cache/win-debug.tar'
 	
