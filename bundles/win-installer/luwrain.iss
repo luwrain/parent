@@ -44,7 +44,7 @@ Source: "luwrain\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs creat
 [Icons]
 ;Name: "{group}\Luwrain"; Filename: "%ComSpec%"; Parameters: "/c start {code:GetDefaultDir}\Luwrain.exe"; WorkingDir: "{code:GetDefaultDir}"; IconFilename: "{app}\Luwrain.ico"; Check: returnTrue()
 ;Name: "{autodesktop}\LUWRAIN"; Filename: "%ComSpec%"; Parameters: "/c start {code:GetDefaultDir}\Luwrain.exe"; WorkingDir: "{code:GetDefaultDir}"; IconFilename: "{app}\Luwrain.ico"; Check: returnTrue()
-Name: "{autodesktop}\LUWRAIN"; Filename: "{app}\jdk\bin\javaw"; Parameters: "-cp lib\luwrain-base.jar org.luwrain-core.Init --app-dir {app}"; WorkingDir: "{app}"; IconFilename: "{app}\luwrain.ico"
+Name: "{autodesktop}\LUWRAIN"; Filename: "{app}\jre\bin\javaw.exe"; Parameters: "-cp lib\luwrain-base.jar org.luwrain-core.Init --app-dir {app}"; WorkingDir: "{app}"; IconFilename: "{app}\luwrain.ico"
 
 ;[Run]
 ;Filename: "{code:GetDefaultDir}\Luwrain.exe"; Parameters: "-Xappcds:generatecache"; Check: returnFalse()
