@@ -34,7 +34,7 @@ ext.libraries = [
   ],
 
   graalvm: [
-    "org.graalvm.js:js:23.0.0"
+    "org.graalvm.js:js:23.0.9"
   ],
 
 h2: [
