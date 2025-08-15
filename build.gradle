@@ -159,12 +159,12 @@ tasks.register('distFilesWin', Copy) {
             exclude '**/*linux*.jar'
   }
     from ("extensions/js") { into "luwrain/js" }
-    from ("bundles/win-installer") {
-//  into "debian"
+    from ("bundles/win-installer/luwrain.iss") {
     filter { line ->
         line.replace('SUBST_VER', lwrVer + '.' + commitCount)
     }
   }
+    from ("bundles/win-installer/setup-icon.bmp");
     from ("bundles/luwrain.ico") {
   into "luwrain"
   }

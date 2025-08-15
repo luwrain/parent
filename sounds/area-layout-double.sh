@@ -7,7 +7,7 @@ INS=91
 VOLUME=100
 DUR=90
 
-./melody.sh $INS $VOLUME 61 $DUR 77 $DUR | csvmidi - > melody.midi && timidity -Ow melody.midi > /dev/null && mv melody.wav .melody-src.wav
+./melody.sh $INS $VOLUME 77 $DUR 73 $DUR | csvmidi - > melody.midi && timidity -Ow melody.midi > /dev/null && mv melody.wav .melody-src.wav
 sox -D .melody-src.wav  -r 48000 -c 1 -b 16 .melody-pre.wav bass 5
 sox -D --norm=-0.1 .melody-pre.wav -c 2 .melody.wav reverb 50  fade t 0 2.5 2.5
 
