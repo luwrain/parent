@@ -1,3 +1,8 @@
+      //def winJdk = 'https://download.java.net/java/GA/jdk24.0.1/24a58e0e276943138bf3e963e6291ac2/9/GPL/openjdk-24.0.1_windows-x64_bin.zip';
+      def winJdk = 'https://download.java.net/openjdk/jdk21/ri/openjdk-21+35_windows-x64_bin.zip';
+
+
+
 pipeline {
   agent any
   triggers { pollSCM('* * * * *') }
@@ -49,8 +54,6 @@ pipeline {
 
     stage('win') {
       steps {
-      //def winJdk = 'https://download.java.net/java/GA/jdk24.0.1/24a58e0e276943138bf3e963e6291ac2/9/GPL/openjdk-24.0.1_windows-x64_bin.zip';
-      def winJdk = 'https://download.java.net/openjdk/jdk21/ri/openjdk-21+35_windows-x64_bin.zip';
       sh "gradle distFilesWin"
         dir ("/cache") {
           sh "if ! [ -d jdk ]; then wget -q $winJdk; unzip *.zip; rm -f *.zip; mv jdk-* jdk; fi"
