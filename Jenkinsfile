@@ -49,9 +49,11 @@ pipeline {
 
     stage('win') {
       steps {
+      //def winJdk = 'https://download.java.net/java/GA/jdk24.0.1/24a58e0e276943138bf3e963e6291ac2/9/GPL/openjdk-24.0.1_windows-x64_bin.zip';
+      def winJdk = 'https://download.java.net/openjdk/jdk21/ri/openjdk-21+35_windows-x64_bin.zip';
       sh "gradle distFilesWin"
         dir ("/cache") {
-          sh "if ! [ -d jdk ]; then wget https://download.java.net/java/GA/jdk24.0.1/24a58e0e276943138bf3e963e6291ac2/9/GPL/openjdk-24.0.1_windows-x64_bin.zip; unzip *.zip; rm -f *.zip; mv jdk-* jdk; fi"
+          sh "if ! [ -d jdk ]; then wget -q $winJdk; unzip *.zip; rm -f *.zip; mv jdk-* jdk; fi"
           sh "if ! [ -d jre ]; then docker run --rm -v /cache:/work ich777/winehq-baseimage bash -c \"cd /work/jdk/bin && wine jlink.exe --output Z:/work/jre --add-modules java.base,java.compiler,java.datatransfer,java.desktop,java.instrument,java.logging,java.management,java.management.rmi,java.naming,java.net.http,java.prefs,java.rmi,java.scripting,java.se,java.security.jgss,java.security.sasl,java.smartcardio,java.sql,java.sql.rowset,java.transaction.xa,java.xml,java.xml.crypto,jdk.accessibility,jdk.attach,jdk.charsets,jdk.crypto.cryptoki,jdk.crypto.ec,jdk.dynalink,jdk.editpad,jdk.hotspot.agent,jdk.httpserver,jdk.incubator.vector,jdk.internal.ed,jdk.internal.jvmstat,jdk.internal.le,jdk.internal.opt,jdk.internal.vm.ci,jdk.jcmd,jdk.jconsole,jdk.jdeps,jdk.jdi,jdk.jdwp.agent,jdk.jfr,jdk.jshell,jdk.jsobject,jdk.jstatd,jdk.localedata,jdk.management,jdk.management.agent,jdk.management.jfr,jdk.naming.dns,jdk.naming.rmi,jdk.net,jdk.nio.mapmode,jdk.sctp,jdk.security.auth,jdk.security.jgss,jdk.unsupported,jdk.unsupported.desktop,jdk.xml.dom,jdk.zipfs\"; fi"
         }
         sh 'mkdir -p /cache/javafx-win'
