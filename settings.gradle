@@ -91,6 +91,10 @@ project (':luwrain-speech-voiceman').projectDir = file('extensions/voiceman')
 include ('luwrain-speech-rhvoice')
 project (':luwrain-speech-rhvoice').projectDir = file('extensions/rhvoice')
 
+include ('luwrain-speech-mssapi')
+project (':luwrain-speech-mssapi').projectDir = file('extensions/mssapi')
+
+
 include ('luwrain-speech-speechd')
 project (':luwrain-speech-speechd').projectDir = file('extensions/speechd')
 
