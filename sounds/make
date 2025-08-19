@@ -22,6 +22,11 @@ sox -D _startup.wav startup.wav gain -8
 mv shutdown.wav _shutdown.wav
 sox -D _shutdown.wav shutdown.wav gain -8
 
+./welcome.sh
+mv welcome.wav _welcome.wav
+sox -D _welcome.wav welcome.wav gain -5
+
+
 # Areas (Des major)
 
 ./area-layout.sh

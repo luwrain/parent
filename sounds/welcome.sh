@@ -84,6 +84,6 @@ sox -D --norm=-30 _high1.wav -r 48000 _high.wav pad 0.5 \
     REVERB 100 100 100 100 50 10 \
 fade l 0 7 7
 
-sox -D _drum.wav _harm.wav _noise.wav _high.wav _note1.wav _note2.wav -m _startup.wav
-sox -D --norm=-0.1 _startup.wav -r 44100 startup.wav fade q 0 4.3 4
+sox -D _drum.wav _harm.wav _noise.wav _high.wav _note1.wav _note2.wav -m _welcome.wav
+sox -D --norm=-0.1 _welcome.wav -r 44100 welcome.wav fade q 0 4.3 4
 rm -f *.midi _*.wav
