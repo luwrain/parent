@@ -16,11 +16,11 @@ fi
 
 ./startup.sh
 mv startup.wav _startup.wav
-sox -D _startup.wav startup.wav gain -8
+sox -D _startup.wav startup.wav gain -3
 
 ./shutdown.sh
 mv shutdown.wav _shutdown.wav
-sox -D _shutdown.wav shutdown.wav gain -8
+sox -D _shutdown.wav shutdown.wav gain -3
 
 ./welcome.sh
 mv welcome.wav _welcome.wav
