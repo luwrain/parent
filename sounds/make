@@ -103,10 +103,14 @@ sox -D .marked-list-item.wav marked-list-item.wav gain  -25
 mv desktop-item.wav .desktop-item.wav
 sox -D .desktop-item.wav desktop-item.wav gain  -20
 
-
 ./bounds.sh
 mv bounds.wav _bounds.wav
 sox -D _bounds.wav bounds.wav gain -10
+
+./no-content.sh
+mv no-content.wav _no-content.wav
+sox -D _no-content.wav no-content.wav gain -20
+
 
 # misc
 
