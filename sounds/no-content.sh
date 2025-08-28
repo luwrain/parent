@@ -12,16 +12,16 @@ cat <<EOF > $NAME.csv
 1, 0, Tempo, 500000
 1, 0, End_track
 2, 0, Start_track
-2, 0, Instrument_name_t, "MIDI instrument 82"
-2, 0, Program_c, 1, 82
-2, 0, Note_on_c, 1, 56, 60
-2, 170, Note_off_c, 1, 56, 0
-2, 180, Note_on_c, 1, 56, 60
-2, 350, Note_off_c, 1, 56, 0
+2, 0, Instrument_name_t, "MIDI instrument 106"
+2, 0, Program_c, 1, 106
+2, 0, Note_on_c, 1, 80, 60
+2, 170, Note_off_c, 1, 80, 0
+2, 180, Note_on_c, 1, 80, 60
+2, 350, Note_off_c, 1, 80, 0
 2, 350, End_track
 3, 0, Start_track
-3, 0, Instrument_name_t, "MIDI instrument 82"
-3, 0, Program_c, 2, 82
+3, 0, Instrument_name_t, "MIDI instrument 106"
+3, 0, Program_c, 2, 106
 3, 0, Note_on_c, 2, 63, 60
 3, 170, Note_off_c, 2, 63, 0
 3, 180, Note_on_c, 2, 63, 60

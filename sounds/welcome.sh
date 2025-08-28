@@ -11,11 +11,11 @@ BASS=7
 
 NOTE=30
 
-INST=11
+INST=88
 DUR=300
 
-NOTE1_VOL=-15
-NOTE2_VOL=-18
+NOTE1_VOL=-16
+NOTE2_VOL=-20
 
 cat <<EOF | csvmidi > drum.midi
 0, 0, Header, 1, 4, 480

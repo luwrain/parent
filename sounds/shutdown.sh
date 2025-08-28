@@ -18,31 +18,25 @@ cat <<EOF > $NAME.csv
 2, 150, Note_off_c, 1, 51, 0
 2, 150, Note_on_c, 1, 43, 48
 2, 300, Note_off_c, 1, 43, 0
-2, 300, Note_on_c, 1, 38, 36
-2, 450, Note_off_c, 1, 38, 0
-2, 450, Note_on_c, 1, 39, 72
-2, 600, Note_off_c, 1, 39, 0
-2, 600, Note_on_c, 1, 27, 72
-2, 800, Note_off_c, 1, 27, 0
-2, 800, End_track
+2, 300, End_track
 3, 0, Start_track
-3, 0, Instrument_name_t, "MIDI instrument 82"
-3, 0, Program_c, 2, 82
-3, 600, Note_on_c, 2, 51, 48
-3, 650, Note_off_c, 2, 51, 0
-3, 650, End_track
+3, 0, Instrument_name_t, "MIDI instrument 91"
+3, 0, Program_c, 2, 91
+3, 320, Note_on_c, 2, 51, 48
+3, 370, Note_off_c, 2, 51, 0
+3, 370, End_track
 4, 0, Start_track
-4, 0, Instrument_name_t, "MIDI instrument 82"
-4, 0, Program_c, 3, 82
-4, 600, Note_on_c, 3, 67, 48
-4, 650, Note_off_c, 3, 67, 0
-4, 650, End_track
+4, 0, Instrument_name_t, "MIDI instrument 91"
+4, 0, Program_c, 3, 91
+4, 320, Note_on_c, 3, 67, 48
+4, 370, Note_off_c, 3, 67, 0
+4, 370, End_track
 5, 0, Start_track
-5, 0, Instrument_name_t, "MIDI instrument 82"
-5, 0, Program_c, 4, 82
-5, 600, Note_on_c, 4, 70, 48
-5, 650, Note_off_c, 4, 70, 0
-5, 650, End_track
+5, 0, Instrument_name_t, "MIDI instrument 91"
+5, 0, Program_c, 4, 91
+5, 320, Note_on_c, 4, 70, 48
+5, 370, Note_off_c, 4, 70, 0
+5, 370, End_track
 0, 0, End_of_file
 EOF
 
