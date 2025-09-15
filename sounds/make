@@ -31,7 +31,7 @@ sox -D _welcome.wav welcome.wav gain -10
 
 ./area-layout.sh
 mv area-layout.wav .area-layout.wav
-sox -D .area-layout.wav area-layout.wav gain -15
+sox -D .area-layout.wav area-layout.wav gain -25
 
 ./area-layout-double.sh
 mv area-layout-double.wav .area-layout-double.wav
@@ -43,7 +43,7 @@ sox -D .area-layout-triple.wav area-layout-triple.wav gain -15
 
 ./popup.sh
 mv popup.wav .popup.wav
-sox -D .popup.wav popup.wav gain -25
+sox -D .popup.wav popup.wav gain -23
 
 ./main-menu.sh
 mv main-menu.wav _main-menu.wav
@@ -57,7 +57,7 @@ sox -D .main-menu-item.wav main-menu-item.wav gain -30
 
 ./message.sh
 mv message.wav _message.wav
-sox -D _message.wav message.wav gain -22
+sox -D _message.wav message.wav gain -20
 
 ./error.sh
 mv error.wav _error.wav

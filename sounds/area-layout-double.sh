@@ -16,7 +16,7 @@ sox -D .high-src.wav  -r 48000 -c 1 -b 16 .high-pre.wav
 sox -D --norm=-5  .high-pre.wav -c 2 .high.wav reverb 70  fade t 0 1.5 1.5
 
 sox -D -n -r 48000 -b 16 -c 2 .harm.wav \
-    synth 10 sin %-19 sin %-15 sin %-12 gain -25  pad 0.10 \
+    synth 10 sin %-20 sin %-17 sin %-13 gain -25  pad 0.10 \
     fade t 0.1 1.4 1.3 
 
 sox -D .melody.wav .high.wav .harm.wav -m .pre.wav
