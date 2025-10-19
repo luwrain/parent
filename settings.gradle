@@ -53,6 +53,10 @@ project (':luwrain-app-contacts').projectDir = file('pim/app-contacts')
 include ('luwrain-app-gpt')
 project (':luwrain-app-gpt').projectDir = file('io/app-gpt')
 
+include ('luwrain-app-translate')
+project (':luwrain-app-translate').projectDir = file('io/app-translate')
+
+
 //include ('luwrain-app-download')
 //project (':luwrain-app-download').projectDir = file('io/app-download')
 

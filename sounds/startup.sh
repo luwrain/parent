@@ -28,7 +28,7 @@ cat <<EOF > $NAME.csv
 3, 0, Start_track
 3, 0, Instrument_name_t, "MIDI instrument 32"
 3, 0, Program_c, 2, 32
-3, 480, Note_on_c, 2, 51, 96
+3, 480, Note_on_c, 2, 51, 90
 3, 680, Note_off_c, 2, 51, 0
 3, 680, Note_on_c, 2, 39, 90
 3, 980, Note_off_c, 2, 39, 0
@@ -38,7 +38,7 @@ cat <<EOF > $NAME.csv
 4, 0, Start_track
 4, 0, Instrument_name_t, "MIDI instrument 85"
 4, 0, Program_c, 3, 85
-4, 0, Note_on_c, 3, 51, 48
+4, 0, Note_on_c, 3, 51, 36
 4, 100, Note_off_c, 3, 51, 0
 4, 100, End_track
 0, 0, End_of_file
@@ -46,7 +46,7 @@ EOF
 
 csvmidi < $NAME.csv > $NAME.midi && rm -f $NAME.csv
 timidity -Ow $NAME.midi > /dev/null && rm -f $NAME.midi
-sox -D $NAME.wav -c 1 .$NAME.wav && rm -f $NAME.wav && sox -D .$NAME.wav -c 2 -r 48000 $NAME.wav && rm -f .$NAME.wav
+sox $NAME.wav -c 1 .$NAME.wav && rm -f $NAME.wav && sox -D .$NAME.wav -c 2 -r 256000 $NAME.wav && rm -f .$NAME.wav
 sox -D $NAME.wav .$NAME.wav BASS 10 && rm -f $NAME.wav && mv .$NAME.wav $NAME.wav
 sox -D $NAME.wav .$NAME.wav REVERB 65 && rm -f $NAME.wav && mv .$NAME.wav $NAME.wav
-sox -D --norm=-0.100 $NAME.wav .$NAME.wav && rm -f $NAME.wav && mv .$NAME.wav $NAME.wav
+sox -D --norm=-0.1 $NAME.wav .$NAME.wav && rm -f $NAME.wav && mv .$NAME.wav $NAME.wav

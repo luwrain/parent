@@ -2,6 +2,10 @@
 # Copyright 2025 Michael Pozhidaev <msp@luwrain.org>
 # The LUWRAIN Project, GPL v.3
 
+RATE=48000
+
+
+
 # Lists and texts: As major
 # Messages: E major
 # Areas: Des major
@@ -16,22 +20,22 @@ fi
 
 ./startup.sh
 mv startup.wav _startup.wav
-sox -D _startup.wav startup.wav gain -3
+sox _startup.wav -r $RATE startup.wav gain -3
 
 ./shutdown.sh
 mv shutdown.wav _shutdown.wav
-sox -D _shutdown.wav shutdown.wav gain -10
+sox _shutdown.wav -r $RATE shutdown.wav gain -10
 
 ./welcome.sh
 mv welcome.wav _welcome.wav
-sox -D _welcome.wav welcome.wav gain -10
+sox _welcome.wav -r $RATE welcome.wav gain -8
 
 
 # Areas (Des major)
 
 ./area-layout.sh
 mv area-layout.wav .area-layout.wav
-sox -D .area-layout.wav area-layout.wav gain -25
+sox .area-layout.wav -r $RATE area-layout.wav gain -25
 
 ./area-layout-double.sh
 mv area-layout-double.wav .area-layout-double.wav
@@ -57,7 +61,7 @@ sox -D .main-menu-item.wav main-menu-item.wav gain -30
 
 ./message.sh
 mv message.wav _message.wav
-sox -D _message.wav message.wav gain -20
+sox _message.wav -r $RATE message.wav gain -20
 
 ./error.sh
 mv error.wav _error.wav
