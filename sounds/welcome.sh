@@ -85,6 +85,5 @@ sox  --norm=-25 _high1.wav -r 256000 .high.wav pad 0.5 \
     fade l 0 7.5 7.5
 
 sox -D .drum.wav .harm.wav _noise.wav .high.wav _note1.wav _note2.wav -m _welcome.wav
-file _welcome.wav
 sox -D --norm=-0.1 _welcome.wav welcome.wav fade q 0 4.3 4
 rm -f *.midi _*.wav .*.wav
