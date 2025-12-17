@@ -46,7 +46,7 @@ EOF
 
 csvmidi < $NAME.csv > $NAME.midi && rm -f $NAME.csv
 timidity -Ow $NAME.midi > /dev/null && rm -f $NAME.midi
-sox -D $NAME.wav -c 1 .$NAME.wav && rm -f $NAME.wav && sox -D .$NAME.wav -c 2 -r 48000 $NAME.wav && rm -f .$NAME.wav
+sox -D $NAME.wav -c 1 .$NAME.wav && rm -f $NAME.wav && sox -D .$NAME.wav -c 2 -r 256000 -b 32  $NAME.wav && rm -f .$NAME.wav
 sox -D $NAME.wav .$NAME.wav BASS 5 && rm -f $NAME.wav && mv .$NAME.wav $NAME.wav
 sox -D $NAME.wav .$NAME.wav REVERB 20 && rm -f $NAME.wav && mv .$NAME.wav $NAME.wav
 sox -D --norm=-0.100 $NAME.wav .$NAME.wav && rm -f $NAME.wav && mv .$NAME.wav $NAME.wav
