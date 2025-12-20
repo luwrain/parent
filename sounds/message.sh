@@ -3,7 +3,7 @@
 # Copyright 2012-2025 Michael Pozhidaev <msp@luwrain.org>
 # E major
 
-INS=13
+INS=92
 
 ./melody.sh $INS 120 \
 	    76 50 80 50 71 300 | csvmidi - > melody.midi
