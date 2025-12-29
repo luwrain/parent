@@ -19,6 +19,10 @@ project(":luwrain-app-linux-man").projectDir = file("platform/app-linux-man")
 include ('luwrain-app-linux-rec')
 project(":luwrain-app-linux-rec").projectDir = file("platform/app-linux-rec")
 
+include ('luwrain-app-linux-term')
+project(":luwrain-app-linux-term").projectDir = file("platform/app-linux-term")
+
+
 
 include ('luwrain-windows')
 project(":luwrain-windows").projectDir = file("platform/windows")
@@ -78,6 +82,10 @@ project (':luwrain-app-news').projectDir = file('pim/app-news')
 include ('luwrain-app-notepad')
 project (':luwrain-app-notepad').projectDir = file('base/app-notepad')
 
+include ('luwrain-app-github')
+project (':luwrain-app-github').projectDir = file('io/app-github')
+
+
 include ('luwrain-app-opds')
 project (':luwrain-app-opds').projectDir = file('io/app-opds')
 
@@ -92,6 +100,10 @@ project (':luwrain-app-wiki').projectDir = file('io/app-wiki')
 
 include ('luwrain-app-vk')
 project (':luwrain-app-vk').projectDir = file('io/app-vk')
+
+include ('luwrain-player-mp3')
+project (':luwrain-player-mp3').projectDir = file('extensions/plmp3')
+
 
 include ('luwrain-speech-voiceman')
 project (':luwrain-speech-voiceman').projectDir = file('extensions/voiceman')

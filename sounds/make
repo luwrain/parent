@@ -4,8 +4,7 @@
 
 RATE=48000
 
-
-
+# startup and shutdown es major
 # Lists and texts: As major
 # Messages: E major
 # Areas: Des major
@@ -20,26 +19,26 @@ fi
 
 ./startup.sh
 mv startup.wav _startup.wav
-sox _startup.wav -r $RATE startup.wav gain -3
+sox _startup.wav -r $RATE -b 16 -e signed-integer startup.wav gain -5
 
 ./shutdown.sh
 mv shutdown.wav _shutdown.wav
-sox _shutdown.wav -r $RATE shutdown.wav gain -10
+sox _shutdown.wav -r $RATE -b 16 -e signed-integer shutdown.wav gain -5
 
 ./welcome.sh
 mv welcome.wav _welcome.wav
-sox _welcome.wav -r $RATE welcome.wav gain -8
+sox _welcome.wav -r $RATE -b 16 welcome.wav gain -8
 
 
 # Areas (Des major)
 
 ./area-layout.sh
 mv area-layout.wav .area-layout.wav
-sox .area-layout.wav -r $RATE area-layout.wav gain -25
+sox .area-layout.wav -r $RATE -b 16 area-layout.wav gain -25
 
 ./area-layout-double.sh
 mv area-layout-double.wav .area-layout-double.wav
-sox -D .area-layout-double.wav area-layout-double.wav gain -15
+sox -D .area-layout-double.wav -r $RATE -b 16 area-layout-double.wav gain -15
 
 ./area-layout-triple.sh
 mv area-layout-triple.wav .area-layout-triple.wav
@@ -47,7 +46,7 @@ sox -D .area-layout-triple.wav area-layout-triple.wav gain -15
 
 ./popup.sh
 mv popup.wav .popup.wav
-sox -D .popup.wav popup.wav gain -23
+sox -D .popup.wav -r $RATE -b 16 -e signed-integer popup.wav gain -20
 
 ./main-menu.sh
 mv main-menu.wav _main-menu.wav
@@ -61,11 +60,11 @@ sox -D .main-menu-item.wav main-menu-item.wav gain -30
 
 ./message.sh
 mv message.wav _message.wav
-sox _message.wav -r $RATE message.wav gain -20
+sox _message.wav -r $RATE -b 16 -e signed-integer message.wav gain -25
 
 ./error.sh
 mv error.wav _error.wav
-sox -D _error.wav error.wav gain -18
+sox -D _error.wav -r $RATE -b 16 -e signed-integer error.wav gain -13
 
 ./done.sh
 mv done.wav _done.wav
@@ -73,13 +72,13 @@ sox -D _done.wav done.wav gain -22
 
 ./inaccessible.sh
 mv inaccessible.wav _inaccessible.wav
-sox -D _inaccessible.wav inaccessible.wav gain -25
+sox -D _inaccessible.wav -r $RATE -b 16 inaccessible.wav gain -25
 
 # Clipboard
 
 ./copied.sh
 mv copied.wav .copied.wav
-sox -D .copied.wav copied.wav gain  -20
+sox -D .copied.wav -r $RATE -b 16 copied.wav gain  -20
 
 ./cut.sh
 mv cut.wav _cut.wav
@@ -93,7 +92,7 @@ sox -D _paste.wav paste.wav gain  -20
 
 ./list-item.sh
 mv list-item.wav _list-item.wav
-sox -D _list-item.wav list-item.wav gain  -12
+sox -D _list-item.wav -r $RATE -b 16 list-item.wav gain  -12
 
 ./empty-line.sh
 mv empty-line.wav .empty-line.wav
