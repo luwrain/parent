@@ -30,6 +30,10 @@ project(":luwrain-windows").projectDir = file("platform/windows")
 include ('luwrain-io')
 project(":luwrain-io").projectDir = file("io/io")
 
+include ('luwrain-inlandes')
+project(":luwrain-inlandes").projectDir = file("inlandes")
+
+
 include ('luwrain-pim')
 project(":luwrain-pim").projectDir = file("pim/pim")
 
