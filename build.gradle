@@ -37,6 +37,16 @@ ext.libraries = [
     "org.graalvm.js:js:23.0.9"
   ],
 
+  antlr: [
+'org.antlr:antlr4:4.9.2'
+  ],
+
+  antlrrt: [
+'org.antlr:antlr4-runtime:4.9.2'
+  ],
+
+
+
 h2: [
     "com.h2database:h2-mvstore:2.3.232"
 ],
@@ -103,35 +113,58 @@ tasks.register('copyJars', Copy) {
   into "$buildDir/release/lib"
 }
 
+def newerThan(n, String str1, String str2) {
+  if (str1.equals(str2))
+    return false
+  def components1 = str1.split('\\.')
+  def components2 = str2.split('\\.')
+  def s = components1.length
+  if (s > components2.length)
+    s = components2.length
+  for (int i = 0; i < s; i++)
+  {
+    def c1 = components1[i]
+    def c2 = components2[i]
+    if (!c1.isInteger() || !c2.isInteger())
+      continue
+    if (c1.toInteger() > c2.toInteger())  
+        return true
+      if (c1.toInteger() < c2.toInteger())  
+        return false
+    }
+  return false
+}
+
+
 tasks.register('copyDeps', Copy) {
   dependsOn copyJars
   duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-def ver = ["":""]
-subprojects .findAll({ proj -> proj.configurations.findByName("runtimeClasspath") != null }).each{ proj ->
-proj.configurations.runtimeClasspath.incoming.artifactView {
-componentFilter {
-if (it .getDisplayName().indexOf("luwrain") >= 0 && it .getDisplayName().indexOf("luwrain-inlandes") < 0)
-return false
-def n = it.getDisplayName().substring(0, it.getDisplayName().lastIndexOf(":"))
-def v = it.getDisplayName().substring(it.getDisplayName().lastIndexOf(":") + 1)
-if (!ver.containsKey(n) || ver.get(n).compareTo(v) < 0)
-ver.put(n, v)
-false
-}
-}.getFiles().each {}
-}
-subprojects .findAll({ proj -> proj.configurations.findByName("runtimeClasspath") != null }).each{ proj ->
-proj.configurations.runtimeClasspath.incoming.artifactView {
-componentFilter {
-if (it.getDisplayName().indexOf("luwrain") >= 0 && it.getDisplayName().indexOf("luwrain-inlandes") < 0)
-return false
-def n = it.getDisplayName().substring(0, it.getDisplayName().lastIndexOf(":"))
-def v = it.getDisplayName().substring(it.getDisplayName().lastIndexOf(":") + 1)
-ver.get(n).equals(v)
-}
-}.getFiles().each { a -> from a
-}
-}
+  def ver = ["":""]
+  subprojects .findAll({ proj -> proj.configurations.findByName("runtimeClasspath") != null }).each{ proj ->
+    proj.configurations.runtimeClasspath.incoming.artifactView {
+      componentFilter {
+        if (it .getDisplayName().indexOf("luwrain") >= 0 && it .getDisplayName().indexOf("luwrain-inlandes") < 0)
+          return false
+        def n = it.getDisplayName().substring(0, it.getDisplayName().lastIndexOf(":"))
+        def v = it.getDisplayName().substring(it.getDisplayName().lastIndexOf(":") + 1)
+        //if (!ver.containsKey(n) || ver.get(n).compareTo(v) < 0)
+        if (!ver.containsKey(n) || newerThan(n, v, ver.get(n)))
+          ver.put(n, v)
+        false
+      }
+    }.getFiles().each {}
+  }
+  subprojects .findAll({ proj -> proj.configurations.findByName("runtimeClasspath") != null }).each{ proj ->
+    proj.configurations.runtimeClasspath.incoming.artifactView {
+      componentFilter {
+        if (it.getDisplayName().indexOf("luwrain") >= 0 && it.getDisplayName().indexOf("luwrain-inlandes") < 0)
+          return false
+        def n = it.getDisplayName().substring(0, it.getDisplayName().lastIndexOf(":"))
+        def v = it.getDisplayName().substring(it.getDisplayName().lastIndexOf(":") + 1)
+        ver.get(n).equals(v)
+      }
+    }.getFiles().each { a -> from a }
+  }
   into "$buildDir/release/lib"
 }
 

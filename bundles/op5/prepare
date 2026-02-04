@@ -3,7 +3,7 @@
 # Alexander Panshin <alexanderpanshin@gmail.com>
 # Michael Pozhidaev <msp@luwrain.org>
 
-USER=msp
+USER=orangepi
 
 curl -s -o /usr/share/keyrings/luwrain-dpkg.gpg 'https://download.luwrain.org/gpg/dpkg.apt.gpg'
 
@@ -40,3 +40,11 @@ systemctl enable getty@tty1
 
 # anybody  in Xwrapper.config
 
+echo "$USER ALL=NOPASSWD:ALL" >  /etc/sudoers.d/$USER
+chmod 755 /etc/sudoers.d/$USER
+sed -i -e s/'allowed_users=console'/'allowed_users=anybody'/  /etc/X11/Xwrapper.config
+
+
+
+apt-get remove --yes lightdm
+sudo apt-get install openjdk-17-jre openjfx 
