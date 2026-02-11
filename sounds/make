@@ -1,13 +1,13 @@
 #!/bin/bash -evx
-# Copyright 2025 Michael Pozhidaev <msp@luwrain.org>
-# The LUWRAIN Project, GPL v.3
-
-RATE=48000
+# SPDX-License-Identifier: BUSL-1.1
+# Copyright 2026 Michael Pozhidaev <msp@luwrain.org>
 
 # startup and shutdown es major
 # Lists and texts: As major
 # Messages: E major
 # Areas: Des major
+
+RATE=48000
 
 if [ "$1" != --no-old ]; then
     rm -f *.wav
@@ -34,19 +34,19 @@ sox _welcome.wav -r $RATE -b 16 welcome.wav gain -8
 
 ./area-layout.sh
 mv area-layout.wav .area-layout.wav
-sox .area-layout.wav -r $RATE -b 16 area-layout.wav gain -25
+sox .area-layout.wav -r $RATE -b 16 area-layout.wav gain -22
 
 ./area-layout-double.sh
 mv area-layout-double.wav .area-layout-double.wav
-sox -D .area-layout-double.wav -r $RATE -b 16 area-layout-double.wav gain -15
+sox -D .area-layout-double.wav -r $RATE -b 16 area-layout-double.wav gain -12
 
 ./area-layout-triple.sh
 mv area-layout-triple.wav .area-layout-triple.wav
-sox -D .area-layout-triple.wav area-layout-triple.wav gain -15
+sox -D .area-layout-triple.wav area-layout-triple.wav gain -12
 
 ./popup.sh
 mv popup.wav .popup.wav
-sox -D .popup.wav -r $RATE -b 16 -e signed-integer popup.wav gain -20
+sox -D .popup.wav -r $RATE -b 16 -e signed-integer popup.wav gain -15
 
 ./main-menu.sh
 mv main-menu.wav _main-menu.wav
@@ -68,7 +68,12 @@ sox -D _error.wav -r $RATE -b 16 -e signed-integer error.wav gain -13
 
 ./done.sh
 mv done.wav _done.wav
-sox -D _done.wav done.wav gain -22
+sox _done.wav -r $RATE -b 16 -e signed-integer done.wav gain -22
+
+./ok.sh
+mv ok.wav _ok.wav
+sox _ok.wav -r $RATE -b 16 -e signed-integer ok.wav gain -22
+
 
 ./inaccessible.sh
 mv inaccessible.wav _inaccessible.wav
@@ -92,7 +97,7 @@ sox -D _paste.wav paste.wav gain  -20
 
 ./list-item.sh
 mv list-item.wav _list-item.wav
-sox -D _list-item.wav -r $RATE -b 16 list-item.wav gain  -12
+sox -D _list-item.wav -r $RATE -b 16 -e signed-integer list-item.wav gain  -15
 
 ./empty-line.sh
 mv empty-line.wav .empty-line.wav
@@ -112,7 +117,7 @@ sox -D _bounds.wav bounds.wav gain -10
 
 ./no-content.sh
 mv no-content.wav _no-content.wav
-sox -D _no-content.wav no-content.wav gain -25
+sox -D _no-content.wav -r $RATE -b 16 -e signed-integer no-content.wav gain -25
 
 
 

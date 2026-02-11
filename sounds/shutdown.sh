@@ -1,6 +1,6 @@
 #!/bin/bash -e
 # SPDX-License-Identifier: BUSL-1.1
-# Copyright 2012-2025 Michael Pozhidaev <msp@luwrain.org>
+# Copyright 2026 Michael Pozhidaev <msp@luwrain.org>
 
 
 NAME=shutdown

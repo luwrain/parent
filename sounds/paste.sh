@@ -1,6 +1,6 @@
 #!/bin/bash -e
-# Copyright 2024 Michael Pozhidaev <msp@luwrain.org>
-# The LUWRAIN Project, GPL v.3
+# SPDX-License-Identifier: BUSL-1.1
+# Copyright 2026 Michael Pozhidaev <msp@luwrain.org>
 # G major
 
 sox -D -n -r 48000 -c 2 -b 32 01-1.wav \

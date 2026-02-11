@@ -163,7 +163,9 @@ tasks.register('copyDeps', Copy) {
         def v = it.getDisplayName().substring(it.getDisplayName().lastIndexOf(":") + 1)
         ver.get(n).equals(v)
       }
-    }.getFiles().each { a -> from a }
+    }.getFiles().each { a ->
+    if (!a.getName().startsWith('grpc-netty-shaded'))
+    from a }
   }
   into "$buildDir/release/lib"
 }

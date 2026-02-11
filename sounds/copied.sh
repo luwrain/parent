@@ -1,6 +1,6 @@
 #!/bin/bash -e
-# Copyright 2024 Michael Pozhidaev <msp@luwrain.org>
-# The LUWRAIN Project, GPL v.3
+# SPDX-License-Identifier: BUSL-1.1
+# Copyright 2026 Michael Pozhidaev <msp@luwrain.org>
 
 sox -D -n -r 256000 -c 2 -b 32 01-1.wav \
     synth 5 sin G4 sin G5 synth 5 sin fmod G4 fade l 0 1 1 gain -1 trim 0 0.1
