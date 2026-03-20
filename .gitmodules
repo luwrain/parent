@@ -16,15 +16,9 @@
 [submodule "app-notepad"]
 	path = app-notepad
 	url = https://github.com/luwrain/app-notepad/
-[submodule "app-telegram"]
-	path = app-telegram
-	url = https://github.com/luwrain/app-telegram/
 [submodule "app-twitter"]
 	path = app-twitter
 	url = https://github.com/luwrain/app-twitter/
-[submodule "app-viewer"]
-	path = app-viewer
-	url = https://github.com/luwrain/app-viewer/
 [submodule "app-vk"]
 	path = app-vk
 	url = https://github.com/luwrain/app-vk/
