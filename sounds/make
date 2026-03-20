@@ -117,7 +117,7 @@ sox -D _bounds.wav bounds.wav gain -10
 
 ./no-content.sh
 mv no-content.wav _no-content.wav
-sox -D _no-content.wav -r $RATE -b 16 -e signed-integer no-content.wav gain -25
+sox -D _no-content.wav -r $RATE -b 16 -e signed-integer no-content.wav gain -27
 
 
 

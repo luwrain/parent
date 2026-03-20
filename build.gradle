@@ -11,6 +11,7 @@ allprojects {
   repositories {
     //mavenCentral()
     //jcenter()
+    maven { url "https://download.luwrain.org/maven2/" }
     maven { url 'https://mvn-mirror.gitverse.ru' }
     maven { url 'https://jitpack.io' }
     //maven { url "https://jcenter.bintray.com" }

@@ -58,8 +58,11 @@ project (':luwrain-app-commander').projectDir = file('base/app-commander')
 include ('luwrain-app-contacts')
 project (':luwrain-app-contacts').projectDir = file('pim/app-contacts')
 
-include ('luwrain-app-gpt')
-project (':luwrain-app-gpt').projectDir = file('io/app-gpt')
+include ('luwrain-app-ai')
+project (':luwrain-app-ai').projectDir = file('io/app-ai')
+
+include ('luwrain-app-telegram')
+project (':luwrain-app-telegram').projectDir = file('io/app-telegram')
 
 include ('luwrain-app-translate')
 project (':luwrain-app-translate').projectDir = file('io/app-translate')
@@ -88,6 +91,10 @@ project (':luwrain-app-notepad').projectDir = file('base/app-notepad')
 
 include ('luwrain-app-github')
 project (':luwrain-app-github').projectDir = file('io/app-github')
+
+include ('luwrain-app-matrix')
+project (':luwrain-app-matrix').projectDir = file('io/app-matrix')
+
 
 
 include ('luwrain-app-opds')
