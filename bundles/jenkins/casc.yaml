@@ -20,6 +20,11 @@ jenkins:
         - "Run/Update:dev"
 
 unclassified:
+  location:
+    adminAddress: info@luwrain.org
+    url: http://localhost:8080/
+
+
 jobs:
   - script: >
       folder('luwrain')
@@ -30,7 +35,7 @@ jobs:
             scm {
               git {
                 remote {
-                  url('https://github.com/luwrain/parent.git')
+                  url('https://github.com/luwrain/parent')
                   branch('*/master')
                 }
               }
