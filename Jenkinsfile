@@ -1,5 +1,6 @@
       //def winJdk = 'https://download.java.net/java/GA/jdk24.0.1/24a58e0e276943138bf3e963e6291ac2/9/GPL/openjdk-24.0.1_windows-x64_bin.zip';
       def winJdk = 'https://download.java.net/openjdk/jdk21/ri/openjdk-21+35_windows-x64_bin.zip';
+      def RELEASE_DIR = '/out/_tmp'
 
 
 
@@ -80,42 +81,58 @@ sh "cp -r windows /build"
       }
     }
 
-    stage('deb') {
+    stage('deb-common') {
       steps {
         sh 'gradle distFilesDeb'
         dir ("build/release/dist/deb/debian") {
           sh "sed -i -e \"s/SUBST_DATE/\$(LANG=C date \"+%a, %d %b %Y %H:%M:%S %z\")/\" changelog"
         }
-        sh "mkdir -p /out/_tmp/apt/dists"
+	}
+	}
 
-        // Jammy
-        sh "mkdir -p /build/dpkg/jammy"
-        sh "cp bundles/apt/apt.config.jammy /build/dpkg/jammy/apt.config"
-        dir ("build/release/dist") { sh "cp -r deb /build/dpkg/jammy/luwrain" }
-        sh "docker run --rm -v /build:/build dpkg-jammy bash -c \"cd /build/dpkg/jammy/luwrain && dpkg-buildpackage --build=binary -us -uc\""
-        dir ("/build/dpkg/jammy") {
-          sh "mkdir -p dists/jammy/luwrain/binary-amd64"
-          sh "cp *.deb dists/jammy/luwrain/binary-amd64"
-        }
-        sh "docker run --rm -v /build:/build dpkg-jammy bash -c \"cd /build/dpkg/jammy/ && dpkg-scanpackages dists/jammy/luwrain/binary-amd64 /dev/null > dists/jammy/luwrain/binary-amd64/Packages\""
-        sh "docker run --rm -v /build:/build dpkg-jammy bash -c \"cd /build/dpkg/jammy/dists/jammy && apt-ftparchive release -c ../../apt.config . > Release\""
-        sh 'gpg --default-key info@luwrain.org --clearsign --passphrase-fd 0 -o /build/dpkg/jammy/dists/jammy/InRelease /build/dpkg/jammy/dists/jammy/Release < /cache/dpkg-key-passphrase'
-        sh "cp -r /build/dpkg/jammy/dists/jammy /out/_tmp/apt/dists"
+stage ('deb-main') {
+matrix {
+axes {
+axis {
+name 'DISTRO'
+values 'noble', 'jammy'
+}
+}
+stages {
+stage ('deb-dirs') {
+steps {
+        sh "mkdir -p $RELEASE_DIR/apt/dists"
+        sh "mkdir -p /build/dpkg/${DISTRO}"
+        sh "cp bundles/apt/apt.config.${DISTRO} /build/dpkg/${DISTRO}/apt.config"
+	        dir ("build/release/dist") { sh "cp -r deb /build/dpkg/${DISTRO}/luwrain" }
+	}
+	}
+	
+	stage ('dpkg-build') {
+	steps {
+        sh "docker run --rm -v /build:/build dpkg-${DISTRO} bash -c \"cd /build/dpkg/${DISTRO}/luwrain && dpkg-buildpackage --build=binary -us -uc\""
+	}
+	}
 
-	// Noble
-        sh "mkdir -p /build/dpkg/noble"
-        sh "cp bundles/apt/apt.config.noble /build/dpkg/noble/apt.config"
-        dir ("build/release/dist") { sh "cp -r deb /build/dpkg/noble/luwrain" }
-        sh "docker run --rm -v /build:/build dpkg-noble bash -c \"cd /build/dpkg/noble/luwrain && dpkg-buildpackage --build=binary -us -uc\""
-        dir ("/build/dpkg/noble") {
-          sh "mkdir -p dists/noble/luwrain/binary-amd64"
-          sh "cp *.deb dists/noble/luwrain/binary-amd64"
+stage ('dep-repo') {
+steps {
+        dir ("/build/dpkg/${DISTRO}") {
+          sh "mkdir -p dists/$DISTRO/luwrain/binary-amd64"
+          sh "cp *.deb dists/${DISTRO}/luwrain/binary-amd64"
         }
-        sh "docker run --rm -v /build:/build dpkg-noble bash -c \"cd /build/dpkg/noble/ && dpkg-scanpackages dists/noble/luwrain/binary-amd64 /dev/null > dists/noble/luwrain/binary-amd64/Packages\""
-        sh "docker run --rm -v /build:/build dpkg-noble bash -c \"cd /build/dpkg/noble/dists/noble && apt-ftparchive release -c ../../apt.config . > Release\""
-        sh 'gpg --default-key info@luwrain.org --clearsign --passphrase-fd 0 -o /build/dpkg/noble/dists/noble/InRelease /build/dpkg/noble/dists/noble/Release < /cache/dpkg-key-passphrase'
-        sh "cp -r /build/dpkg/noble/dists/noble /out/_tmp/apt/dists"
+        sh "docker run --rm -v /build:/build dpkg-${DISTRO} bash -c \"cd /build/dpkg/${DISTRO}/ && dpkg-scanpackages dists/${DISTRO}/luwrain/binary-amd64 /dev/null > dists/${DISTRO}/luwrain/binary-amd64/Packages\""
+        sh "docker run --rm -v /build:/build dpkg-${DISTRO} bash -c \"cd /build/dpkg/${DISTRO}/dists/${DISTRO} && apt-ftparchive release -c ../../apt.config . > Release\""
+	}
+	}
+
+stage ('deb-signing') {
+steps {
+        sh 'gpg --default-key info@luwrain.org --clearsign --passphrase-fd 0 -o /build/dpkg/${DISTRO}/dists/${DISTRO}/InRelease /build/dpkg/${DISTRO}/dists/${DISTRO}/Release < /cache/dpkg-key-passphrase'
+        sh "cp -r /build/dpkg/${DISTRO}/dists/${DISTRO} $RELEASE_DIR/apt/dists"
       }
+    }
+    }
+    }
     }
 
     stage('javadoc') {
@@ -150,17 +167,25 @@ sh 'cp -r javadoc /out/_tmp/'
 	sh 'sha256sum luwrain-$(cat ../version.txt).zip > luwrain-$(cat ../version.txt).zip.sha256'
 		sh 'sha256sum luwrain-$(cat ../version.txt).exe > luwrain-$(cat ../version.txt).exe.sha256'
 	}
+	}
+	}
+}
+
+post {
+success {
         dir ("/out") {
           sh "mv release _release"
           sh "mv _tmp release"
           sh "rm -rf _release"
         }
+	}
+
+always {
+
 		//Cleaning the build dir
-        dir ('/build') {
-          sh 'rm -rf *'
-        }
+        dir ('/build') { sh 'rm -rf *' }
+	        dir ('/out') { sh 'rm -rf _tmp' }
 
       }
     }
-  }
 }
