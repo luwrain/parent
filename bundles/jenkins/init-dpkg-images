@@ -2,7 +2,7 @@
 
 cd /app
 
-for i in jammy noble; do
+for i in bookworm bullseye jammy noble resolute trixie; do
     echo Building dpkg-$i
     docker build -t dpkg-$i -q -f $i.docker .
 done

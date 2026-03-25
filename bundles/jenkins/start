@@ -15,5 +15,5 @@ if ! [ -r /jenkins/cache/dpkg-key-passphrase ]; then
 fi
 
 docker-compose up -d
-docker exec jenkins bash -c init-docker
-#docker exec jenkins bash -c init-dpkg-images
+docker exec jenkins bash -c init-docker-context
+docker exec jenkins bash -c init-dpkg-images

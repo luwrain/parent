@@ -95,7 +95,7 @@ matrix {
 axes {
 axis {
 name 'DISTRO'
-values 'noble', 'jammy'
+values 'bookworm', 'bullseye', 'jammy', 'noble', 'resolute', 'trixie'
 }
 }
 stages {

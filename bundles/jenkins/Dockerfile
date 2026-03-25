@@ -22,7 +22,7 @@ WORKDIR /gradle
 RUN wget https://services.gradle.org/distributions/gradle-8.8-bin.zip && unzip *.zip && rm -f *.zip && mv gradle-*/* . && rmdir gradle-*
 
 WORKDIR /app
-COPY init-docker init-dpkg-images /app/
+COPY init-docker-context init-dpkg-images /app/
 COPY env/* /app/
 
 RUN mkdir -p /root/.gnupg && chmod 700 /root/.gnupg
