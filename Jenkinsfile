@@ -169,23 +169,22 @@ sh 'cp -r javadoc /out/_tmp/'
 	}
 	}
 	}
-}
+  }
 
-post {
-success {
-        dir ("/out") {
-          sh "mv release _release"
+  post {
+    success {
+      dir ("/out") {
+        sh "mv release _release"
           sh "mv _tmp release"
-          sh "rm -rf _release"
-        }
-	}
-
-always {
-
-		//Cleaning the build dir
-        dir ('/build') { sh 'rm -rf *' }
-	        dir ('/out') { sh 'rm -rf _tmp' }
-
+        sh "rm -rf _release"
       }
     }
+    failure {
+      dir ('/out') { sh 'rm -rf _tmp' }
+    }
+    always {
+      sh 'gradle clean'
+      dir ('/build') { sh 'rm -rf *' }
+    }
+  }
 }
