@@ -1,3 +1,4 @@
 #!/bin/bash -e
 
-./cli console luwrain/main  "$@" | grep -v '^ha://'
+./cli console luwrain/main  "$@" | grep -v //// | sed -e s/'\[Pipeline\]'//
+
