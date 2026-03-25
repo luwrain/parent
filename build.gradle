@@ -19,6 +19,8 @@ allprojects {
   }
 }
 
+//java { toolchain { languageVersion = JavaLanguageVersion.of(17) } }
+
 ext.libraries = [
   base: [
     "com.google.code.gson:gson:2.8.5",
@@ -67,14 +69,12 @@ h2: [
 ]
 
 
-/*
-dependencies {
-}
-*/
-
 tasks.register('writeVer') {
         new File(buildDir, "version.txt").text = "$lwrVer.$commitCount\n"
 }
+
+
+
 
 task downloadAndExtractData {
     def destDir = layout.buildDirectory.dir("luwrain-install/data").get().asFile
