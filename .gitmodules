@@ -94,3 +94,6 @@
 [submodule "core"]
 	path = core
 	url = https://github.com/luwrain/core
+[submodule "inlandes"]
+	path = inlandes
+	url = https://github.com/luwrain/inlandes
