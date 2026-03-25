@@ -16,4 +16,4 @@ fi
 
 docker-compose up -d
 docker exec jenkins bash -c init-docker
-docker exec jenkins bash -c init-dpkg-images
+#docker exec jenkins bash -c init-dpkg-images
