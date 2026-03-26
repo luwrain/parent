@@ -71,8 +71,10 @@ project (':luwrain-app-translate').projectDir = file('io/app-translate')
 //include ('luwrain-app-download')
 //project (':luwrain-app-download').projectDir = file('io/app-download')
 
+/*
 include ('luwrain-app-alpha-tessera')
 project (':luwrain-app-alpha-tessera').projectDir = file('io/app-alpha-tessera')
+*/
 
 
 include ('luwrain-app-mail')

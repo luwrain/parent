@@ -8,6 +8,14 @@ def commitCount = 'git rev-list --all --count'.execute().text.trim();
 def lwrVer = '2.0.0';
 
 allprojects {
+//java { toolchain { languageVersion = JavaLanguageVersion.of(17) } }
+
+    tasks.withType(JavaCompile) {
+        sourceCompatibility = '17'
+    targetCompatibility = '17'
+
+    }
+    
   repositories {
     //mavenCentral()
     //jcenter()
@@ -19,7 +27,14 @@ allprojects {
   }
 }
 
-//java { toolchain { languageVersion = JavaLanguageVersion.of(17) } }
+ext.ver = [
+javafx: '21',
+lombok: '8.6'
+]
+
+
+
+
 
 ext.libraries = [
   base: [
@@ -59,8 +74,17 @@ h2: [
   ],
 
   junit: [
+
+    "org.junit.jupiter:junit-jupiter-api:6.0.3",
+    "org.junit.jupiter:junit-jupiter-engine:6..0.3",
+        "org.junit.platform:junit-platform-launcher:6..0.3"
+
+/*
+
     "org.junit.jupiter:junit-jupiter-api:5.10.2",
     "org.junit.jupiter:junit-jupiter-engine:5.10.2"
+    */
+
   ],
 
   autoService: [
