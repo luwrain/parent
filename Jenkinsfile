@@ -111,12 +111,17 @@ sh "cp -r windows /build"
 
           stage ("tdlib-build") {
             steps {
-              sh "mkdir -p /build/tdlib/${DISTRO}"
-              dir ("/build/tdlib/${DISTRO}") {
-                sh "git clone https://github.com/marigostra/td/"
-              }
-              dir ("/build/tdlib/${DISTRO}/td") {
-                sh "git branch java origin/java && git checkout java"
+              sh "mkdir -p $CACHE_DIR/tdlib/"
+              if (!fileExists("$CACHE_DIR/tdlib/tdlib-${DISTRO}.jar")) {
+                sh "mkdir -p /build/tdlib/${DISTRO}"
+                dir ("/build/tdlib/${DISTRO}") {
+                  sh "git clone https://github.com/marigostra/td/"
+                }
+                dir ("/build/tdlib/${DISTRO}/td") {
+                  sh "git branch java origin/java && git checkout java"
+                  sh "docker run --rm -v /build:/build dpkg-${DISTRO} bash -c \"cd /build/tdlib/${DISTRO}/td/ && ./build-java.sh && ./depl-java.sh ./maven2\""
+                  sh "cp tdlib-*.jar $CACHE_DIR/tdlib/tdlib-${DISTRO}.jar"
+                }
               }
             }
           }
