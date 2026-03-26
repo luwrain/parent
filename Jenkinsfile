@@ -88,34 +88,46 @@ sh "cp -r windows /build"
         dir ("build/release/dist/deb/debian") {
           sh "sed -i -e \"s/SUBST_DATE/\$(LANG=C date \"+%a, %d %b %Y %H:%M:%S %z\")/\" changelog"
         }
-	}
-	}
+      }
+    }
 
-stage ('deb-main') {
-matrix {
-axes {
-axis {
-name 'DISTRO'
-values 'bookworm', 'bullseye', 'jammy', 'noble', 'resolute', 'trixie'
-}
-}
-stages {
-stage ('deb-dirs') {
-steps {
-        sh "mkdir -p $RELEASE_DIR/apt/dists"
-        sh "mkdir -p /build/dpkg/${DISTRO}"
-        sh "cp bundles/apt/apt.config.${DISTRO} /build/dpkg/${DISTRO}/apt.config"
-	        dir ("build/release/dist") { sh "cp -r deb /build/dpkg/${DISTRO}/luwrain" }
-	}
-	}
+    stage ('deb-main') {
+      matrix {
+        axes {
+          axis {
+            name 'DISTRO'
+            values 'bookworm', 'bullseye', 'jammy', 'noble', 'resolute', 'trixie'
+          }
+        }
+        stages {
+          stage ('deb-dirs') {
+            steps {
+              sh "mkdir -p $RELEASE_DIR/apt/dists"
+              sh "mkdir -p /build/dpkg/${DISTRO}"
+              sh "cp bundles/apt/apt.config.${DISTRO} /build/dpkg/${DISTRO}/apt.config"
+              dir ("build/release/dist") { sh "cp -r deb /build/dpkg/${DISTRO}/luwrain" }
+            }
+          }
+
+          stage ("tdlib-build") {
+            steps {
+              sh "mkdir -p /build/tdlib/${DISTRO}"
+              dir ("/build/tdlib/${DISTRO}") {
+                sh "git clone https://github.com/marigostra/td/"
+              }
+              dir ("/build/tdlib/${DISTRO}/td") {
+                sh "git branch java origin/java && git checkout java"
+              }
+            }
+          }
 	
-	stage ('dpkg-build') {
-	steps {
-        sh "docker run --rm -v /build:/build dpkg-${DISTRO} bash -c \"cd /build/dpkg/${DISTRO}/luwrain && dpkg-buildpackage --build=binary -us -uc\""
-	}
-	}
+          stage ('dpkg-build') {
+            steps {
+              sh "docker run --rm -v /build:/build dpkg-${DISTRO} bash -c \"cd /build/dpkg/${DISTRO}/luwrain && dpkg-buildpackage --build=binary -us -uc\""
+            }
+          }
 
-stage ('dep-repo') {
+          stage ('dep-repo') {
 steps {
         dir ("/build/dpkg/${DISTRO}") {
           sh "mkdir -p dists/$DISTRO/luwrain/binary-amd64"
@@ -124,9 +136,9 @@ steps {
         sh "docker run --rm -v /build:/build dpkg-${DISTRO} bash -c \"cd /build/dpkg/${DISTRO}/ && dpkg-scanpackages dists/${DISTRO}/luwrain/binary-amd64 /dev/null > dists/${DISTRO}/luwrain/binary-amd64/Packages\""
         sh "docker run --rm -v /build:/build dpkg-${DISTRO} bash -c \"cd /build/dpkg/${DISTRO}/dists/${DISTRO} && apt-ftparchive release -c ../../apt.config . > Release\""
 	}
-	}
+          }
 
-stage ('deb-signing') {
+          stage ('deb-signing') {
 steps {
         sh 'gpg --default-key info@luwrain.org --clearsign --passphrase-fd 0 -o /build/dpkg/${DISTRO}/dists/${DISTRO}/InRelease /build/dpkg/${DISTRO}/dists/${DISTRO}/Release < /cache/dpkg-key-passphrase'
         sh "cp -r /build/dpkg/${DISTRO}/dists/${DISTRO} $RELEASE_DIR/apt/dists"
