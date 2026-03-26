@@ -21,18 +21,17 @@ pipeline {
     stage('prepare') {
       steps {
         sh 'rm -rf /build/*'
-        dir ('/out') {
-          sh "mkdir -p release"
-          sh 'rm -rf _tmp'
-          sh "mkdir -p _tmp/bundles"
-          sh "mkdir _tmp/apt"
-        }
-        sh 'gradle clean'
         dir('sounds') {
           sh 'rm -f *.wav *.xz'
         }
         sh 'rm -f core/src/main/resources/org/luwrain/core/sound/*.wav'
-        //sh "rm -rf .gradle"
+        dir ('/out') {
+          sh "mkdir -p release"
+          sh 'rm -rf _tmp && mkdir _tmp'
+          sh "[ -d release/maven2 ] && cp -r release/maven2 _tmp"
+          sh 'for i in bundles apt; do mkdir _tmp/$i; done'
+        }
+        sh 'gradle clean'
       }
     }
 
@@ -144,16 +143,11 @@ dir ('build/release') {
 sh 'cp -r javadoc /out/_tmp/'
 }
 	  }
-	  }
+    }
 
     stage('maven') {
       steps {
-        dir ('core') {
-          sh 'gradle publish'
-        }
-        dir ('pim/pim') {
-          sh 'gradle publish'
-        }
+        sh 'gradle publish'
       }
     }
 
@@ -186,6 +180,8 @@ sh 'cp -r javadoc /out/_tmp/'
     }
     always {
       sh 'gradle clean'
+      dir ('sounds') { sh 'rm -rf *.wav *.xz' }
+      sh 'rm -f core/src/main/resources/org/luwrain/core/sound/*.wav'
       dir ('/build') { sh 'rm -rf *' }
     }
   }
