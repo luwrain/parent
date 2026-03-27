@@ -110,7 +110,7 @@ pipeline {
         axes {
           axis {
             name 'DISTRO'
-            values 'bookworm', 'bullseye', 'jammy', 'noble', 'resolute', 'trixie'
+            values 'bookworm', 'jammy', 'noble', 'resolute', 'trixie' //'bullseye'
           }
         }
         stages {
@@ -134,7 +134,7 @@ pipeline {
                 dir ("/build/tdlib/${DISTRO}/td") {
                   sh "git branch java origin/java && git checkout java"
                   sh "docker run --rm -v /build:/build dpkg-${DISTRO} bash -c \"cd /build/tdlib/${DISTRO}/td/ && ./build-java.sh && ./depl-java.sh ./maven2\""
-                  sh "cp tdlib-*.jar $CACHE_DIR/tdlib/tdlib-${DISTRO}.jar"
+                  sh "cp tdlib.jar $CACHE_DIR/tdlib/tdlib-${DISTRO}.jar"
                 }
               }}}
             }
