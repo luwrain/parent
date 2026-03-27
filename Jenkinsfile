@@ -35,17 +35,21 @@ pipeline {
       }
     }
 
-    stage('Build') {
+    stage('Build-sounds') {
       steps {
         dir ('sounds') {
           sh './make'
-	  //sh 'cp *.wav ../core/src/main/resources/org/luwrain/core/sound'
         }
+      }
+    }
+
+    stage('Build-main') {
+      steps {
         sh 'gradle build'
       }
     }
 
-    stage('dist') {
+    stage('dist-zip') {
       steps {
         sh 'gradle distCommon'
         dir ("build/release/dist") {
@@ -54,19 +58,29 @@ pipeline {
       }
     }
 
-    stage('win') {
+    stage('win-jdk') {
       steps {
-      sh "gradle distFilesWin"
-        dir ("/cache") {
+        dir ("$CACHE_DIR") {
           sh "if ! [ -d jdk ]; then wget -q $winJdk; unzip *.zip; rm -f *.zip; mv jdk-* jdk; fi"
           sh "if ! [ -d jre ]; then docker run --rm -v /cache:/work ich777/winehq-baseimage bash -c \"cd /work/jdk/bin && wine jlink.exe --output Z:/work/jre --add-modules java.base,java.compiler,java.datatransfer,java.desktop,java.instrument,java.logging,java.management,java.management.rmi,java.naming,java.net.http,java.prefs,java.rmi,java.scripting,java.se,java.security.jgss,java.security.sasl,java.smartcardio,java.sql,java.sql.rowset,java.transaction.xa,java.xml,java.xml.crypto,jdk.accessibility,jdk.attach,jdk.charsets,jdk.crypto.cryptoki,jdk.crypto.ec,jdk.dynalink,jdk.editpad,jdk.hotspot.agent,jdk.httpserver,jdk.incubator.vector,jdk.internal.ed,jdk.internal.jvmstat,jdk.internal.le,jdk.internal.opt,jdk.internal.vm.ci,jdk.jcmd,jdk.jconsole,jdk.jdeps,jdk.jdi,jdk.jdwp.agent,jdk.jfr,jdk.jshell,jdk.jsobject,jdk.jstatd,jdk.localedata,jdk.management,jdk.management.agent,jdk.management.jfr,jdk.naming.dns,jdk.naming.rmi,jdk.net,jdk.nio.mapmode,jdk.sctp,jdk.security.auth,jdk.security.jgss,jdk.unsupported,jdk.unsupported.desktop,jdk.xml.dom,jdk.zipfs\"; fi"
         }
+      }
+    }
+
+    stage('win-javafx') {
+      steps {
         sh "mkdir -p $CACHE_DIR/javafx-win"
         dir "$CACHE_DIR/javafx-win", {
           sh "for i in base controls graphics media swing fxml web; do if ! [ -e javafx-\$i-$JAVAFX_VER-win.jar ]; then wget -q https://mvn-mirror.gitverse.ru/org/openjfx/javafx-\$i/$JAVAFX_VER/javafx-\$i-$JAVAFX_VER-win.jar; fi; done"
         }
+      }
+    }
+
+    stage('dist-win') {
+      steps {
+      sh "gradle distFilesWin"
         dir ("build/release/dist") {
-sh "cp -r windows /build"
+          sh "cp -r windows /build"
         }
 	sh 'chmod 777 /build/windows'
 	dir '/build/windows/luwrain', {
