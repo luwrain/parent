@@ -3,8 +3,9 @@ FROM debian:bullseye
 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update && \
-    apt-get install -q -y --no-install-recommends \
+RUN apt-get update \
+    && apt-get -y upgrade \
+    && apt-get install -q -y --no-install-recommends \
     build-essential debhelper dpkg-dev ca-certificates apt-utils gnupg2 file curl unzip wget iputils-ping locales locales-all \
     gperf zlib1g-dev libssl-dev cmake g++ default-jdk maven \
     &&rm -rf /var/lib/apt/lists/* \
