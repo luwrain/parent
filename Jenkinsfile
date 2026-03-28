@@ -87,12 +87,11 @@ pipeline {
 	sh "cp $CACHE_DIR/javafx-win/* lib "
 	sh "cp -r $CACHE_DIR/jre ."
 	}
-	sh 'tar -c /build/windows/ > /cache/win-debug.tar'
-	
+        //sh 'tar -c /build/windows/ > /cache/win-debug.tar'
         sh 'docker run --rm -i -v /build/windows:/work amake/innosetup luwrain.iss'
-		dir ("/build/windows/Output") {
-		sh "cp *.exe /out/_tmp/bundles"
-		}
+        dir ("/build/windows/Output") {
+          sh "cp *.exe $RELEASE_DIR/bundles"
+        }
       }
     }
 
@@ -169,11 +168,19 @@ steps {
 
     stage('javadoc') {
       steps {
-          sh 'gradle distJavadoc'
-dir ('build/release') {
-sh 'cp -r javadoc /out/_tmp/'
-}
-	  }
+        sh 'gradle distJavadoc'
+        dir ('build/release') {
+          sh "cp -r javadoc $RELEASE_DIR/"
+        }
+      }
+    }
+
+    stage('rebuild-maven-no-sounds') {
+      steps {
+        sh 'gradle clean'
+        sh 'rm -f core/src/main/resources/org/luwrain/core/sound/*.wav'
+        sh 'gradle build'
+      }
     }
 
     stage('maven') {
