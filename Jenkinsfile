@@ -168,7 +168,7 @@ steps {
 
 stage ('dist-zip-tdlib') {
 steps {
-sh "mkdir /build-zip-tdlib"
+sh "mkdir -p /build/zip-tdlib"
 dir ("/build/zip-tdlib") {
 sh "cp $RELEASE_DIR/bundles/*.zip ."
 sh 'unzip *.zip'
