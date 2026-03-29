@@ -53,7 +53,7 @@ pipeline {
       steps {
         sh 'gradle distCommon'
         dir ("build/release/dist") {
-          sh "cp *.zip /out/_tmp/bundles"
+          sh "cp *.zip $RELEASE_DIR/bundles"
         }
       }
     }
@@ -139,7 +139,7 @@ pipeline {
             }
           }
 	
-          stage ('dpkg-build') {
+          stage ('deb-build') {
             steps {
               sh "docker run --rm -v /build:/build dpkg-${DISTRO} bash -c \"cd /build/dpkg/${DISTRO}/luwrain && dpkg-buildpackage --build=binary -us -uc\""
             }
@@ -165,6 +165,19 @@ steps {
     }
     }
     }
+
+stage ('dist-zip-tdlib') {
+steps {
+sh "mkdir /build-zip-tdlib"
+dir ("/build/zip-tdlib") {
+sh "cp $RELEASE_DIR/bundles/*.zip ."
+sh 'unzip *.zip'
+sh "rm -f *.zip"
+sh "cp -r $CACHE_DIR/tdlib luwrain-*"
+sh "D=\$(ls * | cat) && D=\${D/luwrain-/luwrain-tdllib-} && mv luwrain-* \$D && zip -r $RELEASE_DIR/bundles/\$D.zip \$D"
+}
+}
+}
 
     stage('javadoc') {
       steps {
