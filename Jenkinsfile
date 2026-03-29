@@ -174,7 +174,7 @@ sh "cp $RELEASE_DIR/bundles/*.zip ."
 sh 'unzip *.zip'
 sh "rm -f *.zip"
 sh "cp -r $CACHE_DIR/tdlib luwrain-*"
-sh "D=$(ls | sed -e s/luwrain-/luwrain-tdlib-/) && mv luwrain-* \$D && zip -r $RELEASE_DIR/bundles/\$D.zip \$D"
+sh "D=\$(ls | sed -e s/luwrain-/luwrain-tdlib-/) && mv luwrain-* \$D && zip -r $RELEASE_DIR/bundles/\$D.zip \$D"
 }
 }
 }
