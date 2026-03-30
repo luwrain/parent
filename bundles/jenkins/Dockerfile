@@ -13,7 +13,7 @@ ARG USER_HOME_DIR="/root"
 
 RUN apt-get update --fix-missing \
     && apt-get install -y --no-install-recommends openjdk-21-jdk wget curl unzip xz-utils \
-    gnupg2 ca-certificates  lsb-release  git iputils-ping apt-transport-https \
+    gnupg2 ca-certificates  lsb-release  git iputils-ping apt-transport-https zip \
     timidity fluid-soundfont-gm midicsv sox \
     && rm -rf /var/lib/apt/lists/*
 
