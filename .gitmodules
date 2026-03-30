@@ -97,3 +97,6 @@
 [submodule "inlandes"]
 	path = inlandes
 	url = https://github.com/luwrain/inlandes
+[submodule "bookdoc"]
+	path = bookdoc
+	url = https://github.com/luwrain/bookdoc/
