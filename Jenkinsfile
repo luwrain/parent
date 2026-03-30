@@ -141,7 +141,7 @@ pipeline {
 	
           stage ('deb-build') {
             steps {
-              sh "cp $CACHE)_DIR/tdlib/tdlib-${DISTRO}.jar /build/dpkg/${DISTRO}/luwrain/lib"
+              sh "cp $CACHE_DIR/tdlib/tdlib-${DISTRO}.jar /build/dpkg/${DISTRO}/luwrain/lib"
               sh "docker run --rm -v /build:/build dpkg-${DISTRO} bash -c \"cd /build/dpkg/${DISTRO}/luwrain && dpkg-buildpackage --build=binary -us -uc\""
             }
           }
