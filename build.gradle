@@ -236,7 +236,8 @@ tasks.register('distCommon', Zip) {
     archiveFileName = "luwrain-$lwrVer.$commitCount" + '.zip'
     destinationDirectory = file("$buildDir/release/dist")
     from("$buildDir/release/dist/common") {
-          exclude '**/javafx-*-linux.jar'
+      exclude '**/javafx-*-linux.jar'
+      exclude '**/tdlib-*.jar'
     }
 }
 
