@@ -8,6 +8,6 @@ Homepage: https://luwrain.org/?lang=en
 
 Package: luwrain-snapshot
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, default-jre, openjfx
+Depends: ${shlibs:Depends}, ${misc:Depends}, default-jre
 Description: A platform for the creation of apps for the blind and partially-sighted
   LUWRAIN a platform for the creation of apps for the blind and partially-sighted

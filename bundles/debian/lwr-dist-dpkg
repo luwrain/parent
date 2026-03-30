@@ -1,6 +1,6 @@
 #!/bin/bash -evx
-# Copyright 2012-2024 Michael Pozhidaev <msp@luwrain.org>
-# The LUWRAIN Project, GPL v.3
+# SPDX-License-Identifier: BUSL-1.1
+# Copyright 2012-2026 Michael Pozhidaev <msp@luwrain.org>
 
 DIR="$(pwd)"
 if [ -d "$DIR/debian/luwrain-snapshot" ]; then
@@ -18,7 +18,7 @@ mkdir -p  "$DEST_DIR" "$DEST_DIR/bin" "$BIN_DIR" "$APP_DIR"
 cp -r lib js luwrain.ico "$DEST_DIR"
 cat <<EOF > "$DEST_DIR/bin/luwrain"
 #!/bin/bash -e
-# Runs the LUWRAIN platform
+# SPDX-License-Identifier: BUSL-1.1
 # Copyright $(date +%Y) Michael Pozhidaev <msp@luwrain.org>
 
 if [ -z "\$SPEECHD_HOST" ]; then
@@ -30,11 +30,7 @@ if [ -z "\$SPEECHD_PORT" ]; then
 fi
 
 cd /usr/share/luwrain/lib
-exec java --module-path /usr/share/openjfx/lib \
-     --add-modules javafx.controls,javafx.web,javafx.swing \
-     --add-exports javafx.web/com.sun.webkit.dom=ALL-UNNAMED \
-     --add-exports javafx.web/com.sun.javafx.webkit=ALL-UNNAMED  \
-     -cp luwrain-base.jar \
+exec java -cp luwrain-base.jar \
      org.luwrain.core.Init \
      --app-dir /usr/share/luwrain \
      --def-speech speechd \
@@ -43,7 +39,7 @@ EOF
 
 cat <<EOF > "$DEST_DIR/bin/lwr"
 #!/bin/bash -e
-# Runs the LUWRAIN platform blocking any output
+# SPDX-License-Identifier: BUSL-1.1
 # Copyright $(date +%Y) Michael Pozhidaev <msp@luwrain.org>
 
 exec luwrain "\$@" > /dev/null 2>&1
@@ -52,16 +48,4 @@ chmod 755 "$DEST_DIR/bin/luwrain" "$DEST_DIR/bin/lwr"
 
 ln -s /usr/share/luwrain/bin/luwrain "$BIN_DIR/luwrain"
 ln -s /usr/share/luwrain/bin/lwr "$BIN_DIR/lwr"
-
 cp luwrain.desktop "$APP_DIR"
-
-
-#cd $DEST_DIR
-#wget -q https://download.luwrain.org/compilation/rhvoice-data.tar.xz
-#tar xf rhvoice-data.tar.xz
-#rm -f rhvoice-data.tar.xz
-
-#cd jar
-#rm -f javafx-*.jar
-#ln -s luwrain-base-*.jar luwrain-base.jar
-

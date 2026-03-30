@@ -216,7 +216,6 @@ tasks.register('distFilesDeb', Copy) {
   duplicatesStrategy = DuplicatesStrategy.EXCLUDE
   from ("$buildDir/release/lib") {
     into "lib"
-    //exclude '**/javafx-*.jar'
     exclude '**/tdlib-*.jar'
     exclude '**/luwrain-windows.jar'
   }
