@@ -33,6 +33,10 @@ project(":luwrain-io").projectDir = file("io/io")
 include ('luwrain-inlandes')
 project(":luwrain-inlandes").projectDir = file("inlandes")
 
+include ('luwrain-bookdoc')
+project(":luwrain-bookdoc").projectDir = file("bookdoc/bookdoc")
+
+
 
 include ('luwrain-pim')
 project(":luwrain-pim").projectDir = file("pim/pim")

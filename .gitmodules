@@ -55,9 +55,6 @@
 [submodule "reader"]
 	path = reader
 	url = https://github.com/luwrain/reader/
-[submodule "registry"]
-	path = registry
-	url = https://github.com/luwrain/registry/
 [submodule "studio"]
 	path = studio
 	url = https://github.com/luwrain/studio/
