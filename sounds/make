@@ -34,15 +34,15 @@ sox _welcome.wav -r $RATE -b 16 welcome.wav gain -8
 
 ./area-layout.sh
 mv area-layout.wav .area-layout.wav
-sox .area-layout.wav -r $RATE -b 16 area-layout.wav gain -22
+sox .area-layout.wav -r $RATE -b 16 -e signed-integer area-layout.wav gain -22
 
 ./area-layout-double.sh
 mv area-layout-double.wav .area-layout-double.wav
-sox -D .area-layout-double.wav -r $RATE -b 16 area-layout-double.wav gain -12
+sox .area-layout-double.wav -r $RATE -b 16 -e signed-integer area-layout-double.wav gain -18
 
 ./area-layout-triple.sh
 mv area-layout-triple.wav .area-layout-triple.wav
-sox -D .area-layout-triple.wav area-layout-triple.wav gain -12
+sox .area-layout-triple.wav -r $RATE -b 16 -e signed-integer area-layout-triple.wav gain -15
 
 ./popup.sh
 mv popup.wav .popup.wav
