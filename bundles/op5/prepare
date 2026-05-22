@@ -1,9 +1,14 @@
-#!/bin/bash -e
+#!/bin/bash -evx
 # Ilia Paschuk <ilusha.paschuk@gmail.com>
 # Alexander Panshin <alexanderpanshin@gmail.com>
 # Michael Pozhidaev <msp@luwrain.org>
 
 USER=orangepi
+
+# Enabling sudo without password
+echo "$USER ALL=NOPASSWD:ALL" >  /etc/sudoers.d/$USER
+chmod 755 /etc/sudoers.d/$USER
+
 
 curl -s -o /usr/share/keyrings/luwrain-dpkg.gpg 'https://download.luwrain.org/gpg/dpkg.apt.gpg'
 
@@ -39,12 +44,7 @@ popd > /dev/null
 systemctl enable getty@tty1
 
 # anybody  in Xwrapper.config
-
-echo "$USER ALL=NOPASSWD:ALL" >  /etc/sudoers.d/$USER
-chmod 755 /etc/sudoers.d/$USER
 sed -i -e s/'allowed_users=console'/'allowed_users=anybody'/  /etc/X11/Xwrapper.config
 
-
-
 apt-get remove --yes lightdm
-sudo apt-get install openjdk-17-jre openjfx 
+sudo apt-get install openjdk-17-jre
