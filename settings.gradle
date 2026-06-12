@@ -62,6 +62,10 @@ project (':luwrain-app-commander').projectDir = file('base/app-commander')
 include ('luwrain-app-contacts')
 project (':luwrain-app-contacts').projectDir = file('pim/app-contacts')
 
+include ('luwrain-app-diary')
+project (':luwrain-app-diary').projectDir = file('pim/app-diary')
+
+
 include ('luwrain-app-ai')
 project (':luwrain-app-ai').projectDir = file('io/app-ai')
 
@@ -111,6 +115,10 @@ project (':luwrain-app-osm').projectDir = file('io/app-osm')
 
 include ('luwrain-app-weather')
 project (':luwrain-app-weather').projectDir = file('io/app-weather')
+
+include ('luwrain-app-openmeteo')
+project (':luwrain-app-openmeteo').projectDir = file('io/app-openmeteo')
+
 
 include ('luwrain-app-wiki')
 project (':luwrain-app-wiki').projectDir = file('io/app-wiki')

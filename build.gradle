@@ -33,6 +33,9 @@ ext.libraries = [
     "org.apache.logging.log4j:log4j-core:2.17.2",
     "org.jsoup:jsoup:1.13.1",
     "org.codehaus.groovy:groovy:2.5.23",
+'dev.langchain4j:langchain4j:0.31.0',
+'dev.langchain4j:langchain4j-open-ai:0.31.0'
+
 //    "org.luwrain:luwrain-inlandes:0.5.2"
   ],
 
