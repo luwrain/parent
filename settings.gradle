@@ -72,6 +72,10 @@ project (':luwrain-app-ai').projectDir = file('io/app-ai')
 include ('luwrain-app-telegram')
 project (':luwrain-app-telegram').projectDir = file('io/app-telegram')
 
+include ('luwrain-app-bs')
+project (':luwrain-app-bs').projectDir = file('io/app-bs')
+
+
 include ('luwrain-app-translate')
 project (':luwrain-app-translate').projectDir = file('io/app-translate')
 
