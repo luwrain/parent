@@ -1,8 +1,0 @@
-#!/bin/bash -e
-
-cd /app
-
-for i in bookworm jammy noble resolute trixie; do
-    echo Building dpkg-$i
-    docker build -t dpkg-$i -q -f $i.docker .
-done

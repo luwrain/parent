@@ -266,4 +266,5 @@ tasks.register('distJavadoc', Javadoc) {
     'studio/src/main/java')
   destinationDir = file("$buildDir/release/javadoc")
   options.addStringOption('-ignore-source-errors', '-quiet')
+  options.addStringOption('-main-stylesheet', file('bundles/javadoc.css').absolutePath)
 }
