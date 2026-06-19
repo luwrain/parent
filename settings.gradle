@@ -133,6 +133,9 @@ project (':luwrain-app-vk').projectDir = file('io/app-vk')
 include ('luwrain-player-mp3')
 project (':luwrain-player-mp3').projectDir = file('extensions/plmp3')
 
+include ('luwrain-player-javafx')
+project (':luwrain-player-javafx').projectDir = file('extensions/plfx')
+
 
 include ('luwrain-speech-voiceman')
 project (':luwrain-speech-voiceman').projectDir = file('extensions/voiceman')
