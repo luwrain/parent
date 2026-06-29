@@ -50,6 +50,10 @@ project(":luwrain-reader").projectDir = file("reader/reader")
 include ('luwrain-player')
 project(":luwrain-player").projectDir = file("base/player")
 
+include ('luwrain-app-viewer')
+project(":luwrain-app-viewer").projectDir = file("base/app-viewer")
+
+
 include ('luwrain-grammar')
 project(":luwrain-grammar").projectDir = file("grammar")
 
