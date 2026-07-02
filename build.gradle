@@ -252,6 +252,7 @@ tasks.register('distJavadoc', Javadoc) {
     'core/src/main/java/org/luwrain/app/base',
     'core/src/main/java/org/luwrain/core',
     'core/src/main/java/org/luwrain/controls',
+    'core/src/main/java/org/luwrain/i18n',
     'core/src/main/java/org/luwrain/script',
     'core/src/main/java/org/luwrain/popups',
     'core/src/main/java/org/luwrain/cpanel',
@@ -263,6 +264,7 @@ tasks.register('distJavadoc', Javadoc) {
     'core/src/main/java/org/luwrain/util',
     'io/io/src/main/java',
     'pim/pim/src/main/java',
+    'bookdoc/bookdoc/src/main/java',
     'reader/reader/src/main/java',
     'studio/src/main/java')
   destinationDir = file("$buildDir/release/javadoc")
