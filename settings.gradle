@@ -21,6 +21,9 @@ project(":luwrain-app-linux-rec").projectDir = file("platform/app-linux-rec")
 include ('luwrain-app-linux-term')
 project(":luwrain-app-linux-term").projectDir = file("platform/app-linux-term")
 
+include ('luwrain-app-linux-docker')
+project(":luwrain-app-linux-docker").projectDir = file("platform/app-linux-docker")
+
 
 
 include ('luwrain-windows')
