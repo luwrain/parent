@@ -283,5 +283,34 @@ tasks.register('distJavadoc', Javadoc) {
     'studio/src/main/java')
   destinationDir = file("$buildDir/release/javadoc")
   options.addStringOption('-ignore-source-errors', '-quiet')
+  options.addBooleanOption('Xdoclint:none', true)
   options.addStringOption('-main-stylesheet', file('bundles/javadoc.css').absolutePath)
+}
+
+allprojects {
+    tasks.withType(Test).configureEach {
+        afterTest { descriptor, result ->
+            if (result.resultType == TestResult.ResultType.FAILURE)
+            {
+                String testName = descriptor.displayName ?: "${descriptor.className}.${descriptor.name}"
+                logger.error("FAILED TEST: ${testName}")
+
+                Throwable exception = result.exception
+                if (exception != null)
+                {
+                    logger.error("${exception.class.simpleName}: ${exception.message}")
+
+                    StackTraceElement testFrame = exception.stackTrace.find
+                    {
+                        it.className?.startsWith('org.luwrain')
+                    }
+
+                    if (testFrame != null)
+                    {
+                        logger.error("  at ${testFrame}")
+                    }
+                }
+            }
+        }
+    }
 }
