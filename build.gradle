@@ -289,6 +289,13 @@ tasks.register('distJavadoc', Javadoc) {
 
 allprojects {
     tasks.withType(Test).configureEach {
+        useJUnitPlatform()
+    }
+}
+
+
+allprojects {
+    tasks.withType(Test).configureEach {
         afterTest { descriptor, result ->
             if (result.resultType == TestResult.ResultType.FAILURE)
             {

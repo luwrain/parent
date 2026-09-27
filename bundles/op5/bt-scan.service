@@ -1,0 +1,13 @@
+   [Unit]
+   Description=Bluetooth Continuous Scan
+   After=bluetooth.service
+   Requires=bluetooth.service
+
+   [Service]
+   Type=simple
+   ExecStart=/usr/bin/bluetoothctl scan on
+   Restart=always
+   RestartSec=5
+
+   [Install]
+   WantedBy=multi-user.target
