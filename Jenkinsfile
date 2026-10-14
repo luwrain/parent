@@ -231,7 +231,7 @@ sh "D=\$(ls | sed -e s/luwrain-/luwrain-tdlib-/) && mv luwrain-* \$D && zip -r $
       dir ('/out') { sh 'rm -rf _tmp' }
     }
     always {
-      sh 'gradle clean'
+      sh 'gradle clean --quiet'
       dir ('sounds') { sh 'rm -rf *.wav *.xz' }
       sh 'rm -f core/src/main/resources/org/luwrain/core/sound/*.wav'
       dir ('/build') { sh 'rm -rf *' }
