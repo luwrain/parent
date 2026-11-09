@@ -1,28 +1,29 @@
-# Формы редактирования свойств (Property Layouts)
+# Property Layouts (Properties Editing Forms)
 
-Этот файл собирает ключевые сведения о том, как в проекте LUWRAIN устроены
-формы редактирования свойств сущностей. Обычно они находятся в подпакете
-`layouts` конкретного приложения и называются по схеме
-`<ИмяСущности>PropertiesLayout` (например, `GroupPropertiesLayout`,
+This file gathers the key information about how LUWRAIN property editing
+forms are structured. They usually live in the `layouts` subpackage of a
+particular application and are named according to the pattern
+`<EntityName>PropertiesLayout` (for example, `GroupPropertiesLayout`,
 `AccountPropertiesLayout`, `EventPropertiesLayout`, `TaskPropertiesLayout`).
 
-Вся информация ниже собрана на реальных примерах из кода, чтобы в следующий
-раз не приходилось читать много файлов заново.
+All of the information below is collected from real examples in the code, so
+that next time there is no need to re-read many files.
 
-## 1. Общая схема класса
+## 1. General class layout
 
-Форма свойств — это `final class`, наследующий `org.luwrain.app.base.LayoutBase`.
-Она не создаёт отдельный `ListArea`, а использует один `FormArea`:
+A property form is a `final class` extending
+`org.luwrain.app.base.LayoutBase`. It does not create a separate `ListArea`;
+instead it uses a single `FormArea`:
 
 ```java
 public final class TaskPropertiesLayout extends LayoutBase
 {
-    // Здесь обычно объявляются константы-идентификаторы полей
-    // и ссылки на app, entity, formArea.
+    // Constants identifying fields are usually declared here,
+    // as well as references to app, entity and formArea.
 }
 ```
 
-Канонический набор полей класса:
+The canonical set of class fields is:
 
 ```java
 static private final String
@@ -36,14 +37,14 @@ private final Task task;
 final FormArea formArea;
 ```
 
-- `App` — класс приложения, наследник `AppBase<Strings>`.
-- Сущность передаётся в конструктор и изменяется в `save()`.
-- `formArea` часто остаётся `package-private` или `final`, если нужен доступ из
-  внешнего кода.
+- `App` is the application class, a subclass of `AppBase<Strings>`.
+- The entity is passed into the constructor and modified in `save()`.
+- `formArea` is often `package-private` or `final` when external access is
+  needed.
 
-## 2. Конструктор
+## 2. Constructor
 
-Сигнатура почти всегда одинакова:
+The signature is almost always the same:
 
 ```java
 public TaskPropertiesLayout(App app, Task task, ActionHandler closing)
@@ -56,19 +57,19 @@ public TaskPropertiesLayout(App app, Task task, ActionHandler closing)
     this.formArea = new FormArea(getControlContext(),
         s.taskPropertiesAreaName(requireNonNullElse(task.getTitle(), "")));
 
-    // добавление полей
+    // Add fields here
     formArea.addEdit(TITLE, s.taskPropertiesTitle(), requireNonNullElse(task.getTitle(), ""));
     formArea.addEdit(DESCR, s.taskPropertiesDescr(), requireNonNullElse(task.getDescr(), ""));
 
-    // если есть список значений — addList
-    // если есть флаги — addCheckbox
-    // если есть пароль — addPasswd
-    // если есть большое текстовое поле — addMultilineEdit
+    // If a value list is needed, use addList
+    // If flags are needed, use addCheckbox
+    // If a password is needed, use addPasswd
+    // If a large text block is needed, use addMultilineEdit
 
     setCloseHandler(closing);
     setOkHandler(() -> {
         if (!save())
-            return true;            // остаться в форме при ошибке
+            return true;            // stay in the form on error
         app.getLuwrain().playSound(Sounds.DONE);
         return closing.onAction();
     });
@@ -76,54 +77,54 @@ public TaskPropertiesLayout(App app, Task task, ActionHandler closing)
 }
 ```
 
-Важные моменты:
+Important points:
 
-- `getControlContext()` даёт `ControlContext`, который корректно оборачивает
-  область и защищает от исключений.
-- Первый аргумент `FormArea` — название области (показывается пользователю).
-  Название можно строить через строковый ресурс с аргументом, например
-  `s.groupPropertiesAreaName(group.getName())` или
+- `getControlContext()` returns a `ControlContext` that correctly wraps the
+  area and protects it from exceptions.
+- The first `FormArea` argument is the area name shown to the user. It can be
+  built from a string resource with an argument, for example
+  `s.groupPropertiesAreaName(group.getName())` or
   `s.taskPropertiesAreaName(title)`.
-- Все изначальные значения принято защищать через `requireNonNullElse`,
-  чтобы не передать `null` в `FormArea`.
-- `setAreaLayout(formArea, actions())` — `actions()` можно вызывать без
-  аргументов, если отдельные действия не нужны. Допустимо и
-  `setAreaLayout(formArea, null)`.
-- `setCloseHandler(closing)` и `setOkHandler(...)` обязательны для корректной
-  работы ESC и OK.
+- Initial values are normally guarded with `requireNonNullElse` to avoid
+  passing `null` into `FormArea`.
+- `setAreaLayout(formArea, actions())` can take `actions()` with no arguments
+  if no individual actions are needed. `setAreaLayout(formArea, null)` is
+  also valid.
+- `setCloseHandler(closing)` and `setOkHandler(...)` are required for correct
+  ESC and OK handling.
 
-## 3. Порядок полей в обработчике OK
+## 3. Field order in the OK handler
 
-Стандартная структура `setOkHandler`:
+The standard structure of `setOkHandler` is:
 
 ```java
 setOkHandler(() -> {
     if (!save())
-        return true;               // не вышли из формы
+        return true;               // do not leave the form
     app.getLuwrain().playSound(Sounds.DONE);
-    return closing.onAction();     // закрытие/возврат
+    return closing.onAction();     // close/return
 });
 ```
 
-Если `save()` вернул `false`, возвращается `true`, то есть событие обработано
-и пользователь остаётся в форме, чтобы исправить ошибку.
+If `save()` returned `false`, return `true`, meaning that the event is handled
+and the user stays in the form to fix the error.
 
-Хорошая практика — подтверждать успешное сохранение звуком `Sounds.DONE`.
+It is good practice to confirm a successful save with the `Sounds.DONE` sound.
 
-## 4. Метод save()
+## 4. The save() method
 
-`save()` обычно `private boolean save(<Entity> entity)` или без аргументов,
-если сущность хранится в поле. Порядок такой:
+`save()` is usually `private boolean save(<Entity> entity)` or has no
+arguments when the entity is stored in a field. The order is:
 
-1. Прочитать значения полей.
-2. Проверить обязательные значения.
-3. При ошибке показать `app.message(...)` с `Luwrain.MessageType.ERROR` и
-   вернуть `false`.
-4. Установить значения в сущность.
-5. Сохранить через DAO.
-6. Вернуть `true`.
+1. Read the field values.
+2. Validate required values.
+3. On error, call `app.message(...)` with `Luwrain.MessageType.ERROR` and
+   return `false`.
+4. Assign values to the entity.
+5. Save via the DAO.
+6. Return `true`.
 
-Пример проверки обязательного названия:
+Example of validating a required name:
 
 ```java
 final String title = formArea.getEnteredText(TITLE).trim();
@@ -135,7 +136,7 @@ if (title.isEmpty())
 }
 ```
 
-Пример сохранения:
+Example of saving:
 
 ```java
 task.setTitle(title);
@@ -149,24 +150,24 @@ app.persist.getTaskDAO().update(task);
 return true;
 ```
 
-### Чтение значений из FormArea
+### Reading values from FormArea
 
-| Тип поля | Добавление | Чтение |
+| Field type | Add method | Reading method |
 |---|---|---|
-| обычный однострочный текст | `addEdit(NAME, caption, initial)` | `getEnteredText(NAME)` |
-| пароль | `addPasswd(NAME, caption, initial, null, true)` | `getEnteredText(NAME)` |
-| список | `addList(NAME, caption, initial, listChoosing, null, true)` | `getSelectedListItem(NAME)` |
-| флажок | `addCheckbox(NAME, caption, initialState)` | `getCheckboxState(NAME)` |
-| многострочный текст | `addMultilineEdit(caption, List<String>, enabled)` | `getMultilineEditText()` |
-| статичный текст | `addStatic(NAME, caption)` | обычно не читается |
+| plain single-line text | `addEdit(NAME, caption, initial)` | `getEnteredText(NAME)` |
+| password | `addPasswd(NAME, caption, initial, null, true)` | `getEnteredText(NAME)` |
+| list | `addList(NAME, caption, initial, listChoosing, null, true)` | `getSelectedListItem(NAME)` |
+| checkbox | `addCheckbox(NAME, caption, initialState)` | `getCheckboxState(NAME)` |
+| multiline text | `addMultilineEdit(caption, List<String>, enabled)` | `getMultilineEditText()` |
+| static text | `addStatic(NAME, caption)` | normally not read |
 
-## 5. Детали использования FormArea
+## 5. Details of using FormArea
 
-`FormArea` находится в `org.luwrain.controls`.
+`FormArea` is in `org.luwrain.controls`.
 
-### 5.1. Текстовое поле
+### 5.1. Text field
 
-Конструктор и подписи:
+Constructor and signatures:
 
 ```java
 formArea.addEdit(NAME, caption);
@@ -174,37 +175,37 @@ formArea.addEdit(NAME, caption, initialText);
 formArea.addEdit(NAME, caption, initialText, obj, enabled);
 ```
 
-Пример:
+Example:
 
 ```java
 formArea.addEdit(TITLE, s.taskPropertiesTitle(), requireNonNullElse(task.getTitle(), ""));
 ```
 
-### 5.2. Пароль
+### 5.2. Password
 
 ```java
 formArea.addPasswd(PASSWD, s.accountPropertiesPasswd(),
                    requireNonNullElse(account.getPasswd(), ""), null, true);
 ```
 
-Последние два аргумента — `Object obj` и `boolean enabled`.
+The last two arguments are `Object obj` and `boolean enabled`.
 
-### 5.3. Флажок
+### 5.3. Checkbox
 
-Две часто используемые перегрузки:
+Two commonly used overloads:
 
 ```java
 formArea.addCheckbox(NAME, caption, initialState);
 formArea.addCheckbox(NAME, caption, initialState, obj, enabled);
 ```
 
-Чтение:
+Reading:
 
 ```java
 boolean value = formArea.getCheckboxState(NAME);
 ```
 
-Пример из `Pop3AccountLayout`:
+Example from `Pop3AccountLayout`:
 
 ```java
 formArea.addCheckbox(SSL, s.accountPropertiesSsl(), account.isSsl());
@@ -212,21 +213,21 @@ formArea.addCheckbox(SSL, s.accountPropertiesSsl(), account.isSsl());
 account.setSsl(formArea.getCheckboxState(SSL));
 ```
 
-### 5.4. Список значений
+### 5.4. Value list
 
-Сигнатура:
+Signature:
 
 ```java
 formArea.addList(NAME, caption, initialSelectedItem, listChoosing, obj, enabled);
 ```
 
-- `initialSelectedItem` — объект, выбранный по умолчанию.
-- `listChoosing` — реализация `FormArea.ListChoosing`.
-- Выбранный объект можно получить через `getSelectedListItem(NAME)` и
-  привести к нужному типу.
+- `initialSelectedItem` is the object selected by default.
+- `listChoosing` is an implementation of `FormArea.ListChoosing`.
+- The selected object can be retrieved via `getSelectedListItem(NAME)` and
+  cast to the required type.
 
-Простой способ показать список значений — использовать готовый
-`FormUtils.FixedListChoosing` из `org.luwrain.controls.FormUtils`:
+A simple way to show a value list is to use the ready-made
+`FormUtils.FixedListChoosing` from `org.luwrain.controls.FormUtils`:
 
 ```java
 formArea.addList(STATUS, caption, Task.Status.NEW,
@@ -235,7 +236,7 @@ formArea.addList(STATUS, caption, Task.Status.NEW,
     null, true);
 ```
 
-Либо реализовать выбор вручную через `Popups.fixedList`:
+Alternatively, implement the selection manually via `Popups.fixedList`:
 
 ```java
 formArea.addList(STATUS, s.taskPropertiesStatus(),
@@ -254,12 +255,12 @@ private Task.Status chooseStatus()
 }
 ```
 
-`Popups.fixedList` импортируется из `org.luwrain.popups.Popups`.
+`Popups.fixedList` is imported from `org.luwrain.popups.Popups`.
 
-### 5.5. Многострочное поле
+### 5.5. Multiline field
 
-Многострочное поле в `FormArea` может быть только одно и всегда располагается
-внизу формы. Добавляется так:
+A `FormArea` can have only one multiline field, and it is always placed at the
+bottom of the form. It is added like this:
 
 ```java
 List<String> urls = new ArrayList<>(...);
@@ -267,16 +268,16 @@ urls.add("");
 formArea.addMultilineEdit(s.groupPropertiesUrls(), urls, true);
 ```
 
-Третий аргумент — `boolean enabled`.
+The third argument is `boolean enabled`.
 
-Чтение содержимого:
+Reading the content:
 
 ```java
 String[] lines = formArea.getMultilineEditText();
 ```
 
-Возвращается массив строк. Если поле не активировано, возвращается пустой
-массив. Это удобно для превращения строк в список:
+This returns an array of strings. If the field is not activated, it returns an
+empty array. This is convenient for converting lines into a list:
 
 ```java
 group.setUrls(Arrays.stream(lines)
@@ -285,26 +286,26 @@ group.setUrls(Arrays.stream(lines)
     .toList());
 ```
 
-Для строки целиком используйте:
+To get the whole string as one value, use:
 
 ```java
 String joined = String.join("\n", lines);
 ```
 
-### 5.6. Статичный текст
+### 5.6. Static text
 
-Если нужно показать нередактируемое значение:
+To display a non-editable value:
 
 ```java
 formArea.addStatic(NAME, caption);
 formArea.addStatic(NAME, caption, obj);
 ```
 
-## 6. Валидация чисел и дат
+## 6. Validating numbers and dates
 
-### 6.1. Целые числа
+### 6.1. Integer numbers
 
-Проверка обычно строится так:
+Validation is usually built like this:
 
 ```java
 final int orderIndexValue;
@@ -325,15 +326,15 @@ if (orderIndexValue < 0)
 }
 ```
 
-Для порта из `Pop3AccountLayout` дополнительно проверяется диапазон:
+For a port, `Pop3AccountLayout` additionally checks the range:
 
 ```java
 if (portValue <= 0 || portValue > 65536) { ... return false; }
 ```
 
-### 6.2. Даты
+### 6.2. Dates
 
-В `EventPropertiesLayout` используется `SimpleDateFormat`:
+`EventPropertiesLayout` uses `SimpleDateFormat`:
 
 ```java
 static private final SimpleDateFormat DATE_FORMAT =
@@ -342,7 +343,7 @@ static private final SimpleDateFormat TIME_FORMAT =
     new SimpleDateFormat("HH:mm");
 ```
 
-Значение показывается в текстовых полях и разбирается при сохранении:
+The value is shown in text fields and parsed when saving:
 
 ```java
 try {
@@ -352,11 +353,11 @@ try {
 }
 catch (ParseException e)
 {
-    // либо показать ошибку, либо проигнорировать
+    // either show an error or ignore it
 }
 ```
 
-Если поле необязательное, пустое значение можно трактовать особым образом:
+If the field is optional, an empty value can be handled specially:
 
 ```java
 private long parseDue(String value) throws ParseException
@@ -368,10 +369,10 @@ private long parseDue(String value) throws ParseException
 }
 ```
 
-## 7. Работа с многострочными строками-коллекциями
+## 7. Working with multiline string collections
 
-Частая особенность — сущность хранит коллекцию, а в форме она
-редактируется как многострочное поле. См. `GroupPropertiesLayout`:
+A frequent pattern is that an entity stores a collection, while the form edits
+it as a multiline field. See `GroupPropertiesLayout`:
 
 ```java
 List<String> urls = requireNonNullElse(group.getUrls(), Arrays.asList());
@@ -379,11 +380,11 @@ urls = new ArrayList<>(urls.stream()
     .map(e -> e.trim())
     .filter(e -> !e.isEmpty())
     .toList());
-urls.add("");  // пустая строка для ввода нового значения
+urls.add("");  // empty line for entering a new value
 formArea.addMultilineEdit(s.groupPropertiesUrls(), urls, true);
 ```
 
-При сохранении:
+When saving:
 
 ```java
 final var urls = Arrays.asList(formArea.getMultilineEditText());
@@ -393,19 +394,19 @@ group.setUrls(urls.stream()
     .toList());
 ```
 
-## 8. Списки значений из перечислений
+## 8. Value lists from enums
 
-Если у сущности есть `enum`, удобно всему перечислению давать
-`toString()`-значения и передавать `values()` в список. Примеры из проекта:
-`Task.Status`, `Task.Priority`, `Account.Type`.
+If the entity has an `enum`, it is convenient to pass `values()` to a list.
+Examples from the project: `Task.Status`, `Task.Priority`, `Account.Type`.
 
-Если нужно отображать локализованные подписи, а не технические имена, стоит
-писать отдельный адаптер выбора; но в существующем коде чаще всего
-используют сами enum-значения.
+If localized labels are required rather than technical names, a custom
+selection adapter should be written; however, existing code most often uses
+the enum values themselves.
 
-## 9. Строки (i18n)
+## 9. Strings (i18n)
 
-Строки форм объявляются в интерфейсе `Strings` пакета приложения:
+Form strings are declared in the `Strings` interface of the application
+package:
 
 ```java
 @ResourceStrings(langs = { "en", "ru" })
@@ -424,66 +425,66 @@ public interface Strings
 }
 ```
 
-Далее они заполняются в:
+They are then filled in:
 
-- `src/main/resources/org/luwrain/app/<приложение>/Strings-en.properties`
-- `src/main/resources/org/luwrain/app/<приложение>/Strings-ru.properties`
+- `src/main/resources/org/luwrain/app/<application>/Strings-en.properties`
+- `src/main/resources/org/luwrain/app/<application>/Strings-ru.properties`
 
-Пример с параметром:
+Example with a parameter:
 
 ```properties
 TaskPropertiesAreaName = Properties of the "$1" task
 ```
 
-Правила именования строк формы:
+Naming conventions for form strings:
 
-- `<форма>AreaName` — название области.
-- `<форма><Поле>` — подпись поля.
-- `<форма><Поле>CannotBeEmpty` — ошибка пустого обязательного поля.
-- `<форма>Invalid<Поле>` — ошибка неверного формата поля.
+- `<form>AreaName` — the area name.
+- `<form><Field>` — the field caption.
+- `<form><Field>CannotBeEmpty` — an error for an empty required field.
+- `<form>Invalid<Field>` — an error for an invalid field format.
 
-## 10. Сохранение сущностей
+## 10. Saving entities
 
-Способ сохранения зависит от источника данных:
+The saving method depends on the data source:
 
-- Новости: `app.persist.getGroupDAO().update(group)`.
-- Задачи: `app.persist.getTaskDAO().update(task)`.
-- Почта: `app.getData().accountDAO.update(account)`.
-- Конфигурация (в `OptionsLayout`): изменение POJO и затем
+- News: `app.persist.getGroupDAO().update(group)`.
+- Tasks: `app.persist.getTaskDAO().update(task)`.
+- Mail: `app.getData().accountDAO.update(account)`.
+- Configuration (in `OptionsLayout`): modify the POJO and then call
   `app.getLuwrain().saveConf(app.conf)`.
 
-Если добавление/удаление не требуется, в форме обычно используют только
-`update`. Если форма создаёт новый объект, используйте `add(...)`:
+If adding/deleting is not needed, the form usually uses only `update`. If the
+form creates a new object, use `add(...)`:
 
 ```java
 app.persist.getGroupDAO().add(group);
 ```
 
-## 11. Стиль и соглашения
+## 11. Style and conventions
 
-- Заголовок файла:
+- File header:
 
 ```java
 // SPDX-License-Identifier: BUSL-1.1
 // Copyright 2012-2026 Michael Pozhidaev <msp@luwrain.org>
 ```
 
-- Открывающая фигурная скобка всегда на новой строке.
-- Комментарии и Javadoc — только на английском.
-- Для проверки параметров используйте `NullCheck.*` и
-  `java.util.Objects.requireNonNull`.
-- Для подстраховки от `null` при чтении значений сущности —
-  `requireNonNullElse`.
-- Статический импорт:
+- Opening curly braces are always on a new line.
+- Comments and Javadoc are in English only.
+- Use `NullCheck.*` and `java.util.Objects.requireNonNull` for parameter
+  validation.
+- Use `requireNonNullElse` as a safety net when reading entity values.
+- Static import:
 
 ```java
 import static java.util.Objects.*;
 ```
 
-- Поля форм и имена элементов принято хранить в `static private final String`.
-- Формы свойств почти всегда помещаются в пакет `layouts` приложения.
+- Field and element names are normally kept in `static private final String`.
+- Property forms almost always live in the `layouts` package of the
+  application.
 
-## 12. Минимальный шаблон
+## 12. Minimal template
 
 ```java
 package org.luwrain.app.<app>.layouts;
@@ -540,17 +541,16 @@ public final class <Entity>PropertiesLayout extends LayoutBase
 }
 ```
 
-## 13. Ссылки на типовые примеры в проекте
+## 13. References to typical examples in the project
 
 - `pim/app-news/src/main/java/org/luwrain/app/news/layouts/GroupPropertiesLayout.java`
-  — хорошая форма с текстовыми полями, проверкой числа и многострочным
-  списком URL.
+  — a good form with text fields, number validation, and a multiline URL list.
 - `pim/app-mail/src/main/java/org/luwrain/app/mail/layouts/Pop3AccountLayout.java`
-  — текстовые поля, пароль, несколько флажков, проверка порта.
+  — text fields, a password, several checkboxes, port validation.
 - `pim/app-diary/src/main/java/org/luwrain/app/diary/layouts/EventPropertiesLayout.java`
-  — работа с датой и временем через `SimpleDateFormat`.
+  — date and time handling via `SimpleDateFormat`.
 - `base/player/src/main/java/org/luwrain/app/player/layouts/DirAlbumPropertiesLayout.java`
-  — простейшая форма с текстовыми полями и флажками.
+  — a very simple form with text fields and checkboxes.
 - `io/app-github/src/main/java/org/luwrain/app/github/layouts/AccountPropertiesLayout.java`
-  — форма с проверкой обязательного имени и тремя полями.
+  — a form with a required-name check and three fields.
 
