@@ -75,6 +75,9 @@ project (':luwrain-app-contacts').projectDir = file('pim/app-contacts')
 include ('luwrain-app-diary')
 project (':luwrain-app-diary').projectDir = file('pim/app-diary')
 
+include ('luwrain-app-tasks')
+project (':luwrain-app-tasks').projectDir = file('pim/app-tasks')
+
 
 include ('luwrain-app-ai')
 project (':luwrain-app-ai').projectDir = file('io/app-ai')
