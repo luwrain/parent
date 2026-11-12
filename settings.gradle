@@ -146,6 +146,10 @@ project (':luwrain-app-wiki').projectDir = file('io/app-wiki')
 include ('luwrain-app-vk')
 project (':luwrain-app-vk').projectDir = file('io/app-vk')
 
+include ('luwrain-unofficial-api-ya360')
+project (':luwrain-unofficial-api-ya360').projectDir = file('unofficial-api/ya360')
+
+
 include ('luwrain-player-mp3')
 project (':luwrain-player-mp3').projectDir = file('extensions/plmp3')
 
@@ -175,3 +179,4 @@ project (':luwrain-lang-ru').projectDir = file('extensions/lang-ru')
 
 include ('luwrain-lang-en')
 project (':luwrain-lang-en').projectDir = file('extensions/lang-en')
+

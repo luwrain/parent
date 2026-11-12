@@ -97,3 +97,6 @@
 [submodule "bookdoc"]
 	path = bookdoc
 	url = https://github.com/luwrain/bookdoc/
+[submodule "unofficial-api"]
+	path = unofficial-api
+	url = https://github.com/luwrain/unofficial-api
